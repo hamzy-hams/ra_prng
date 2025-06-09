@@ -1,0 +1,23 @@
+Proses shuffle selesai. Hasil disimpan di 'scrambled.txt'.
+Scrambled 100000 tokens
+Done in 0.011 seconds
+
+ Performance counter stats for './scrambler -i tokens.txt -o scrambled.txt':
+
+             11.71 msec task-clock:u                     #    0.967 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+               371      page-faults:u                    #   31.683 K/sec                     
+       152,540,650      instructions:u                   #    3.69  insn per cycle            
+        41,299,396      cycles:u                         #    3.527 GHz                       
+        29,569,673      branches:u                       #    2.525 G/sec                     
+            30,163      branch-misses:u                  #    0.10% of all branches           
+                        TopdownL1                 #      9.9 %  tma_backend_bound      
+                                                  #      5.4 %  tma_bad_speculation    
+                                                  #     12.1 %  tma_frontend_bound     
+                                                  #     72.5 %  tma_retiring           
+
+       0.012110374 seconds time elapsed
+
+       0.010996000 seconds user
+       0.001003000 seconds sys
