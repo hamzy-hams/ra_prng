@@ -1,0 +1,23 @@
+Generated 255000000 32bit pseudorandom updates across 1 threads in 1.390 seconds
+8.16Gbit total (587050359bit/second)
+Last IVs from each thread: 3637200207 from worker (0)
+
+ Performance counter stats for './parallel_prng2':
+
+          1,390.26 msec task-clock:u                     #    0.999 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+               145      page-faults:u                    #  104.297 /sec                      
+    18,994,694,611      instructions:u                   #    3.35  insn per cycle            
+     5,663,151,057      cycles:u                         #    4.073 GHz                       
+       305,476,718      branches:u                       #  219.726 M/sec                     
+         2,011,976      branch-misses:u                  #    0.66% of all branches           
+                        TopdownL1                 #     23.5 %  tma_backend_bound      
+                                                  #      4.6 %  tma_bad_speculation    
+                                                  #      1.9 %  tma_frontend_bound     
+                                                  #     69.9 %  tma_retiring           
+
+       1.391171163 seconds time elapsed
+
+       1.388124000 seconds user
+       0.000000000 seconds sys
