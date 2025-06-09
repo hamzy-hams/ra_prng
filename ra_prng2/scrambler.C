@@ -108,7 +108,6 @@ static void ZepFold(uint32_t seed,
             b = (rot32(cons + a, i) ^ o + c) & 0xFFFFFFFF;
             o = (rot32(a ^ o, i) << 9) ^ (b >> 18) & 0xFFFFFFFF;
             c = rot32(((o + c) << 14) ^ (b >> 13) ^ a, b) & 0xFFFFFFFF;
-            o = rot32(L[i] ^ (c << 29), i);
             /* Penghitungan idx menggunakan Lemire’s fast reduction: (c * (count+1)) >> 32 */
             uint32_t idx = (uint32_t)((uint64_t)c * (count + 1) >> 32);
 
@@ -120,6 +119,7 @@ static void ZepFold(uint32_t seed,
             scrambled_tokens[count] = scrambled_tokens[idx];
             scrambled_tokens[idx] = tmp_tok;
 
+            o = L[i]
             L[i] = L[c];
             L[c] = o;
 
