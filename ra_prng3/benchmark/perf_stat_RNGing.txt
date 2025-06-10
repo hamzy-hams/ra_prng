@@ -1,0 +1,23 @@
+Generated 200000000 32bit pseudorandom number in 1.254 seconds
+800 Megabyte total (5103668261bit/second)
+Last cons from RNGing: 958009855
+
+ Performance counter stats for './prng3':
+
+          1,254.23 msec task-clock:u                     #    0.999 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+               142      page-faults:u                    #  113.217 /sec                      
+    16,701,512,355      instructions:u                   #    3.27  insn per cycle            
+     5,111,492,887      cycles:u                         #    4.075 GHz                       
+       442,044,170      branches:u                       #  352.444 M/sec                     
+         1,577,453      branch-misses:u                  #    0.36% of all branches           
+                        TopdownL1                 #     23.2 %  tma_backend_bound      
+                                                  #      7.3 %  tma_bad_speculation    
+                                                  #      1.9 %  tma_frontend_bound     
+                                                  #     67.6 %  tma_retiring           
+
+       1.255169935 seconds time elapsed
+
+       1.251573000 seconds user
+       0.000000000 seconds sys
