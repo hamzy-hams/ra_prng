@@ -1,23 +1,23 @@
-Generated 255000000 32bit pseudorandom updates across 1 threads in 1.390 seconds
-8.16Gbit total (587050359bit/second)
-Last IVs from each thread: 3637200207 from worker (0)
+8.16Gbit total 5964585274bit/second (745,57 Megabyte/s)
+Generated 200000000 32bit pseudorandom updates across threads in 1.073 seconds
+Last cons from RNGing: 2231949409
 
- Performance counter stats for './parallel_prng2':
+ Performance counter stats for './prng2':
 
-          1,390.26 msec task-clock:u                     #    0.999 CPUs utilized             
+          1,070.95 msec task-clock:u                     #    0.996 CPUs utilized             
                  0      context-switches:u               #    0.000 /sec                      
                  0      cpu-migrations:u                 #    0.000 /sec                      
-               145      page-faults:u                    #  104.297 /sec                      
-    18,994,694,611      instructions:u                   #    3.35  insn per cycle            
-     5,663,151,057      cycles:u                         #    4.073 GHz                       
-       305,476,718      branches:u                       #  219.726 M/sec                     
-         2,011,976      branch-misses:u                  #    0.66% of all branches           
-                        TopdownL1                 #     23.5 %  tma_backend_bound      
-                                                  #      4.6 %  tma_bad_speculation    
-                                                  #      1.9 %  tma_frontend_bound     
-                                                  #     69.9 %  tma_retiring           
+               132      page-faults:u                    #  123.255 /sec                      
+    15,103,718,833      instructions:u                   #    3.47  insn per cycle            
+     4,355,880,676      cycles:u                         #    4.067 GHz                       
+       442,016,875      branches:u                       #  412.734 M/sec                     
+         1,576,347      branch-misses:u                  #    0.36% of all branches           
+                        TopdownL1                 #     17.7 %  tma_backend_bound      
+                                                  #     10.5 %  tma_bad_speculation    
+                                                  #      2.3 %  tma_frontend_bound     
+                                                  #     69.6 %  tma_retiring           
 
-       1.391171163 seconds time elapsed
+       1.074836098 seconds time elapsed
 
-       1.388124000 seconds user
-       0.000000000 seconds sys
+       1.065796000 seconds user
+       0.001983000 seconds sys
