@@ -63,6 +63,7 @@ uint32_t ZepFold(uint32_t seed, size_t rng) {
             b = (rot32(cons + a, i) ^ (o + c));
             o = (rot32(a ^ o, i) << 9 ^ (b >> 18));
             c = rot32((o + c << 14) ^ (b >> 13) ^ a, b);
+            //printf("%lu ", c)
 
             if (count <= 1) {
                 break;
