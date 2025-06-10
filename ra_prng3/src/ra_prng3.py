@@ -40,7 +40,7 @@ def ZepFold(seed, iteration):
             b = (rot32(cons + a, i) ^ (o + c)) & 0xFFFFFFFF
             o = (rot32(a ^ o, i) << 9 ^ (b >> 18)) & 0xFFFFFFFF
             c = rot32((o + c << 14) ^ (b >> 13) ^ a, b) & 0xFFFFFFFF
-            L[i] = rot32(L[i] ^ (c << 29), i);
+            L[i] = rot32(L[i] ^ (c << 29), i) & 0xFFFFFFFF
             c  = (c * (i + 1)) >> 32
             
             L[i], L[c] = L[c], L[i]
