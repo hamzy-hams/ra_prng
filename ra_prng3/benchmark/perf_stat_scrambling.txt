@@ -1,0 +1,22 @@
+Scrambled 100000 data
+Done in 0.011 seconds
+
+ Performance counter stats for './scrambler -i tokens.txt -o scrambled.txt':
+
+             11.92 msec task-clock:u                     #    0.974 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+               363      page-faults:u                    #   30.453 K/sec                     
+       153,196,255      instructions:u                   #    3.65  insn per cycle            
+        41,963,943      cycles:u                         #    3.520 GHz                       
+        29,542,662      branches:u                       #    2.478 G/sec                     
+            30,793      branch-misses:u                  #    0.10% of all branches           
+                        TopdownL1                 #      8.4 %  tma_backend_bound      
+                                                  #      4.3 %  tma_bad_speculation    
+                                                  #     13.3 %  tma_frontend_bound     
+                                                  #     74.1 %  tma_retiring           
+
+       0.012240990 seconds time elapsed
+
+       0.012251000 seconds user
+       0.000000000 seconds sys
