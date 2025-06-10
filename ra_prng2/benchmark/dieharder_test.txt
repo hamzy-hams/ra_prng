@@ -200,6 +200,6 @@ Preparing to run test 209.  ntuple = 0
 # The file file_input_raw was rewound 197 times
         dab_monobit2|  12|  65000000|       1|0.57664272|  PASSED 
 
-FAILED 
-WEAK
-PASSED
+FAILED 0
+WEAK 2
+PASSED 112
