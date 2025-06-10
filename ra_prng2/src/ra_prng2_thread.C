@@ -1,13 +1,14 @@
 // parallel_prng.c
 // g++ -O3 -march=native -fopenmp ra_prng_thread2.C -o parallel_prng2
+// BEST VERSION LAST 29 mei
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <omp.h>
 #include <time.h>
 
-#define TOTAL_ITER 1UL
-#define NUM_THREADS 1
+#define TOTAL_RNG 200000000UL
+#define NUM_THREADS 2
 
 // Rotate an 32-bit value n by r bits
 static inline uint32_t rot32(uint32_t n, uint32_t r) {
@@ -28,9 +29,16 @@ void ZepXORhash(uint32_t *N, uint32_t *out8) {
 }
 
 // Core PRNG: churn state 'iterations' kali, kembalikan IV terakhir
-uint32_t ZepFold(uint32_t seed, size_t iterations) {
+uint32_t ZepFold(uint32_t seed, size_t rng) {
+
+    if (rng == 0) {
+        return seed;
+    }
+
     alignas(64) uint32_t L[256], M[256], tmp8[8];
     uint32_t cons = seed;
+    uint64_t count = rng;
+    uint64_t iteration = rng / 255 + 1;
 
     // Init internal array states L and M
     for (int i = 0; i < 256; ++i) {
@@ -38,7 +46,7 @@ uint32_t ZepFold(uint32_t seed, size_t iterations) {
         L[i] = (uint32_t)(i * 0x9e3779b7UL + 0x9e3779b7UL);
     }
 
-    for (size_t it = 0; it < iterations; ++it) {
+    for (size_t it = 0; it < iteration; ++it) {
         // Variables initioation
         uint32_t  a = cons;
         uint32_t  b = it;
@@ -55,6 +63,11 @@ uint32_t ZepFold(uint32_t seed, size_t iterations) {
             b = (rot32(cons + a, i) ^ (o + c));
             o = (rot32(a ^ o, i) << 9 ^ (b >> 18));
             c = rot32((o + c << 14) ^ (b >> 13) ^ a, b);
+
+            if (count <= 1) {
+                break;
+            }
+            --count;
             
             c = (uint32_t)(((uint64_t)c * (i + 1)) >> 32);
 
@@ -62,6 +75,9 @@ uint32_t ZepFold(uint32_t seed, size_t iterations) {
             o = L[i];
             L[i] = L[c];
             L[c] = o;
+        }
+        if (count <= 1) {
+            return cons;
         }
 
         // Mixing state step
@@ -85,7 +101,7 @@ uint32_t ZepFold(uint32_t seed, size_t iterations) {
 int main(void) {
     uint32_t last_iv[NUM_THREADS];
     uint8_t worker_id[NUM_THREADS];
-    size_t chunk = TOTAL_ITER / NUM_THREADS;
+    size_t chunk = TOTAL_RNG / NUM_THREADS;
 
     struct timespec t0, t1;
     clock_gettime(CLOCK_MONOTONIC, &t0);
@@ -103,7 +119,7 @@ int main(void) {
     double elapsed = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
 
     printf("Generated %lu pseudorandom updates across %d threads in %.3f seconds\n",
-           (unsigned long)TOTAL_ITER, NUM_THREADS, elapsed);
+           (unsigned long)TOTAL_RNG, NUM_THREADS, elapsed);
     printf("Last IVs from each thread: ");
     for (int i = 0; i < NUM_THREADS; ++i) {
         printf("%u from worker (%u)", last_iv[i], worker_id[i]);
