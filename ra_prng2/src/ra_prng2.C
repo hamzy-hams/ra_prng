@@ -1,6 +1,6 @@
 // parallel_prng.c
 // g++ -O3 -march=native -fopenmp ra_prng_thread2.C -o parallel_prng2
-// BEST VERSION LAST 29 mei
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
