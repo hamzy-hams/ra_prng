@@ -3,10 +3,6 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 
-# PERFECT VERSION 29 MAY  
-# 6a0dd9b3
-# FFFFFFFF
-
 def rot32(n, r):
     r &= 31
     n &= (1 << 32) - 1
@@ -38,7 +34,7 @@ def ZepFold(seed, iteration):
         for i in range(256):
             data[i] = i
 
-        # shuffle sederhana
+        # shuffle
         a = const
         b = _
         c = 0
