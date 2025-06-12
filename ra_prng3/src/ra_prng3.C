@@ -101,9 +101,9 @@ int main(void) {
     uint32_t seed;
 
     struct timespec t0, t1;
-    clock_gettime(CLOCK_MONOTONIC, &t0);
+    c
+    // Parallel region: each thread computes ZepFold with distinct seedlock_gettime(CLOCK_MONOTONIC, &t0);
 
-    // Parallel region: each thread computes ZepFold with distinct seed
     seed = 1;
     last_cons = ZepFold(seed, TOTAL_RNG);
 
