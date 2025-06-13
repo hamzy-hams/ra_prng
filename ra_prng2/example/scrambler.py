@@ -65,20 +65,22 @@ def ZepFold(seed, tokens, multiplier_m, multiplier_l):
         a = cons
         b = it
         c = 0
+        d = 0
+     
         for i in range(255, 0, -1):
             o = 0
             for e in range(8):
                 o ^= (M[(i + e) & 0xFF] << e) & 0xFFFFFFFF
 
-            a = (rot32(b ^ o, c) ^ (cons + a)) & 0xFFFFFFFF
-            b = (rot32(cons + a, i) ^ (o + c)) & 0xFFFFFFFF
+            a = (rot32(b ^ o, d) ^ (cons + a)) & 0xFFFFFFFF
+            b = (rot32(cons + a, i) ^ (o + d)) & 0xFFFFFFFF
             o = (rot32(a ^ o, i) << 9 ^ (b >> 18)) & 0xFFFFFFFF
             c = rot32((o + c << 14) ^ (b >> 13) ^ a, b) & 0xFFFFFFFF
             idx = (c * (count + 1)) >> 32
             
-            c  = (c * (i + 1)) >> 32
+            d  = (c * (i + 1)) >> 32
             scrambled_tokens[count], scrambled_tokens[idx] = scrambled_tokens[idx], scrambled_tokens[count]
-            L[i], L[c] = L[c], L[i]
+            L[i], L[d] = L[d], L[i]
 
             if count <= 1:
                 break
