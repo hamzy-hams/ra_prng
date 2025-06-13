@@ -35,6 +35,8 @@ def ZepFold(seed, iteration):
         a = cons
         b = _
         c = 0
+        d = 0
+        
         print(b, end=' ')
         for i in range(255, 0, -1):
             o = 0
@@ -42,14 +44,14 @@ def ZepFold(seed, iteration):
                 o ^= (M[(i + e) & 0xFF] << e) & 0xFFFFFFFF
 
             print( b, end=' ')
-            a = (rot32(b ^ o, c) ^ (cons + a)) & 0xFFFFFFFF
-            b = (rot32(cons + a, i) ^ (o + c)) & 0xFFFFFFFF
+            a = (rot32(b ^ o, d) ^ (cons + a)) & 0xFFFFFFFF
+            b = (rot32(cons + a, i) ^ (o + d)) & 0xFFFFFFFF
             o = (rot32(a ^ o, i) << 9 ^ (b >> 18)) & 0xFFFFFFFF
             c = rot32((o + c << 14) ^ (b >> 13) ^ a, b) & 0xFFFFFFFF
             
-            c  = (c * (i + 1)) >> 32
+            d  = (c * (i + 1)) >> 32
             
-            L[i], L[c] = L[c], L[i]
+            L[i], L[d] = L[d], L[i]
 
         for i in range(256):
             M[i] ^= L[i]
