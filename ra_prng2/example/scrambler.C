@@ -94,6 +94,7 @@ static void ZepFold(uint32_t seed,
         uint32_t a = cons;
         uint32_t b = (uint32_t)it;
         uint32_t c = 0;
+        uint32_t d = 0;
 
         for (int i = 255; i >= 1; --i) {
             /* Hitung o = XOR mixing dari M */
@@ -103,16 +104,16 @@ static void ZepFold(uint32_t seed,
                 o ^= (M[(uint8_t)(i + e)] << e) & 0xFFFFFFFF;
             }
 
-            /* Update a, b, o, c sesuai rumus */
-            a = (rot32(b ^ o, c) ^ cons + a) & 0xFFFFFFFF;
-            b = (rot32(cons + a, i) ^ o + c) & 0xFFFFFFFF;
+            /* Update a, b, o, c, d*/
+            a = (rot32(b ^ o, d) ^ cons + a) & 0xFFFFFFFF;
+            b = (rot32(cons + a, i) ^ o + d) & 0xFFFFFFFF;
             o = (rot32(a ^ o, i) << 9) ^ (b >> 18) & 0xFFFFFFFF;
             c = rot32(((o + c) << 14) ^ (b >> 13) ^ a, b) & 0xFFFFFFFF;
             /* Penghitungan idx menggunakan Lemire’s fast reduction: (c * (count+1)) >> 32 */
             uint32_t idx = (uint32_t)((uint64_t)c * (count + 1) >> 32);
 
             /* Perbarui c dengan Langkah berikutnya */
-            c = (uint32_t)((uint64_t)c * (i + 1) >> 32);
+            d = (uint32_t)((uint64_t)c * (i + 1) >> 32);
 
             /* Swap pada scrambled_tokens dan pada tabel L */
             uint32_t tmp_tok = scrambled_tokens[count];
@@ -120,8 +121,8 @@ static void ZepFold(uint32_t seed,
             scrambled_tokens[idx] = tmp_tok;
 
             o = L[i]
-            L[i] = L[c];
-            L[c] = o;
+            L[i] = L[d];
+            L[d] = o;
 
             if (count <= 1) {
                 break;
