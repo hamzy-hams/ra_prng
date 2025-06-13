@@ -51,6 +51,7 @@ uint32_t ZepFold(uint32_t seed, size_t rng) {
         uint32_t  a = cons;
         uint32_t  b = it;
         uint32_t  c = 0;
+        uint32_t  d = 0;
 
         // Permutation step
         for (uint32_t i = 255; i > 0; --i) {
@@ -59,8 +60,8 @@ uint32_t ZepFold(uint32_t seed, size_t rng) {
                 o ^= (M[(uint8_t)(i + e)] << e);
             }
 
-            a = (rot32(b ^ o, c) ^ (cons + a));
-            b = (rot32(cons + a, i) ^ (o + c));
+            a = (rot32(b ^ o, d) ^ (cons + a));
+            b = (rot32(cons + a, i) ^ (o + d));
             o = (rot32(a ^ o, i) << 9 ^ (b >> 18));
             c = rot32((o + c << 14) ^ (b >> 13) ^ a, b);
             //printf("%lu ", c)
@@ -70,12 +71,12 @@ uint32_t ZepFold(uint32_t seed, size_t rng) {
             }
             --count;
             
-            c = (uint32_t)(((uint64_t)c * (i + 1)) >> 32);
+            d = (uint32_t)(((uint64_t)c * (i + 1)) >> 32);
 
             // Internal state swapping
             o = L[i];
-            L[i] = L[c];
-            L[c] = o;
+            L[i] = L[d];
+            L[d] = o;
         }
         if (count <= 1) {
             return cons;
