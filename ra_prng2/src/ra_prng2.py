@@ -1,18 +1,12 @@
 import sys
 import time
 
-# last updated 29/5/2025 - see references on heatmap.py
-
-# PERFECT VERSION 29 MAY  
-# 6a0dd9b3
-# FFFFFFFF
-
 def rot32(n: int, r: int) -> int:
     r &= 31
     n &= 0xFFFFFFFF
     return ((n << r) | (n >> (32 - r))) & 0xFFFFFFFF
 
-def ZepXORhash(N):
+def ra_hash(N):
     out = [0] * 8
     for i in range(8):
         out[i] ^= N[N[i] & 0xFF]
@@ -20,7 +14,7 @@ def ZepXORhash(N):
             N[i] ^= N[j * 8 + i]
     return out
 
-def ZepFold(seed, iteration):
+def ra_core(seed, iteration):
     L = [0] * 256
     M = [0] * 256
     cons = seed
@@ -56,7 +50,7 @@ def ZepFold(seed, iteration):
         for i in range(256):
             M[i] ^= L[i]
         print()
-        cons_list = ZepXORhash(M)
+        cons_list = ra_hash(M)
 
         new_cons = 0
         for e in range(8):
@@ -67,7 +61,7 @@ def ZepFold(seed, iteration):
 
 def main():
     start = time.time()
-    ZepFold(seed=1, iteration=1)
+    ra_core(seed=1, iteration=1)
     print(f"\nDone in {time.time() - start:.3f} seconds")
 
 if __name__ == '__main__':
