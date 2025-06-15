@@ -66,9 +66,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-'''
-Terakhir diupdate pada 29 mei
-kecepatan : 372.6/4 juta
-sha256: 157.9180462360382/1 juta
-'''
