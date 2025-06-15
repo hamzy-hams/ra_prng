@@ -15,7 +15,7 @@ static inline uint32_t rot32(uint32_t n, uint32_t r) {
     return ((n << r) | (n >> (32 - r))) & 0xFFFFFFFF;
 }
 
-void ZepXORhash(uint32_t *N, uint32_t *out8) {
+void ra_hash(uint32_t *N, uint32_t *out8) {
     // XOR each of the 32 blocks into the first 8 bytes
     for (uint8_t i = 0; i < 8; ++i) out8[i] = 0;
     for (uint8_t i = 0; i < 8; ++i) {
@@ -27,8 +27,8 @@ void ZepXORhash(uint32_t *N, uint32_t *out8) {
     }
 }
 
-// Core PRNG: churn state 'iterations' kali, kembalikan IV terakhir
-uint32_t ZepFold(uint32_t seed, size_t rng) {
+// Core PRNG: churn state 'iterations' times, return last cons
+uint32_t ra_core(uint32_t seed, size_t rng) {
 
     if (rng == 0) {
         return seed;
@@ -47,7 +47,7 @@ uint32_t ZepFold(uint32_t seed, size_t rng) {
     }
 
     for (size_t it = 0; it < iteration; ++it) {
-        // Variables initioation
+        // Variables initiation
         uint32_t  a = cons;
         uint32_t  b = it;
         uint32_t  c = 0;
@@ -88,7 +88,7 @@ uint32_t ZepFold(uint32_t seed, size_t rng) {
         }
 
         // Hash to next seed (cons)
-        ZepXORhash(M, tmp8);
+        ra_hash(M, tmp8);
 
         // Build next cons from bits of tmp8
         uint32_t new_cons = 0;
@@ -107,9 +107,9 @@ int main(void) {
     struct timespec t0, t1;
     clock_gettime(CLOCK_MONOTONIC, &t0);
 
-    // Parallel region: each thread computes ZepFold with distinct seed
+    // Parallel region: each thread computes ra_core with distinct seed
     seed = 1;
-    last_cons = ZepFold(seed, TOTAL_RNG);
+    last_cons = ra_core(seed, TOTAL_RNG);
 
     clock_gettime(CLOCK_MONOTONIC, &t1);
     double elapsed = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
