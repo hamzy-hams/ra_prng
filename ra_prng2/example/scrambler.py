@@ -37,7 +37,7 @@ def rot32(n: int, r: int) -> int:
     n &= 0xFFFFFFFF
     return ((n << r) | (n >> (32 - r))) & 0xFFFFFFFF
 
-def ZepXORhash(N):
+def ra_hash(N):
     out = [0] * 8
     for i in range(8):
         out[i] ^= N[N[i] & 0xFF]
@@ -46,7 +46,7 @@ def ZepXORhash(N):
     return out
 
 # Shuffle array function
-def ZepFold(seed, tokens, multiplier_m, multiplier_l):
+def ra_core(seed, tokens, multiplier_m, multiplier_l):
     scrambled_tokens = tokens[:]
     tokens_length = len(tokens)
     iteration = tokens_length // 255 + 1
@@ -91,7 +91,7 @@ def ZepFold(seed, tokens, multiplier_m, multiplier_l):
 
         for i in range(256):
             M[i] ^= L[i]
-        cons_list = ZepXORhash(M)
+        cons_list = ra_hash(M)
 
         new_cons = 0
         for e in range(8):
@@ -161,7 +161,7 @@ def main():
         print(f"File output '{args.output}' telah dibuat (kosong).")
         sys.exit(0)
 
-    shuffled = ZepFold(seed, tokens, multiplier_m, multiplier_l)
+    shuffled = ra_core(seed, tokens, multiplier_m, multiplier_l)
     # 4. Simpan ke file
     save_token_ids_to_file(shuffled, args.output)
     print(f"Proses shuffle selesai. Hasil disimpan di '{args.output}'.")
