@@ -1,6 +1,5 @@
 // parallel_prng.c
 // g++ -O3 -march=native -fopenmp ra_prng_thread2.C -o parallel_prng2
-// BEST VERSION LAST 29 mei
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -16,7 +15,7 @@ static inline uint32_t rot32(uint32_t n, uint32_t r) {
     return ((n << r) | (n >> (32 - r))) & 0xFFFFFFFF;
 }
 
-void ZepXORhash(uint32_t *N, uint32_t *out8) {
+void ra_hash(uint32_t *N, uint32_t *out8) {
     // XOR each of the 32 blocks into the first 8 bytes
     for (uint8_t i = 0; i < 8; ++i) out8[i] = 0;
     for (uint8_t i = 0; i < 8; ++i) {
@@ -29,7 +28,7 @@ void ZepXORhash(uint32_t *N, uint32_t *out8) {
 }
 
 // Core PRNG: churn state 'iterations' kali, kembalikan IV terakhir
-uint32_t ZepFold(uint32_t seed, size_t rng) {
+uint32_t ra_core(uint32_t seed, size_t rng) {
 
     if (rng == 0) {
         return seed;
@@ -88,7 +87,7 @@ uint32_t ZepFold(uint32_t seed, size_t rng) {
         }
 
         // Hash to next seed (cons)
-        ZepXORhash(M, tmp8);
+        ra_hash(M, tmp8);
 
         // Build next cons from bits of tmp8
         uint32_t new_cons = 0;
@@ -108,12 +107,12 @@ int main(void) {
     struct timespec t0, t1;
     clock_gettime(CLOCK_MONOTONIC, &t0);
 
-    // Parallel region: each thread computes ZepFold with distinct seed
+    // Parallel region: each thread computes ra_core with distinct seed
     #pragma omp parallel num_threads(NUM_THREADS)
     {
         int tid = omp_get_thread_num();
         uint32_t seed = (uint32_t)(1u << tid);
-        last_iv[tid] = ZepFold(seed, chunk);
+        last_iv[tid] = ra_core(seed, chunk);
         worker_id[tid] = tid;
     }
 
