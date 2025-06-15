@@ -1,14 +1,14 @@
 /*
- * zep_shuffle.c
+ * ra_scrambler.c
  *
  * Fitur:
  *  - Membaca token (integer) dari file teks (dipisah spasi/newline)
- *  - Mengacak urutan token menggunakan ZepFold
+ *  - Mengacak urutan token menggunakan ra_core
  *  - Menulis kembali token yang sudah diacak ke file teks (dipisah spasi)
  *
  * Penggunaan:
- *   gcc -std=c11 -O3 -o zep_shuffle zep_shuffle.c
- *   ./zep_shuffle --input data.txt --output shuffled.txt [--seed SEED] [--multiplier_m MM] [--multiplier_l ML]
+ *   gcc -std=c11 -O3 -o ra_scrambler ra_scrambler.c
+ *   ./ra_scrambler --input data.txt --output shuffled.txt [--seed SEED] [--multiplier_m MM] [--multiplier_l ML]
  *
  * Jika opsi --seed tidak diberikan, maka seed default = 1.
  * Jika --multiplier_m tidak diberikan, maka default = 0x06a0dd9b.
@@ -28,11 +28,11 @@ static inline uint32_t rot32(uint32_t x, uint32_t r) {
 }
 
 /*
- * ZepXORhash:
+ * ra_hash:
  *   - N: array 256 elemen uint32_t sebagai state input (akan dimodifikasi)
  *   - out8: output 8 elemen uint32_t (nilai 32-bit; hanya 8 bit LSB yang digunakan setelah dikombinasi ke new_cons)
  */
-static void ZepXORhash(uint32_t N[256], uint32_t out8[8]) {
+static void ra_hash(uint32_t N[256], uint32_t out8[8]) {
     /* Inisialisasi out8 ke 0 */
     for (uint8_t i = 0; i < 8; ++i) {
         out8[i] = 0;
@@ -47,7 +47,7 @@ static void ZepXORhash(uint32_t N[256], uint32_t out8[8]) {
 }
 
 /*
- * ZepFold:
+ * ra_core:
  *   - seed: initial seed (uint32_t)
  *   - tokens: array uint32_t yang berisi token yang akan di-shuffle
  *   - tokens_length: jumlah elemen dalam tokens
@@ -55,7 +55,7 @@ static void ZepXORhash(uint32_t N[256], uint32_t out8[8]) {
  *
  * Fungsi ini memodifikasi array tokens secara in-place, sehingga urutan token menjadi teracak.
  */
-static void ZepFold(uint32_t seed,
+static void ra_core(uint32_t seed,
                     uint32_t *tokens,
                     size_t tokens_length,
                     uint32_t multiplier_m,
@@ -77,7 +77,7 @@ static void ZepFold(uint32_t seed,
     size_t iteration = tokens_length / 255 + 1;
     int64_t count = (int64_t)tokens_length - 1;
 
-    /* Tabel state L dan M, serta array tmp8 untuk ZepXORhash */
+    /* Tabel state L dan M, serta array tmp8 untuk ra_hash */
     alignas(64) uint32_t L[256];
     alignas(64) uint32_t M[256];
     uint32_t tmp8[8];
@@ -139,8 +139,8 @@ static void ZepFold(uint32_t seed,
             M[i] ^= L[i];
         }
 
-        /* Hitung ZepXORhash dari M ke tmp8 */
-        ZepXORhash(M, tmp8);
+        /* Hitung ra_hash dari M ke tmp8 */
+        ra_hash(M, tmp8);
 
         /* Gabungkan tmp8 menjadi new cons */
         uint32_t new_cons = 0;
@@ -349,8 +349,8 @@ int main(int argc, char *argv[]) {
         return EXIT_SUCCESS;
     }
 
-    /* 2. Shuffle menggunakan ZepFold */
-    ZepFold(opts.seed, tokens, token_len, opts.multiplier_m, opts.multiplier_l);
+    /* 2. Shuffle menggunakan ra_core */
+    ra_core(opts.seed, tokens, token_len, opts.multiplier_m, opts.multiplier_l);
 
     /* 3. Simpan hasil shuffle ke file output */
     if (save_tokens_to_file(tokens, token_len, opts.output_file) != 0) {
