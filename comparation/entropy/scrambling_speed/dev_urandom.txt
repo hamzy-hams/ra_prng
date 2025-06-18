@@ -1,0 +1,20 @@
+Menggunakan dev/urandom
+ Performance counter stats for './shuffler -i tokens.txt -o scrambled.txt':
+
+            142.79 msec task-clock:u                     #    0.987 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+               176      page-faults:u                    #    1.233 K/sec                     
+       158,726,203      instructions:u                   #    1.83  insn per cycle            
+        86,949,862      cycles:u                         #    0.609 GHz                       
+        32,502,942      branches:u                       #  227.632 M/sec                     
+           315,844      branch-misses:u                  #    0.97% of all branches           
+                        TopdownL1                 #     31.0 %  tma_backend_bound      
+                                                  #      5.7 %  tma_bad_speculation    
+                                                  #     23.4 %  tma_frontend_bound     
+                                                  #     40.0 %  tma_retiring           
+
+       0.144705242 seconds time elapsed
+
+       0.020949000 seconds user
+       0.121863000 seconds sys
