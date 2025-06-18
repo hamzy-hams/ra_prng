@@ -1,0 +1,19 @@
+Performance counter stats for './pcg_shuffler tokens.txt -o scrambled_pcg.txt':
+
+              4.59 msec task-clock:u                     #    0.892 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+               363      page-faults:u                    #   79.113 K/sec                     
+        29,493,741      instructions:u                   #    2.47  insn per cycle            
+        11,949,944      cycles:u                         #    2.604 GHz                       
+         7,414,132      branches:u                       #    1.616 G/sec                     
+            19,209      branch-misses:u                  #    0.26% of all branches           
+                        TopdownL1                 #     14.6 %  tma_backend_bound      
+                                                  #      8.4 %  tma_bad_speculation    
+                                                  #     20.3 %  tma_frontend_bound     
+                                                  #     56.7 %  tma_retiring           
+
+       0.005142026 seconds time elapsed
+
+       0.003940000 seconds user
+       0.000987000 seconds sys
