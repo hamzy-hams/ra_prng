@@ -1,0 +1,19 @@
+Performance counter stats for './xoshiro256_scrambler -i tokens.txt -o scrambled_xoshiro.txt':
+
+              4.53 msec task-clock:u                     #    0.721 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+               362      page-faults:u                    #   79.877 K/sec                     
+        30,192,743      instructions:u                   #    2.35  insn per cycle            
+        12,828,085      cycles:u                         #    2.831 GHz                       
+         7,413,928      branches:u                       #    1.636 G/sec                     
+            18,759      branch-misses:u                  #    0.25% of all branches           
+                        TopdownL1                 #      8.9 %  tma_backend_bound      
+                                                  #      4.3 %  tma_bad_speculation    
+                                                  #     21.7 %  tma_frontend_bound     
+                                                  #     65.1 %  tma_retiring           
+
+       0.006282048 seconds time elapsed
+
+       0.001939000 seconds user
+       0.002925000 seconds sys
