@@ -1,0 +1,19 @@
+Performance counter stats for './chacha20_scrambler -i tokens.txt -o scrambled_chacha20.txt':
+
+              6.35 msec task-clock:u                     #    0.766 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+               361      page-faults:u                    #   56.872 K/sec                     
+        41,082,788      instructions:u                   #    2.08  insn per cycle            
+        19,791,988      cycles:u                         #    3.118 GHz                       
+         8,490,420      branches:u                       #    1.338 G/sec                     
+            17,716      branch-misses:u                  #    0.21% of all branches           
+                        TopdownL1                 #     15.1 %  tma_backend_bound      
+                                                  #      2.7 %  tma_bad_speculation    
+                                                  #     29.3 %  tma_frontend_bound     
+                                                  #     52.9 %  tma_retiring           
+
+       0.008287736 seconds time elapsed
+
+       0.004800000 seconds user
+       0.001907000 seconds sys
