@@ -1,37 +1,71 @@
-# RA_PRNG: Robust Abstract Pseudorandom Number Generator Series
+# ra\_prng2 and Beyond: A Novel Lightweight PRNG Architecture for High-Performance Random Data Generation
 
-This repository contains the development and documentation of the RA_PRNG series — a custom-designed family of fast, high-entropy pseudorandom number generators developed by Zephyr (2024–2025). Each version shows a significant evolution in entropy distribution, throughput efficiency, and theoretical periodicity.
+`ra_prng` adalah arsitektur baru untuk generator angka acak deterministik yang mengandalkan teknik *array index shuffling*, *bitwise rotation*, *bit shifting*, XORing, dan *nonlinear indexing*. Algoritma ini secara eksplisit didesain untuk efisiensi tinggi dan entropi besar, dengan struktur internal berbasis array yang memungkinkan periodisitas panjang tanpa mengorbankan performa.
 
-## Versions
+Berbeda dari PRNG tradisional yang memisahkan pengacakan dan entropi, `ra_prng` menjadikan proses pengacakan array sebagai inti desain PRNG itu sendiri. Hal ini menjadikannya sangat cocok untuk aplikasi seperti *data shuffling* pada pelatihan model AI/ML, inisialisasi bobot neural network, simulasi deterministik, dan eksperimen statistik.
 
-- **ra_prng_v1**: First prototype. Weak entropy, small period. Used mainly for conceptual foundation.
-- **ra_prng_v2**: Major upgrade. High throughput (up to 6GiB/s), passed NIST STS, Dieharder, and ENT tests. Applied in image encryption and key scrambling.
-- **ra_prng_v3**: Current state-of-the-art. Achieves up to 2^6000 period growth compared to v2, stronger bias resistance, and passes PractRand up to 32 GiB. Actively undergoing real-world application testing.
+## Komponen Proyek
 
-## Features
+Repositori ini terdiri dari beberapa komponen utama:
 
-- Portable C implementation with minimal dependencies.
-- Custom mixing strategy using bitwise, permutation, and logical layers.
-- Modular seed expansion logic.
-- Designed with cryptographic research standards in mind.
+* `ra_prng2/` — Versi 32-bit yang menjadi inti paper utama, stabil dan deterministik.
+* `ra_prng3/` — Versi eksperimental 64-bit dengan state internal lebih besar, kecepatan lebih tinggi, dan periodisitas teoritis mencapai $2^{16352}$.
+* `comparisons/` — Data benchmark dan evaluasi perbandingan dengan algoritma lain seperti xoshiro256\*\*, PCG32, Philox4x32, ChaCha20, dan dev/urandom.
 
-## Benchmark Highlights
+## Kompilasi dan Penggunaan
 
-- **v2**: ~6 GiB/s throughput on standard laptop hardware.
-- **v3**: Verified up to 32 GiB input size with 0 anomalies in PractRand.
-- All versions documented with failure cases, entropy evaluation, and revision history.
+Untuk kompilasi:
 
-## Applications
+```bash
+# Versi standar
+cd ra_prng2/src
+gcc -O3 -march=native ra_prng2.c -o ra_prng2
 
-- Procedural encryption for images
-- Scrambling index structures
-- PRNG-based music generation
-- Experimental chaotic compression
+# Versi dengan dukungan OpenMP
+gcc -O3 -march=native -fopenmp ra_prng_thread.c -o ra_prng_thread
+```
 
-## Status
+Output default berupa bilangan acak atau hasil dari proses folding tergantung implementasi.
 
-> Still in private research phase. Not recommended for cryptographic production until peer-reviewed.
+## Benchmarking dan Evaluasi
 
-## License
+Semua hasil benchmark tersedia dalam folder `benchmark/` di setiap subfolder algoritma. Untuk fair comparison, pengujian dilakukan di environment yang sama menggunakan:
 
-This project is licensed under the [Apache License 2.0](./LICENSE).
+* CPU: Intel Core i3-1115G4
+* OS: Arch Linux 6.8.7
+* Compiler: GCC 13.2.0
+
+Beberapa hasil ringkasan:
+
+* `ra_prng2` mengungguli ChaCha20 dan dev/urandom dalam throughput
+* `ra_prng3` bahkan melampaui Philox4x32 dalam kecepatan RNGing
+* Evaluasi lengkap dalam `comparisons/benchmark_speed.md`
+
+## Hasil Tes Statistik
+
+* Lolos semua tes Dieharder dan NIST STS
+* Tidak ada kegagalan fatal pada subtes
+* Beberapa flag WEAK muncul, namun ini wajar dan juga ditemukan pada algoritma populer lain (Xoshiro, PCG, ChaCha20)
+
+## Roadmap
+
+* Peningkatan efisiensi dan kecepatan PRNG lebih lanjut
+* Penyesuaian model agar fleksibel untuk LLM dataset shuffling
+* Optimalisasi SIMD dan distribusi lintas platform
+* Paper kedua akan diterbitkan untuk `ra_prng3`
+
+## Lisensi
+
+Proyek ini dilisensikan di bawah **Apache License Version 2.0** — [http://www.apache.org/licenses/](http://www.apache.org/licenses/)
+
+## Sitasi
+
+Kami sedang menyiapkan format sitasi resmi. Untuk sementara, silakan tautkan ke repositori GitHub ini dan sertakan nama proyek dan penulis utama.
+
+## Kontribusi
+
+Saat ini, kontribusi eksternal belum dibuka secara resmi. Namun feedback dan diskusi teknis sangat diterima.
+
+---
+
+> Untuk pertanyaan, saran, atau kolaborasi, silakan hubungi melalui halaman issue atau pull request setelah proyek dibuka untuk kontribusi publik.
