@@ -39,7 +39,7 @@ Beberapa hasil ringkasan:
 
 * `ra_prng2` mengungguli ChaCha20 dan dev/urandom dalam throughput
 * `ra_prng3` bahkan melampaui Philox4x32 dalam kecepatan RNGing
-* Evaluasi lengkap dalam `comparisons/benchmark_speed.md`
+* Evaluasi lengkap dalam `comparation/scrambling_speed`
 
 ## Hasil Tes Statistik
 
