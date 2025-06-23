@@ -1,1 +1,22 @@
+Generated 255000000 32-bit values in 0.317 seconds
+Throughput: 3065.42 MB/s
 
+ Performance counter stats for './pcg':
+
+            318.95 msec task-clock:u                     #    0.993 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+                62      page-faults:u                    #  194.386 /sec                      
+     3,315,126,017      instructions:u                   #    2.60  insn per cycle            
+     1,277,041,257      cycles:u                         #    4.004 GHz                       
+       255,026,008      branches:u                       #  799.572 M/sec                     
+             2,604      branch-misses:u                  #    0.00% of all branches           
+                        TopdownL1                 #     26.2 %  tma_backend_bound      
+                                                  #     10.2 %  tma_bad_speculation    
+                                                  #      8.4 %  tma_frontend_bound     
+                                                  #     55.2 %  tma_retiring           
+
+       0.321164878 seconds time elapsed
+
+       0.317476000 seconds user
+       0.000972000 seconds sys
