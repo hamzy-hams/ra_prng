@@ -1,0 +1,22 @@
+Generated 255000000 32-bit values from /dev/urandom in 2.497 seconds
+Throughput: 389.59 MB/s
+
+ Performance counter stats for './dev_urandom':
+
+          2,503.77 msec task-clock:u                     #    0.998 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+                63      page-faults:u                    #   25.162 /sec                      
+     8,713,460,784      instructions:u                   #    4.20  insn per cycle            
+     2,072,821,178      cycles:u                         #    0.828 GHz                       
+     1,667,737,076      branches:u                       #  666.091 M/sec                     
+           597,292      branch-misses:u                  #    0.04% of all branches           
+                        TopdownL1                 #      0.6 %  tma_backend_bound      
+                                                  #     21.8 %  tma_bad_speculation    
+                                                  #      3.5 %  tma_frontend_bound     
+                                                  #     74.0 %  tma_retiring           
+
+       2.509491288 seconds time elapsed
+
+       0.503358000 seconds user
+       1.994315000 seconds sys
