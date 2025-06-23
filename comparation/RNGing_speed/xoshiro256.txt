@@ -1,0 +1,22 @@
+Generated 255000000 32-bit values in 0.272 seconds
+Throughput: 3574.53 MB/s
+
+ Performance counter stats for './xoshiro256':
+
+            273.64 msec task-clock:u                     #    0.989 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+                61      page-faults:u                    #  222.921 /sec                      
+     3,825,126,029      instructions:u                   #    3.44  insn per cycle            
+     1,111,858,210      cycles:u                         #    4.063 GHz                       
+       255,025,996      branches:u                       #  931.979 M/sec                     
+             2,786      branch-misses:u                  #    0.00% of all branches           
+                        TopdownL1                 #     25.4 %  tma_backend_bound      
+                                                  #      5.5 %  tma_bad_speculation    
+                                                  #      5.1 %  tma_frontend_bound     
+                                                  #     64.0 %  tma_retiring           
+
+       0.276553014 seconds time elapsed
+
+       0.271316000 seconds user
+       0.001925000 seconds sys
