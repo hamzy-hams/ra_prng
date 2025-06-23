@@ -1,0 +1,22 @@
+Generated 255000000 32-bit values in 1.751 seconds
+Throughput: 555.51 MB/s
+
+ Performance counter stats for './chacha20':
+
+          1,756.20 msec task-clock:u                     #    0.996 CPUs utilized             
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+                60      page-faults:u                    #   34.165 /sec                      
+    19,794,502,424      instructions:u                   #    2.77  insn per cycle            
+     7,151,221,672      cycles:u                         #    4.072 GHz                       
+       223,152,588      branches:u                       #  127.066 M/sec                     
+            62,673      branch-misses:u                  #    0.03% of all branches           
+                        TopdownL1                 #     30.5 %  tma_backend_bound      
+                                                  #     14.7 %  tma_bad_speculation    
+                                                  #      1.3 %  tma_frontend_bound     
+                                                  #     53.4 %  tma_retiring           
+
+       1.763100429 seconds time elapsed
+
+       1.748911000 seconds user
+       0.002942000 seconds sys
