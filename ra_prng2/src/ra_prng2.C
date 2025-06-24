@@ -1,5 +1,5 @@
-// parallel_prng.c
-// g++ -O3 -march=native -fopenmp ra_prng_thread2.C -o parallel_prng2
+// ra_prng2.C
+// g++ -O3 -march=native ra_prng2.C -o prng2
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,7 +7,7 @@
 #include <string.h>
 #include <time.h>
 
-#define TOTAL_RNG 200000000UL
+#define TOTAL_RNG 200000000UL //example
 
 // Rotate an 32-bit value n by r bits
 static inline uint32_t rot32(uint32_t n, uint32_t r) {
@@ -106,8 +106,6 @@ int main(void) {
 
     struct timespec t0, t1;
     clock_gettime(CLOCK_MONOTONIC, &t0);
-
-    // Parallel region: each thread computes ra_core with distinct seed
     seed = 1;
     last_cons = ra_core(seed, TOTAL_RNG);
 
