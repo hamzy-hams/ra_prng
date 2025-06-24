@@ -1,5 +1,6 @@
-// parallel_prng.c
-// g++ -O3 -march=native -fopenmp ra_prng_thread2.C -o parallel_prng2
+// ra_prng2_thread.C
+// g++ -O3 -march=native -fopenmp ra_prng2_thread.C -o ra_prng2_thread
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
