@@ -1,3 +1,6 @@
+# Created by Hamas A. Rahman, 2025
+# github.com/hamzy-hams
+
 import sys
 import time
 
