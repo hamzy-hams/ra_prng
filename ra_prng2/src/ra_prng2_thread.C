@@ -1,4 +1,6 @@
 // ra_prng2_thread.C
+// Created by Hamas A. Rahman, 2025
+// github.com/hamzy-hams
 // g++ -O3 -march=native -fopenmp ra_prng2_thread.C -o ra_prng2_thread
 
 #include <stdio.h>
