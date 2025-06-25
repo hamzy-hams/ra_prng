@@ -38,11 +38,10 @@ Semua hasil benchmark tersedia dalam folder `benchmark/` di setiap subfolder alg
 Beberapa hasil ringkasan:
 
 * `ra_prng2` mengungguli ChaCha20 dan dev/urandom dalam throughput
-* `ra_prng3` bahkan melampaui Philox4x32 dalam kecepatan RNGing
+* `ra_prng3` bahkan melampaui Philox4x32 dalam kecepatan RNGing (eksperimental)
 * Evaluasi lengkap dalam `comparation`
 
 ## Hasil Tes Statistik
-
 * Lolos semua tes Dieharder dan NIST STS
 * Tidak ada kegagalan fatal pada subtes
 * Beberapa flag WEAK muncul, namun ini wajar dan juga ditemukan pada algoritma populer lain (Xoshiro, PCG, ChaCha20)
@@ -64,8 +63,9 @@ Kami sedang menyiapkan format sitasi resmi. Untuk sementara, silakan tautkan ke 
 
 ## Kontribusi
 
-Saat ini, kontribusi eksternal belum dibuka secara resmi. Namun feedback dan diskusi teknis sangat diterima.
+Saat ini, kontribusi eksternal belum dibuka secara resmi. Namun feedback dan diskusi teknis sangat diterima. Lewat forum diskusi yang saya buka
 
----
-
-> Untuk pertanyaan, saran, atau kolaborasi, silakan hubungi melalui halaman issue atau pull request setelah proyek dibuka untuk kontribusi publik.
+## Author
+This project was created by Hamas A. Rahman, an independent researcher in random number generating, computer science, and collatz conjecture.
+contact email: nexthamas95@gmail.com
+discord id: hamzyhams
