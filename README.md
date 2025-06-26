@@ -24,7 +24,7 @@ cd ra_prng2/src
 gcc -O3 -march=native ra_prng2.c -o ra_prng2
 
 # OpenMP-enabled version
-gcc -O3 -march=native -fopenmp ra_prng_thread.c -o ra_prng_thread
+gcc -O3 -march=native -fopenmp ra_prng_thread.c -o ra_prng2_thread
 ```
 The default output is either random numbers or the result of the folding process, depending on the implementation.
 
