@@ -1,29 +1,34 @@
 #!/usr/bin/env python3
+# Copyright (c) 2025 Hamas A. Rahman
+# Licensed under CC BY-NC-SA 4.0
+# github.com/hamzy-hams
 
 """
-randomness_tests_with_scc.py
+scc_test.py
 
-Mengukur beberapa metrik kualitas keacakan pada data integer dalam 'scrambled.txt':
+Measure several randomness quality metrics on integer data in ‘scrambled.txt’:
 1. Shannon Entropy
-2. Chi-Square Goodness-of-Fit (terhadap distribusi seragam)
-3. Runs Test (Wald–Wolfowitz) untuk urutan naik/turun
-4. Serial Correlation Coefficient (korelasi linier antar elemen berurutan)
+2. Chi-Square Goodness-of-Fit (against uniform distribution)
+3. Runs Test (Wald-Wolfowitz) for ascending/descending order
+4. Serial Correlation Coefficient (linear correlation between consecutive elements) 4.
 
-Format file input ('scrambled.txt'):
-    - Baris tunggal (atau beberapa baris) berisi angka-angka dipisah spasi, misalnya:
+Input file format (‘scrambled.txt’):
+    - Single line (or multiple lines) of numbers separated by spaces, for example:
         487 2 91238 113 42 ...
 
-Cara menjalankan:
-    python3 randomness_tests_with_scc.py
-"""
+How to run:
+ python3 scc_test.py
+""""
+
+Translated with DeepL.com (free version)
 
 import math
 from collections import Counter
 
 def read_tokens(filename):
     """
-    Membaca file teks yang berisi token (integer) dipisah spasi/newline,
-    lalu mengembalikan list of ints.
+    Reads a text file containing tokens (integers) separated by spaces/newlines,
+    and returns a list of ints.
     """
     try:
         with open(filename, 'r') as f:
@@ -41,7 +46,7 @@ def read_tokens(filename):
 
 def entropy(data):
     """
-    Menghitung Shannon Entropy (bit) dari distribusi nilai dalam 'data'.
+    Calculates the Shannon Entropy (bit) of the distribution of values in the 'data'.
     """
     n = len(data)
     if n == 0:
@@ -55,8 +60,8 @@ def entropy(data):
 
 def chi_square_uniform(data):
     """
-    Menghitung Chi-Square Statistic untuk menguji apakah frekuensi tiap nilai
-    dalam 'data' cocok dengan distribusi seragam.
+    Calculate the Chi-Square Statistic to test whether the frequency of each value
+    in the 'data' fits a uniform distribution.
     """
     n = len(data)
     if n == 0:
@@ -69,14 +74,14 @@ def chi_square_uniform(data):
 
 def runs_test(data):
     """
-    Menghitung Runs Test (Wald–Wolfowitz) untuk urutan naik/turun berturut-turut.
-    Mengembalikan tuple (z_statistic, actual_runs, expected_runs).
+    Calculates Runs Test (Wald-Wolfowitz) for consecutive ascending/descending sequences.
+    Returns a tuple (z_statistic, actual_runs, expected_runs).
     """
     n = len(data)
     if n < 2:
         return 0.0, 0, 0.0
 
-    # Hitung jumlah run; run naik/turun berganti ketika tanda (>) berubah
+    # Calculate jumlah run; run naik/turun berganti ketika tanda (>) berubah
     runs = 1
     for i in range(1, n):
         # Jika perbandingan (data[i] > data[i-1]) berubah dibanding perbandingan sebelumnya,
@@ -97,7 +102,7 @@ def runs_test(data):
 
 def serial_correlation(data):
     """
-    Menghitung Serial Correlation Coefficient (korelasi linier) antara data[i] dan data[i+1].
+    Calculate the Serial Correlation Coefficient (linear correlation) between data[i] and data[i+1].
     Formula:
         r = [ Σ_{i=0..n-2} (x_i * x_{i+1}) - (n-1)*mean^2 ] 
             / [ Σ_{i=0..n-1} (x_i^2) - n*mean^2 ]
@@ -125,14 +130,14 @@ if __name__ == "__main__":
     data = read_tokens(filename)
 
     if not data:
-        print("Tidak ada data untuk diuji (file kosong atau tidak valid).")
+        print("No data to test (empty or invalid file).")
         exit(0)
 
-    # 1. Hitung Entropy
+    # 1. Calculate Entropy
     H = entropy(data)
     print(f"Entropy (bit): {H:.6f}")
 
-    # 2. Hitung Chi-Square Statistic
+    # 2. Calculate Chi-Square Statistic
     chi2 = chi_square_uniform(data)
     print(f"Chi-Square Statistic: {chi2:.6f}")
 
