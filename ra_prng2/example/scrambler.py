@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-# PERFECT VERSION 6 june 
+# Copyright (c) 2025 Hamas A. Rahman
+# Licensed under CC BY-NC-SA 4.0
+# github.com/hamzy-hams
  
 import sys
 import time
