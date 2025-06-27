@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Copyright (c) 2025 Hamas A. Rahman
 # Licensed under CC BY-NC-SA 4.0
 # github.com/hamzy-hams
