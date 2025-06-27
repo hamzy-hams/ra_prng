@@ -1,5 +1,6 @@
 // ra_prng2_thread.C
-// Created by Hamas A. Rahman, 2025
+// Copyright (c) 2025 Hamas A. Rahman
+// Licensed under CC BY-NC-SA 4.0
 // github.com/hamzy-hams
 // g++ -O3 -march=native -fopenmp ra_prng2_thread.C -o ra_prng2_thread
 
