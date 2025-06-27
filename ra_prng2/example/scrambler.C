@@ -1,18 +1,22 @@
+// Copyright (c) 2025 Hamas A. Rahman
+// Licensed under CC BY-NC-SA 4.0
+// github.com/hamzy-hams
+
 /*
  * ra_scrambler.c
  *
- * Fitur:
- *  - Membaca token (integer) dari file teks (dipisah spasi/newline)
- *  - Mengacak urutan token menggunakan ra_core
- *  - Menulis kembali token yang sudah diacak ke file teks (dipisah spasi)
+ * Features:
+ *  - Reads integer tokens from a text file (separated by spaces/newlines)
+ *  - Shuffles the token order using ra_core
+ *  - Writes the shuffled tokens back to a text file (separated by spaces)
  *
- * Penggunaan:
+ * Usage:
  *   gcc -std=c11 -O3 -o ra_scrambler ra_scrambler.c
  *   ./ra_scrambler --input data.txt --output shuffled.txt [--seed SEED] [--multiplier_m MM] [--multiplier_l ML]
  *
- * Jika opsi --seed tidak diberikan, maka seed default = 1.
- * Jika --multiplier_m tidak diberikan, maka default = 0x06a0dd9b.
- * Jika --multiplier_l tidak diberikan, maka default = 0x9e3779b7.
+ * If the --seed option is not provided, the default seed = 1.
+ * If --multiplier_m is not provided, the default = 0x06a0dd9b.
+ * If --multiplier_l is not provided, the default = 0x9e3779b7.
  */
 
 #include <stdio.h>
@@ -29,9 +33,10 @@ static inline uint32_t rot32(uint32_t x, uint32_t r) {
 
 /*
  * ra_hash:
- *   - N: array 256 elemen uint32_t sebagai state input (akan dimodifikasi)
- *   - out8: output 8 elemen uint32_t (nilai 32-bit; hanya 8 bit LSB yang digunakan setelah dikombinasi ke new_cons)
+ *   - N: a 256-element uint32_t array as the input state (will be modified)
+ *   - out8: an 8-element uint32_t output array (32-bit values; only the 8 LSBs are used after combining into new_cons)
  */
+
 static void ra_hash(uint32_t N[256], uint32_t out8[8]) {
     /* Inisialisasi out8 ke 0 */
     for (uint8_t i = 0; i < 8; ++i) {
@@ -49,12 +54,13 @@ static void ra_hash(uint32_t N[256], uint32_t out8[8]) {
 /*
  * ra_core:
  *   - seed: initial seed (uint32_t)
- *   - tokens: array uint32_t yang berisi token yang akan di-shuffle
- *   - tokens_length: jumlah elemen dalam tokens
- *   - multiplier_m, multiplier_l: konstanta untuk inisialisasi tabel M dan L
+ *   - tokens: a uint32_t array containing the tokens to be shuffled
+ *   - tokens_length: the number of elements in tokens
+ *   - multiplier_m, multiplier_l: constants for initializing tables M and L
  *
- * Fungsi ini memodifikasi array tokens secara in-place, sehingga urutan token menjadi teracak.
+ * This function modifies the tokens array in-place, so the token order becomes shuffled.
  */
+
 static void ra_core(uint32_t seed,
                     uint32_t *tokens,
                     size_t tokens_length,
@@ -157,13 +163,14 @@ static void ra_core(uint32_t seed,
 
 /*
  * load_tokens_from_file:
- *   - filename: nama file teks berisi integer dipisah spasi/newline
- *   - *out_tokens: pointer yang akan diisi alamat buffer hasil alokasi
- *   - *out_len: panjang (jumlah elemen) token yang dibaca
+ *   - filename: the name of the text file containing integers separated by spaces/newlines
+ *   - *out_tokens: pointer to be set to the address of the allocated buffer
+ *   - *out_len: the length (number of elements) of the tokens read
  *
- * Mengembalikan 0 jika sukses, atau -1 jika terjadi error (file tidak ada atau format salah).
- * Buffer tokens harus dibebaskan oleh pemanggil (free).
+ * Returns 0 on success, or -1 on error (file not found or invalid format).
+ * The tokens buffer must be freed by the caller (free).
  */
+
 static int load_tokens_from_file(const char *filename, uint32_t **out_tokens, size_t *out_len) {
     FILE *fp = fopen(filename, "r");
     if (!fp) {
@@ -215,12 +222,13 @@ static int load_tokens_from_file(const char *filename, uint32_t **out_tokens, si
 
 /*
  * save_tokens_to_file:
- *   - tokens: array uint32_t
- *   - len: jumlah elemen dalam tokens
- *   - filename: nama file tujuan untuk menyimpan token dipisah spasi
+ *   - tokens: a uint32_t array
+ *   - len: number of elements in tokens
+ *   - filename: the target filename to save the space-separated tokens
  *
- * Mengembalikan 0 jika sukses, atau -1 jika gagal menulis file.
+ * Returns 0 on success, or -1 if writing the file fails.
  */
+
 static int save_tokens_to_file(const uint32_t *tokens, size_t len, const char *filename) {
     FILE *fp = fopen(filename, "w");
     if (!fp) {
