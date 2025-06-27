@@ -1,5 +1,6 @@
 // ra_prng2.C
-// Created by Hamas A. Rahman, 2025
+// Copyright (c) 2025 Hamas A. Rahman
+// Licensed under CC BY-NC-SA 4.0
 // github.com/hamzy-hams
 // g++ -O3 -march=native ra_prng2.C -o prng2
 
