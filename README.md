@@ -50,7 +50,7 @@ Summary highlights:
 This project is licensed under the Apache License, Version 2.0 — http://www.apache.org/licenses/
 
 ## Citation
-We are preparing the official citation format. In the meantime, please link to this GitHub repository and include the project name and primary author.
+I'm preparing the official citation format. In the meantime, please link to this GitHub repository and include the project name and primary author.
 
 ## Contribution
 External contributions are not officially open yet. However, technical feedback and discussion are very welcome via the discussion forum.
