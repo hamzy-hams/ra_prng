@@ -6,68 +6,70 @@
 #include <string.h>
 #include <time.h>
 
-#define TOTAL_RNG 200000000UL
+#define TOTAL_RNG 255000000UL
 
-// Rotate an 32-bit value n by r bits
-static inline uint32_t rot32(uint32_t n, uint32_t r) {
-    r &= 31;
-    return ((n << r) | (n >> (32 - r))) & 0xFFFFFFFF;
+// Rotate an 64-bit value n by r bits
+static inline uint64_t rot64(uint64_t n, uint64_t r) {
+    r &= 63;
+    return ((n << r) | (n >> (64 - r))) ;
 }
 
-void ZepXORhash(uint32_t *N, uint32_t *out8) {
-    // XOR each of the 32 blocks into the first 8 bytes
-    for (uint8_t i = 0; i < 8; ++i) out8[i] = 0;
+uint64_t ZepXORhash(uint64_t *M) {
+    uint64_t f = 0;
     for (uint8_t i = 0; i < 8; ++i) {
-        //idx = N[i] & 0xFF;
-        out8[i] ^= N[(uint8_t)N[i]];
-        for (uint8_t j = 0; j < 32; j++) {
-            out8[i] ^= N[j * 8 + i];
+        uint8_t  r   = M[i];
+        uint64_t tmp = M[i] ^ M[r];
+        for (uint8_t j = 0; j < 32; ++j) {
+            tmp ^= M[j * 8 + i];
         }
+        f ^= tmp;
     }
+    return f;
 }
 
-// Core PRNG: churn state 'iterations' kali, kembalikan IV terakhir
-uint32_t ZepFold(uint32_t seed, size_t rng) {
+
+// Core PRNG: churn state 'iterations' times, return last seed
+uint64_t ZepFold(uint64_t seed, size_t rng) {
 
     if (rng == 0) {
         return seed;
     }
 
-    alignas(64) uint32_t L[256], M[256], tmp8[8];
+    alignas(64) uint64_t L[256], M[256];
     uint64_t count = rng;
     uint64_t iteration = rng / 255 + 1;
     // Init internal array states L and M
-    uint32_t cons = seed;
+    uint64_t cons = seed;
     for (int i = 0; i < 256; ++i) {
-        M[i] = (uint32_t)(i * 0x06a0dd9bUL + 0x06a0dd9bUL);
-        L[i] = (uint32_t)(i * 0x9e3779b7UL + 0x9e3779b7UL);
+        M[i] = (uint64_t)(i * 0x06a0dd9b9e3779b7UL + 0x06a0dd9b9e3779b7UL);
+        L[i] = (uint64_t)(i * 0x9e3779b706a0dd9bUL + 0x9e3779b706a0dd9bUL);
     }
 
     for (size_t it = 0; it < iteration; ++it) {
         // Variables initioation
-        uint32_t  a = cons;
-        uint32_t  b = it;
-        uint32_t  c = 0;
+        uint64_t  a = cons;
+        uint64_t  b = it;
+        uint64_t  c = 0;
+        uint64_t  d = 0;
+        uint8_t   e = 0;
 
         // Permutation step
-        for (uint32_t i = 255; i > 0; --i) {
-            uint32_t o = 0;
-            for (uint8_t e = 0; e < 8; ++e) {
-                o ^= (M[(uint8_t)(i + e)] << e);
-            }
+        for (uint64_t i = 255; i > 0; --i) {
+            uint64_t o = M[i];
 
-            a = (rot32(b ^ o, c) ^ (cons + a));
-            b = (rot32(cons + a, i) ^ (o + c));
-            o = (rot32(a ^ o, i) << 9 ^ (b >> 18));
-            c = rot32((o + c << 14) ^ (b >> 13) ^ a, b);
-            o = rot32(L[i] ^ (c << 29), i);
-
+            a  = rot64(b ^ o, c) ^ (cons + a);
+            b  = rot64(cons + a, i) ^ (o + c);
+            o  = rot64(a ^ o, b) ^ (b >> 37);
+            c  = (o << 18) ^ (b >> 29) ^ a;
+            d  = rot64(L[i] ^ (b << 59), c);
             // fair random indexing using lemire fast reduction method
-            c = (uint32_t)(((uint64_t)c * (i + 1)) >> 32);
+            e = (uint32_t)(c) * (i + 1) >> 32;
+            
+            // Internal state swapping and rotating
+            L[i] = L[e];
+            L[e] = d;
 
-            // Internal state swapping
-            L[i] = L[c];
-            L[c] = o;
+            // printf("%lu ", d);
 
             if (count <= 1) {
                 break;
@@ -84,21 +86,14 @@ uint32_t ZepFold(uint32_t seed, size_t rng) {
         }
 
         // Hash to next seed (cons)
-        ZepXORhash(M, tmp8);
-
-        // Build next cons from bits of tmp8
-        uint32_t new_cons = 0;
-        for (uint8_t e = 0; e < 8; ++e) {
-            new_cons ^= tmp8[e] << e;
-        }
-        cons = new_cons;
+        cons = ZepXORhash(M);
     }
     return cons;
 }
 
 int main(void) {
-    uint32_t last_cons;
-    uint32_t seed;
+    uint64_t last_cons;
+    uint64_t seed;
 
     struct timespec t0, t1;
     clock_gettime(CLOCK_MONOTONIC, &t0);
