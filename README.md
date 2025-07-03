@@ -11,7 +11,7 @@ Unlike traditional PRNGs which separate scrambling and entropy, `ra_prng` makes 
 This repository consists of several main components:
 
 * `ra_prng2/` — The 32-bit version central to the main paper, stable and deterministic.  
-* `ra_prng3/` — Experimental 64-bit version with a larger internal state, higher throughput, and a theoretical period up to $2^{16352}$. (experimental version, do not use)
+* `ra_prng3/` — Experimental 64-bit version with a larger internal state, higher throughput, and a theoretical period up to $2^{32832}$. (experimental version, do not use)
 * `comparisons/` — Benchmark data and comparative evaluations against algorithms like xoshiro256\*\*, PCG32, Philox4x32, ChaCha20, and `/dev/urandom`.
 
 ## Compilation and Usage
