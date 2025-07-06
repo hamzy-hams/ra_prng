@@ -47,7 +47,7 @@ Summary highlights:
 * A second paper to be published for ra_prng3
 
 ## License
-This project is licensed under the Apache License, Version 2.0 — http://www.apache.org/licenses/
+This project is licensed under the CC BY-NC-SA 4.0 — https://creativecommons.org/licenses/by-nc-sa/4.0
 
 ## Citation
 I'm preparing the official citation format. In the meantime, please link to this GitHub repository and include the project name and primary author.
