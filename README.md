@@ -5,6 +5,7 @@
 Unlike traditional PRNGs which separate scrambling and entropy, `ra_prng` makes the array-shuffling process the core of its design. This makes it especially suitable for applications like data shuffling in AI/ML model training, neural network weight initialization, deterministic simulations, statistical experiments, or can be used for general purpose.
 
 > **Note:** Some parts of the code are still in Indonesian and have not yet been translated to English.
+> This PRNG is **not designed or intended for cryptographic use!!!**.
 
 ## Project Components
 
