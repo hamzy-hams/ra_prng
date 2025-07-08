@@ -52,3 +52,6 @@ rng=RNG_stdin32, seed=unknown
 length= 64 gigabytes (2^36 bytes), time= 7374 seconds
   no anomalies in 263 test result(s)
 
+rng=RNG_stdin32, seed=unknown
+length= 128 gigabytes (2^37 bytes), time= 14426 seconds
+  no anomalies in 273 test result(s)
