@@ -42,6 +42,8 @@ Summary highlights:
 * Passed all Dieharder and NIST STS tests
 * No fatal failures in any subtests
 * A few WEAK flags appeared, which is normal and also seen in other popular algorithms (Xoshiro, PCG, ChaCha20)
+* It passed all 160 tests in BigCrush (TestU01 v1.2.3) with no failures, indicating robust statistical behavior across collision tests, autocorrelation, Hamming weight dependencies, spectral analysis, and other domains.
+* Additionally, it passed PractRand tests up to 128 GB of output with no failures reported, further validating the uniformity and unpredictability of its output at scale.
 ## Roadmap
 * Further efficiency and speed improvements
 * Explicit SIMD optimizations and cross-platform distribution
