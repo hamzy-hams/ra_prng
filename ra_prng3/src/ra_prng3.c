@@ -63,7 +63,7 @@ uint64_t ZepFold(uint64_t seed, size_t rng) {
             c  = (o << 18) ^ (b >> 29) ^ a;
             d  = rot64(L[i] ^ (b << 59), c);
             // fair random indexing using lemire fast reduction method
-            e = (uint32_t)(c) * (i + 1) >> 32;
+            e = (uint32_t)(c * (i + 1) >> 32);
             
             // Internal state swapping and rotating
             L[i] = L[e];
