@@ -4,10 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
-#include <stdalign.h> // for alignas in C11; or use __attribute__((aligned(64)))
-// rot64 and ZepXORhash must remain exactly as you provided
-
-// Rotate an 64-bit value n by r bits
+#include <stdalign.h> 
 static inline uint64_t rot64(uint64_t n, uint64_t r) {
     r &= 63;
     return ((n << r) | (n >> (64 - r))) ;
