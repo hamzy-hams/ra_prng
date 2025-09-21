@@ -1,19 +1,10 @@
 /*
- * zep_shuffle.c
- *
- * Fitur:
- *  - Membaca token (integer) dari file teks (dipisah spasi/newline)
- *  - Mengacak urutan token menggunakan ZepFold
- *  - Menulis kembali token yang sudah diacak ke file teks (dipisah spasi)
- *
+ * ra_prng2.c
  * Penggunaan:
  *   gcc -std=c11 -O3 -o zep_shuffle zep_shuffle.c
- *   ./zep_shuffle --input data.txt --output shuffled.txt [--seed SEED] [--multiplier_m MM] [--multiplier_l ML]
- *
- * Jika opsi --seed tidak diberikan, maka seed default = 1.
- * Jika --multiplier_m tidak diberikan, maka default = 0x06a0dd9b.
- * Jika --multiplier_l tidak diberikan, maka default = 0x9e3779b7.
- */
+ *   ./ra_prng2 --input data.txt --output shuffled.txt [--seed SEED] [--multiplier_m MM] [--multiplier_l ML]
+
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,15 +37,6 @@ static void ZepXORhash(uint32_t N[256], uint32_t out8[8]) {
     }
 }
 
-/*
- * ZepFold:
- *   - seed: initial seed (uint32_t)
- *   - tokens: array uint32_t yang berisi token yang akan di-shuffle
- *   - tokens_length: jumlah elemen dalam tokens
- *   - multiplier_m, multiplier_l: konstanta untuk inisialisasi tabel M dan L
- *
- * Fungsi ini memodifikasi array tokens secara in-place, sehingga urutan token menjadi teracak.
- */
 static void ZepFold(uint32_t seed,
                     uint32_t *tokens,
                     size_t tokens_length,
