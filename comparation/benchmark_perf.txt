@@ -1,0 +1,197 @@
+30 runs, laptop charged
+
+xoshiro256 per call
+------------------
+Performance counter stats for './xoshiro256 -i tokens.txt -o xoshiro.txt' (30 runs):
+
+             59.11 msec task-clock:u                     #    0.969 CPUs utilized               ( +-  1.75% )
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+             1,537      page-faults:u                    #   26.002 K/sec                       ( +-  0.01% )
+       310,244,541      instructions:u                   #    1.60  insn per cycle              ( +-  0.00% )
+       193,583,837      cycles:u                         #    3.275 GHz                         ( +-  1.95% )
+        79,565,880      branches:u                       #    1.346 G/sec                       ( +-  0.00% )
+            33,608      branch-misses:u                  #    0.04% of all branches             ( +-  1.18% )
+                        TopdownL1                 #     45.7 %  tma_backend_bound      
+                                                  #      2.1 %  tma_bad_speculation    
+                                                  #     10.7 %  tma_frontend_bound     
+                                                  #     41.6 %  tma_retiring             ( +-  1.01% )
+
+           0.06101 +- 0.00171 seconds time elapsed  ( +-  2.81% )
+
+xoshiro256 amortized
+--------------------
+Performance counter stats for './xoshiro256_amortized -i tokens.txt -o xoshiro256_amortized.txt' (30 runs):
+
+             59.84 msec task-clock:u                     #    0.983 CPUs utilized               ( +-  3.40% )
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+             1,537      page-faults:u                    #   25.684 K/sec                       ( +-  0.01% )
+       321,279,203      instructions:u                   #    1.63  insn per cycle              ( +-  0.00% )
+       197,593,132      cycles:u                         #    3.302 GHz                         ( +-  3.76% )
+        81,570,001      branches:u                       #    1.363 G/sec                       ( +-  0.00% )
+            39,534      branch-misses:u                  #    0.05% of all branches             ( +-  0.81% )
+                        TopdownL1                 #     45.5 %  tma_backend_bound      
+                                                  #      3.5 %  tma_bad_speculation    
+                                                  #     12.5 %  tma_frontend_bound     
+                                                  #     38.5 %  tma_retiring             ( +-  1.07% )
+
+           0.06085 +- 0.00213 seconds time elapsed  ( +-  3.51% )
+
+
+chacha20 amortized
+------------------
+Performance counter stats for './chacha20_amortized -i tokens.txt -o chacha_amortized.txt' (30 runs):
+
+             62.54 msec task-clock:u                     #    0.969 CPUs utilized               ( +-  1.61% )
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+             1,537      page-faults:u                    #   24.578 K/sec                       ( +-  0.01% )
+       348,473,019      instructions:u                   #    1.64  insn per cycle              ( +-  0.00% )
+       212,499,936      cycles:u                         #    3.398 GHz                         ( +-  1.74% )
+        67,774,018      branches:u                       #    1.084 G/sec                       ( +-  0.00% )
+            36,432      branch-misses:u                  #    0.05% of all branches             ( +-  3.05% )
+                        TopdownL1                 #     48.0 %  tma_backend_bound      
+                                                  #      2.4 %  tma_bad_speculation    
+                                                  #      8.5 %  tma_frontend_bound     
+                                                  #     41.2 %  tma_retiring             ( +-  0.68% )
+
+           0.06452 +- 0.00176 seconds time elapsed  ( +-  2.73% )
+
+
+chacha20 per call
+----------------
+Performance counter stats for './chacha20 -i tokens.txt -o chacha20.txt' (30 runs):
+
+            193.97 msec task-clock:u                     #    0.987 CPUs utilized               ( +-  1.48% )
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+             1,537      page-faults:u                    #    7.924 K/sec                       ( +-  0.01% )
+     1,459,910,038      instructions:u                   #    1.95  insn per cycle              ( +-  0.00% )
+       748,413,938      cycles:u                         #    3.858 GHz                         ( +-  1.53% )
+        78,899,344      branches:u                       #  406.754 M/sec                       ( +-  0.00% )
+            40,278      branch-misses:u                  #    0.05% of all branches             ( +-  2.08% )
+                        TopdownL1                 #     50.3 %  tma_backend_bound      
+                                                  #      2.6 %  tma_bad_speculation    
+                                                  #      2.9 %  tma_frontend_bound     
+                                                  #     44.3 %  tma_retiring             ( +-  0.27% )
+
+           0.19645 +- 0.00410 seconds time elapsed  ( +-  2.09% )
+
+
+pcg per call
+------------
+Performance counter stats for './pcg tokens.txt -o pcg.txt' (30 runs):
+
+             58.99 msec task-clock:u                     #    0.984 CPUs utilized               ( +-  1.64% )
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+             1,537      page-faults:u                    #   26.056 K/sec                       ( +-  0.01% )
+       303,244,962      instructions:u                   #    1.59  insn per cycle              ( +-  0.00% )
+       190,864,024      cycles:u                         #    3.236 GHz                         ( +-  1.92% )
+        79,565,942      branches:u                       #    1.349 G/sec                       ( +-  0.00% )
+            33,895      branch-misses:u                  #    0.04% of all branches             ( +-  1.28% )
+                        TopdownL1                 #     46.4 %  tma_backend_bound      
+                                                  #      2.9 %  tma_bad_speculation    
+                                                  #     11.7 %  tma_frontend_bound     
+                                                  #     39.0 %  tma_retiring             ( +-  0.77% )
+
+          0.059929 +- 0.000961 seconds time elapsed  ( +-  1.60% )
+
+pcg amortized
+------------
+Performance counter stats for './pcg_amortized tokens.txt -o pcg_amortized.txt' (30 runs):
+
+             58.24 msec task-clock:u                     #    0.982 CPUs utilized               ( +-  1.96% )
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+             1,538      page-faults:u                    #   26.406 K/sec                       ( +-  0.01% )
+       308,997,101      instructions:u                   #    1.64  insn per cycle              ( +-  0.00% )
+       188,503,462      cycles:u                         #    3.236 GHz                         ( +-  2.31% )
+        80,503,855      branches:u                       #    1.382 G/sec                       ( +-  0.00% )
+            32,991      branch-misses:u                  #    0.04% of all branches             ( +-  1.90% )
+                        TopdownL1                 #     47.6 %  tma_backend_bound      
+                                                  #      4.0 %  tma_bad_speculation    
+                                                  #     10.6 %  tma_frontend_bound     
+                                                  #     37.8 %  tma_retiring             ( +-  0.93% )
+
+           0.05931 +- 0.00122 seconds time elapsed  ( +-  2.06% )
+
+
+philox4x32 amortized
+------------------
+
+ Performance counter stats for './philox_amortized -i tokens.txt -o philox_amortized.txt' (30 runs):
+
+             60.24 msec task-clock:u                     #    0.964 CPUs utilized               ( +-  2.53% )
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+             1,537      page-faults:u                    #   25.516 K/sec                       ( +-  0.01% )
+       305,099,389      instructions:u                   #    1.53  insn per cycle              ( +-  0.00% )
+       199,017,401      cycles:u                         #    3.304 GHz                         ( +-  2.85% )
+        67,430,391      branches:u                       #    1.119 G/sec                       ( +-  0.00% )
+            35,260      branch-misses:u                  #    0.05% of all branches             ( +-  1.01% )
+                        TopdownL1                 #     46.6 %  tma_backend_bound      
+                                                  #      4.9 %  tma_bad_speculation    
+                                                  #      9.4 %  tma_frontend_bound     
+                                                  #     39.0 %  tma_retiring             ( +-  0.62% )
+
+           0.06249 +- 0.00277 seconds time elapsed  ( +-  4.43% )
+
+philox4x32 per call
+-----------------
+Performance counter stats for './philox -i tokens.txt -o philox.txt' (30 runs):
+
+             64.10 msec task-clock:u                     #    0.968 CPUs utilized               ( +-  3.05% )
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+             1,537      page-faults:u                    #   23.979 K/sec                       ( +-  0.01% )
+       303,161,885      instructions:u                   #    1.43  insn per cycle              ( +-  0.00% )
+       211,913,081      cycles:u                         #    3.306 GHz                         ( +-  3.35% )
+        67,399,139      branches:u                       #    1.051 G/sec                       ( +-  0.00% )
+            36,112      branch-misses:u                  #    0.05% of all branches             ( +-  1.05% )
+                        TopdownL1                 #     49.0 %  tma_backend_bound      
+                                                  #      3.1 %  tma_bad_speculation    
+                                                  #      9.7 %  tma_frontend_bound     
+                                                  #     38.1 %  tma_retiring             ( +-  0.88% )
+
+           0.06622 +- 0.00248 seconds time elapsed  ( +-  3.75% )
+
+ra_prng2
+-------------
+Performance counter stats for './ra_prng2 -i tokens.txt -o ra_prng2.txt' (30 runs):
+
+            120.55 msec task-clock:u                     #    0.991 CPUs utilized               ( +-  1.35% )
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+             1,556      page-faults:u                    #   12.908 K/sec                       ( +-  1.52% )
+     1,566,513,903      instructions:u                   #    3.46  insn per cycle              ( +-  0.00% )
+       452,811,580      cycles:u                         #    3.756 GHz                         ( +-  1.37% )
+       302,006,069      branches:u                       #    2.505 G/sec                       ( +-  0.00% )
+           150,815      branch-misses:u                  #    0.05% of all branches             ( +-  0.34% )
+                        TopdownL1                 #      9.9 %  tma_backend_bound      
+                                                  #      5.2 %  tma_bad_speculation    
+                                                  #     14.2 %  tma_frontend_bound     
+                                                  #     70.7 %  tma_retiring             ( +-  0.19% )
+
+           0.12161 +- 0.00166 seconds time elapsed  ( +-  1.36% )
+
+
+ra_prng3
+---------
+Performance counter stats for './ra_prng3 -i tokens.txt -o ra_prng3.txt' (30 runs):
+
+            119.67 msec task-clock:u                     #    0.984 CPUs utilized               ( +-  0.92% )
+                 0      context-switches:u               #    0.000 /sec                      
+                 0      cpu-migrations:u                 #    0.000 /sec                      
+             2,053      page-faults:u                    #   17.155 K/sec                       ( +-  1.85% )
+     1,531,581,587      instructions:u                   #    3.47  insn per cycle              ( +-  0.00% )
+       441,358,721      cycles:u                         #    3.688 GHz                         ( +-  0.93% )
+       301,262,894      branches:u                       #    2.517 G/sec                       ( +-  0.00% )
+           140,401      branch-misses:u                  #    0.05% of all branches             ( +-  0.36% )
+                        TopdownL1                 #     11.0 %  tma_backend_bound      
+                                                  #      4.4 %  tma_bad_speculation    
+                                                  #     14.1 %  tma_frontend_bound     
+                                                  #     70.5 %  tma_retiring             ( +-  0.22% )
+
+           0.12159 +- 0.00163 seconds time elapsed  ( +-  1.34% )
