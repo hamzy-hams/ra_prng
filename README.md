@@ -1,4 +1,4 @@
-# ra_prng2 and Beyond: A Novel Lightweight PRNG Architecture for High-Performance Random Data Generation
+# ra_prng2 and Beyond: An Array-Based PRNG Architecture for Efficient Random Generation
 
 `ra_prng` is a new architecture for deterministic random number generation relying on techniques such as array index shuffling, bitwise rotation, bit shifting, XORing, and nonlinear indexing. This algorithm is explicitly designed for high efficiency and large entropy, with an internal array-based structure that enables long periods without sacrificing performance and output quality.
 
