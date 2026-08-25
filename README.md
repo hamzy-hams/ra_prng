@@ -15,19 +15,31 @@ This repository consists of several main components:
 * `ra_prng3/` — Experimental 64-bit version with a larger internal state, higher throughput, and a theoretical period up to $2^{32832}$. (experimental version, do not use)
 * `comparisons/` — Benchmark data and comparative evaluations against algorithms like xoshiro256\*\*, PCG32, Philox4x32, ChaCha20, and `/dev/urandom`.
 
+## Repository Layout
+
+See `docs/STRUCTURE.md` for what each top-level directory is for, and how
+`ra_prng2`, `ra_prng3`, and the CLI variants under
+`benchmarks/comparisons/source/` relate to each other.
+
 ## Compilation and Usage
 
-To compile:
+```bash
+make build-c      # -> build/bin/{ra_prng2, ra_prng2_thread, ra_prng3}
+make build-ext     # -> build/lib/libra_prng2.so (used by bindings/cpython/_ra_prng2.py)
+```
+
+Or manually:
 
 ```bash
 # Standard version
-cd ra_prng2/src
-gcc -O3 -march=native ra_prng2.c -o ra_prng2
+gcc -O3 -march=native -std=gnu17 -include stdalign.h src/ra_prng2/c/ra_prng2.c -o ra_prng2
 
 # OpenMP-enabled version
-gcc -O3 -march=native -fopenmp ra_prng_thread.c -o ra_prng2_thread
+gcc -O3 -march=native -std=gnu17 -include stdalign.h -fopenmp src/ra_prng2/c/ra_prng2_thread.c -o ra_prng2_thread
 ```
 The default output is either random numbers or the result of the folding process, depending on the implementation.
+
+See `CONTRIBUTING.md` for the full build/test workflow.
 
 ## Benchmarking and Evaluation
 All benchmark results are available in the benchmark/ folder within each algorithm’s subdirectory. For fair comparison, tests were run in the same environment using:
