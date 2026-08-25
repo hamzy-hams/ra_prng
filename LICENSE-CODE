@@ -1,0 +1,26 @@
+Proprietary License — All Rights Reserved
+
+Copyright (c) 2025–2026 Hamas A. Rahman
+
+This license covers all source code and related technical materials in
+this repository OTHER than the research papers and written materials
+under `research/` (which remain licensed under CC BY-NC-SA 4.0 — see
+`LICENSE`). This includes, without limitation:
+
+  - `src/` — C and Python implementations of ra_prng2 / ra_prng3
+  - `bindings/` — language bindings (e.g. CPython extension)
+  - `tests/`
+  - `benchmarks/`
+  - `sub-projects/`
+  - `experiments/`
+
+No permission is granted to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of this code, in whole or in
+part, without prior written permission from the copyright holder.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.

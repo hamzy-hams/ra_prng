@@ -19,7 +19,6 @@ static inline uint32_t rot32(uint32_t n, uint32_t r) {
 static void ra_hash(const uint32_t *N, uint32_t *out8) {
     // initialize
     for (uint8_t i = 0; i < 8; ++i) out8[i] = 0u;
-
     for (uint8_t i = 0; i < 8; ++i) {
         out8[i] ^= N[(uint8_t)N[i]]; // index wrap via cast to uint8_t
         for (uint8_t j = 0; j < 32; ++j) {

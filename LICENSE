@@ -1,3 +1,12 @@
+SCOPE NOTICE: this CC BY-NC-SA 4.0 license applies only to the research
+papers and written materials under `research/` (and any other explicitly
+marked academic/documentation content). It does NOT apply to the source
+code in this repository (`src/`, `bindings/`, `tests/`, `benchmarks/`,
+`sub-projects/`, `experiments/`), which is licensed separately — see
+`LICENSE-CODE`.
+
+=======================================================================
+
 Attribution-NonCommercial-ShareAlike 4.0 International
 
 =======================================================================

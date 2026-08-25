@@ -75,7 +75,7 @@ def ZepFold(seed, iteration):
 
 def main():
     start = time.time()
-    counts = ZepFold(seed=1, iteration=100000)  # misal 50k iterasi
+    counts = ZepFold(seed=1, iteration=10000)  # misal 50k iterasi
     print(f"Done in {time.time() - start:.3f} seconds")
 
     # Plot heatmap perpindahan
