@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include <omp.h>
 #include <time.h>
 
@@ -31,8 +32,12 @@ void ra_hash(uint32_t *N, uint32_t *out8) {
     }
 }
 
-// Core PRNG: churn state 'iterations' kali, kembalikan IV terakhir
-uint32_t ra_core(uint32_t seed, size_t rng) {
+// Core PRNG: churn state 'iterations' kali, kembalikan IV terakhir.
+// If raw_stream is non-NULL, every `c` value (the real per-step RNG output,
+// per the paper) is fwrite'n to it as raw uint32_t as soon as it's computed
+// -- exactly `rng` values get emitted in total, matching `count` below.
+// raw_stream == NULL preserves the original behavior/performance exactly.
+uint32_t ra_core(uint32_t seed, size_t rng, FILE *raw_stream) {
 
     if (rng == 0) {
         return seed;
@@ -67,7 +72,7 @@ uint32_t ra_core(uint32_t seed, size_t rng) {
             b = (rot32(cons + a, i) ^ (o + d));
             o = (rot32(a ^ o, i) << 9 ^ (b >> 18));
             c = rot32((o + c << 14) ^ (b >> 13) ^ a, b);
-            //printf("%lu ", c)
+            if (raw_stream) fwrite(&c, sizeof(uint32_t), 1, raw_stream);
 
             if (count <= 1) {
                 break;
@@ -103,33 +108,46 @@ uint32_t ra_core(uint32_t seed, size_t rng) {
     return cons;
 }
 
-int main(void) {
+int main(int argc, char **argv) {
     uint32_t last_iv[NUM_THREADS];
     uint8_t worker_id[NUM_THREADS];
     size_t chunk = TOTAL_RNG / NUM_THREADS;
+    int stream_mode = (argc >= 2 && strcmp(argv[1], "--stream") == 0);
 
     struct timespec t0, t1;
     clock_gettime(CLOCK_MONOTONIC, &t0);
 
-    // Parallel region: each thread computes ra_core with distinct seed
+    // Parallel region: each thread computes ra_core with distinct seed.
+    // In --stream mode, each thread streams its own `c` values to its own
+    // file (FILE* can't safely be shared across threads without locking,
+    // which isn't worth adding here).
     #pragma omp parallel num_threads(NUM_THREADS)
     {
         int tid = omp_get_thread_num();
         uint32_t seed = (uint32_t)(1u << tid);
-        last_iv[tid] = ra_core(seed, chunk);
+        if (stream_mode) {
+            char fname[64];
+            snprintf(fname, sizeof(fname), "stream_thread%d.bin", tid);
+            FILE *fout = fopen(fname, "wb");
+            last_iv[tid] = ra_core(seed, chunk, fout);
+            fclose(fout);
+        } else {
+            last_iv[tid] = ra_core(seed, chunk, NULL);
+        }
         worker_id[tid] = tid;
     }
 
     clock_gettime(CLOCK_MONOTONIC, &t1);
     double elapsed = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
 
-    printf("Generated %lu pseudorandom updates across %d threads in %.3f seconds\n",
+    FILE *status = stream_mode ? stderr : stdout;
+    fprintf(status, "Generated %lu pseudorandom updates across %d threads in %.3f seconds\n",
            (unsigned long)TOTAL_RNG, NUM_THREADS, elapsed);
-    printf("Last IVs from each thread: ");
+    fprintf(status, "Last IVs from each thread: ");
     for (int i = 0; i < NUM_THREADS; ++i) {
-        printf("%u from worker (%u)", last_iv[i], worker_id[i]);
+        fprintf(status, "%u from worker (%u)", last_iv[i], worker_id[i]);
     }
-    printf("\n");
+    fprintf(status, "\n");
 
     return 0;
 }

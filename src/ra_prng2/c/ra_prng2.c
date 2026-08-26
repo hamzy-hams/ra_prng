@@ -30,8 +30,12 @@ void ra_hash(uint32_t *N, uint32_t *out8) {
     }
 }
 
-// Core PRNG: churn state 'iterations' times, return last cons
-uint32_t ra_core(uint32_t seed, size_t rng) {
+// Core PRNG: churn state 'iterations' times, return last cons.
+// If raw_stream is non-NULL, every `c` value (the real per-step RNG output,
+// per the paper) is fwrite'n to it as raw uint32_t as soon as it's computed
+// -- exactly `rng` values get emitted in total, matching `count` below.
+// raw_stream == NULL preserves the original behavior/performance exactly.
+uint32_t ra_core(uint32_t seed, size_t rng, FILE *raw_stream) {
 
     if (rng == 0) {
         return seed;
@@ -67,8 +71,8 @@ uint32_t ra_core(uint32_t seed, size_t rng) {
             b = (rot32(cons + a, i) ^ (o + d));
             o = (rot32(a ^ o, i) << 9 ^ (b >> 18));
             c = rot32((o + c << 14) ^ (b >> 13) ^ a, b);
-            //printf("%lu ", c);
-            
+            if (raw_stream) fwrite(&c, sizeof(uint32_t), 1, raw_stream);
+
             d = (uint32_t)(((uint64_t)c * (i + 1)) >> 32);
             
             if (count <= 1) {
@@ -103,14 +107,32 @@ uint32_t ra_core(uint32_t seed, size_t rng) {
     return cons;
 }
 
-int main(void) {
+int main(int argc, char **argv) {
     uint32_t last_cons;
     uint32_t seed;
+
+    if (argc >= 4 && strcmp(argv[1], "--stream") == 0) {
+        // Streaming mode: dump the raw `c` stream to stdout so it can be
+        // piped straight into dieharder/PractRand/etc. Status text goes to
+        // stderr so stdout stays pure binary.
+        seed = (uint32_t)strtoul(argv[2], NULL, 0);
+        size_t rng = (size_t)strtoull(argv[3], NULL, 0);
+
+        struct timespec t0, t1;
+        clock_gettime(CLOCK_MONOTONIC, &t0);
+        last_cons = ra_core(seed, rng, stdout);
+        clock_gettime(CLOCK_MONOTONIC, &t1);
+        double elapsed = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
+
+        fprintf(stderr, "Streamed %zu pseudorandom outputs in %.3f seconds\n", rng, elapsed);
+        fprintf(stderr, "Last cons from RNGing: %u\n", last_cons);
+        return 0;
+    }
 
     struct timespec t0, t1;
     clock_gettime(CLOCK_MONOTONIC, &t0);
     seed = 1;
-    last_cons = ra_core(seed, TOTAL_RNG);
+    last_cons = ra_core(seed, TOTAL_RNG, NULL);
 
     clock_gettime(CLOCK_MONOTONIC, &t1);
     double elapsed = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
