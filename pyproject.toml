@@ -25,3 +25,8 @@ dev = ["pytest>=7", "build"]
 [tool.setuptools]
 package-dir = { "" = "src/ra_prng2/python" }
 py-modules = ["ra_prng2"]
+
+[tool.pytest.ini_options]
+# tests/verify_equivalence.py predates pytest's default test_*.py naming
+# convention; keep discovering it explicitly rather than renaming it.
+python_files = ["test_*.py", "verify_equivalence.py"]

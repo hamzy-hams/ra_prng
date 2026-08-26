@@ -9,7 +9,7 @@ Pure-Python reference implementation. Installed as the `ra_prng2` module via
 |---|---|---|
 | `rot32` | `rot32(n: int, r: int) -> int` | Rotate a 32-bit value `n` left by `r` bits. |
 | `ra_hash` | `ra_hash(N: list[int]) -> list[int]` | Mix a 256-element state array down to 8 output words. |
-| `ra_core` | `ra_core(seed, iteration)` | Run the core PRNG loop for `iteration` outer steps, printing intermediate state (reference/debug implementation - see the C versions for a value-returning form). |
+| `ra_core` | `ra_core(seed, iteration, verbose=False) -> int` | Run the core PRNG loop for `iteration` outer steps; returns the final `cons`. Pass `verbose=True` to print intermediate state (debug only). |
 
 ## C - canonical generator
 
