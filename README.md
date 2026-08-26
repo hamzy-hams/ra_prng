@@ -71,6 +71,9 @@ I'm preparing the official citation format. In the meantime, please link to this
 External contributions are not officially open yet. However, technical feedback and discussion are very welcome via the discussion forum.
 
 ## Author
-This project was created by Hamas A. Rahman, an independent researcher in random number generation, computer science, and Collatz Conjecture problem.
-Contact email: nexthamas95@gmail.com
-Discord ID: hamzyhams
+This project was created and maintained by **Hamas A. Rahman** (online / GitHub handle: **[@hamzy-hams](https://github.com/hamzy-hams)**), an independent researcher in random number generation, computer science, and Collatz Conjecture problem.
+- **Author**: Hamas A. Rahman
+- **GitHub**: [github.com/hamzy-hams](https://github.com/hamzy-hams)
+- **Discord**: `hamzyhams`
+- **Contact Email**: nexthamas95@gmail.com
+
