@@ -1,0 +1,53 @@
+Params: n=4 w=4 rows=4 G=1
+Expected |S| = n! * 2^(w*(n+2)) = 402653184
+
+Validating vectorized next_state against scalar reference...
+Validation: 500/500 match scalar reference
+Validation OK.
+
+L permutations: 24 (expected 24)
+States per cons-chunk: 25,165,824  x 16 cons values = 402,653,184
+  cons= 0/15 done, cumulative states=25,165,824, elapsed=12.1s, rate=2,075,386 states/s, distinct_images_so_far=9,613,824
+  cons= 1/15 done, cumulative states=50,331,648, elapsed=23.3s, rate=2,157,610 states/s, distinct_images_so_far=9,613,824
+  cons= 2/15 done, cumulative states=75,497,472, elapsed=34.1s, rate=2,215,611 states/s, distinct_images_so_far=9,613,824
+  cons= 3/15 done, cumulative states=100,663,296, elapsed=44.8s, rate=2,245,174 states/s, distinct_images_so_far=9,613,824
+  cons= 4/15 done, cumulative states=125,829,120, elapsed=55.6s, rate=2,262,559 states/s, distinct_images_so_far=9,613,824
+  cons= 5/15 done, cumulative states=150,994,944, elapsed=66.4s, rate=2,273,499 states/s, distinct_images_so_far=9,613,824
+  cons= 6/15 done, cumulative states=176,160,768, elapsed=77.2s, rate=2,282,615 states/s, distinct_images_so_far=9,613,824
+  cons= 7/15 done, cumulative states=201,326,592, elapsed=88.0s, rate=2,288,919 states/s, distinct_images_so_far=9,613,824
+  cons= 8/15 done, cumulative states=226,492,416, elapsed=98.8s, rate=2,292,965 states/s, distinct_images_so_far=9,613,824
+  cons= 9/15 done, cumulative states=251,658,240, elapsed=109.7s, rate=2,293,296 states/s, distinct_images_so_far=9,613,824
+  cons=10/15 done, cumulative states=276,824,064, elapsed=120.6s, rate=2,295,931 states/s, distinct_images_so_far=9,613,824
+  cons=11/15 done, cumulative states=301,989,888, elapsed=131.5s, rate=2,296,085 states/s, distinct_images_so_far=9,613,824
+  cons=12/15 done, cumulative states=327,155,712, elapsed=142.5s, rate=2,295,500 states/s, distinct_images_so_far=9,613,824
+  cons=13/15 done, cumulative states=352,321,536, elapsed=153.5s, rate=2,295,582 states/s, distinct_images_so_far=9,613,824
+  cons=14/15 done, cumulative states=377,487,360, elapsed=164.4s, rate=2,296,084 states/s, distinct_images_so_far=9,613,824
+  cons=15/15 done, cumulative states=402,653,184, elapsed=175.3s, rate=2,296,316 states/s, distinct_images_so_far=9,613,824
+
+Max in-degree observed: 208
+Distinct image points: 9613824 / 402653184 (2.3876% of S is in F's image)
+
+In-degree histogram (k = preimage count, nonzero bins only):
+  k=   0:  393039360 points  (97.612381%)
+  k=  16:    5184000 points  (1.287460%)
+  k=  64:    3110400 points  (0.772476%)
+  k=  80:    1036800 points  (0.257492%)
+  k= 128:     207360 points  (0.051498%)
+  k= 144:      69120 points  (0.017166%)
+  k= 192:       4608 points  (0.001144%)
+  k= 208:       1536 points  (0.000381%)
+
+Chi-square bins (k=0..5 individually, k>=6 lumped):
+  k=0   : observed=   393039360  expected=  148127828.32
+  k=1   : observed=           0  expected=  148127828.32
+  k=2   : observed=           0  expected=   74063914.16
+  k=3   : observed=           0  expected=   24687971.39
+  k=4   : observed=           0  expected=    6171992.85
+  k=5   : observed=           0  expected=    1234398.57
+  k>=6  : observed=     9613824  expected=     239250.41
+
+Chi-square statistic: 1026542728.9903  (dof=6)
+p-value: 0
+Verdict: REJECTS Poisson(1) at alpha=0.01 - F's collision structure deviates significantly from a uniform random mapping
+
+Saved full result to enumerate_n4w4_result.json

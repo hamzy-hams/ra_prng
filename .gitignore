@@ -1,9 +1,16 @@
 # === C ===
-*.o          # object files dari kompilasi
-*.so         # shared library (hasil build)
-*.a          # static library
-*.out        # executable output
-build/       # folder build artifacts
+# object files dari kompilasi
+*.o
+# shared library (hasil build)
+*.so
+# static library
+*.a
+# executable output
+*.out
+# folder build artifacts
+build/
+# binary hasil kompilasi in-place lama (lihat CONTRIBUTING.md - build baru harus ke build/)
+src/ra_prng2/c/ra_prng2
 
 # === Python ===
 __pycache__/
@@ -11,7 +18,8 @@ __pycache__/
 *.pyo
 .venv/
 venv/
-dist/        # hasil python -m build
+# hasil python -m build
+dist/
 *.egg-info/
 
 # === Notebook ===
@@ -32,3 +40,11 @@ Thumbs.db
 .env
 *.key
 secrets.toml
+
+# === Graphify knowledge graph outputs (regenerable) ===
+graphify-out/graph.html
+graphify-out/graph.json
+graphify-out/cost.json
+graphify-out/cache/
+graphify-out/manifest.json
+graphify-out/.graphify_*

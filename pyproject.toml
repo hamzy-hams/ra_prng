@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ra-prng"
+version = "0.1.0"
+description = "Array-based deterministic PRNG (ra_prng2/ra_prng3) - CSAI2025 research code"
+readme = "README.md"
+license = { text = "CC-BY-NC-SA-4.0" }
+authors = [{ name = "Hamas A. Rahman", email = "nexthamas95@gmail.com" }]
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/hamzy-hams"
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "build"]
+
+[tool.setuptools]
+package-dir = { "" = "src/ra_prng2/python" }
+py-modules = ["ra_prng2"]
+
+[tool.pytest.ini_options]
+# tests/verify_equivalence.py predates pytest's default test_*.py naming
+# convention; keep discovering it explicitly rather than renaming it.
+python_files = ["test_*.py", "verify_equivalence.py"]

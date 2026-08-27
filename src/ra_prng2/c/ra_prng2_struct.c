@@ -15,7 +15,9 @@ static inline uint32_t rot32(uint32_t n, uint32_t r) {
     return ((n << r) | (n >> (32 - r))) & 0xFFFFFFFFu;
 }
 
-// Hash routine ported exactly from original ra_hash
+// Hash routine ported exactly from original ra_hash.
+// (A j-outer/i-inner reorder was tried here for cache locality and measured
+// ~3-7% SLOWER in practice - reverted. Left as the original loop order.)
 static void ra_hash(const uint32_t *N, uint32_t *out8) {
     // initialize
     for (uint8_t i = 0; i < 8; ++i) out8[i] = 0u;
@@ -51,6 +53,35 @@ void ra_prng_init(RA_PRNG *r, uint32_t seed, uint64_t remaining_count /*0 = unli
     // tmp8 left uninitialized until used
 }
 
+// One inner-loop step (index i): computes o/a/b/c/d from the current state
+// and performs the L[i]<->L[d] swap. Factored out of ra_prng_next so the
+// remaining_count bookkeeping (rare) can be split from the hot unlimited
+// path (common) without duplicating the mixing math itself.
+static inline void ra_step(uint32_t *M, uint32_t *L, uint32_t i, uint32_t cons,
+                            uint32_t *a, uint32_t *b, uint32_t *c, uint32_t *d) {
+    uint32_t o = 0u;
+    // o ^= (M[(uint8_t)(i + e)] << e) for e in 0..7
+    for (uint32_t e = 0; e < 8; ++e) {
+        uint8_t idx = (uint8_t)(i + e); // wrap mod 256
+        o ^= (M[idx] << e);
+    }
+
+    uint32_t na = (rot32(*b ^ o, *d) ^ (cons + *a));
+    uint32_t nb = (rot32(cons + na, i) ^ (o + *d));
+    o = (rot32(na ^ o, i) << 9) ^ (nb >> 18);
+    uint32_t nc = rot32(((o + *c) << 14) ^ (nb >> 13) ^ na, nb);
+
+    // multiply to get top 32 bits as original
+    uint32_t nd = (uint32_t)(((uint64_t)nc * (uint64_t)(i + 1u)) >> 32);
+
+    // Internal state swapping L[i] <-> L[d]
+    uint32_t tmp = L[i];
+    L[i] = L[nd];
+    L[nd] = tmp;
+
+    *a = na; *b = nb; *c = nc; *d = nd;
+}
+
 // Perform one outer-iteration (one production of next cons).
 // Returns the new cons.
 uint32_t ra_prng_next(RA_PRNG *r) {
@@ -59,40 +90,25 @@ uint32_t ra_prng_next(RA_PRNG *r) {
     uint32_t b = (uint32_t)r->outputs_generated; // "it" in original code
     uint32_t c = 0u;
     uint32_t d = 0u;
+    uint32_t cons = r->cons; // constant across this whole call, cache it
 
-    // inner permutation loop: i from 255 down to 1
-    for (uint32_t i = 255u; i > 0u; --i) {
-        uint32_t o = 0u;
-        // o ^= (M[(uint8_t)(i + e)] << e) for e in 0..7
-        for (uint8_t e = 0; e < 8; ++e) {
-            uint8_t idx = (uint8_t)(i + e); // wrap mod 256
-            o ^= (r->M[idx] << e);
+    if (r->remaining_count == 0u) {
+        // Overwhelmingly common path (default/unlimited): no bookkeeping
+        // branch inside the 255-iteration hot loop at all.
+        for (uint32_t i = 255u; i > 0u; --i) {
+            ra_step(r->M, r->L, i, cons, &a, &b, &c, &d);
         }
-
-        a = (rot32(b ^ o, d) ^ (r->cons + a));
-        b = (rot32(r->cons + a, i) ^ (o + d));
-        o = (rot32(a ^ o, i) << 9) ^ (b >> 18);
-        // careful with precedence: original had o = (rot32(a ^ o, i) << 9 ^ (b >> 18));
-        // to match C semantics we compute as above
-        c = rot32(((o + c) << 14) ^ (b >> 13) ^ a, b);
-
-        // multiply to get top 32 bits as original
-        d = (uint32_t)(((uint64_t)c * (uint64_t)(i + 1u)) >> 32);
-
-        // If remaining_count is used, decrement and possibly break (mimic original)
-        if (r->remaining_count > 0) {
+    } else {
+        // remaining_count > 0 here for the whole call (nothing re-arms it
+        // mid-loop), so this replicates the original per-step check exactly.
+        for (uint32_t i = 255u; i > 0u; --i) {
             if (r->remaining_count <= 1) {
-                // In original code when count <= 1, it breaks inner loop and returns cons.
-                // We'll early-return current cons without finishing this outer iteration.
+                // Original breaks the inner loop and returns cons unfinished.
                 return r->cons;
             }
             --(r->remaining_count);
+            ra_step(r->M, r->L, i, cons, &a, &b, &c, &d);
         }
-
-        // Internal state swapping L[i] <-> L[d]
-        uint32_t tmp = r->L[i];
-        r->L[i] = r->L[d];
-        r->L[d] = tmp;
     }
 
     // After inner loop finishes, mix M ^= L
