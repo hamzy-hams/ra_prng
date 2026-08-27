@@ -133,7 +133,63 @@ untouched algorithm.
 | up to 2GB | 1 | PASS (one mild "unusual" at 1GB, gone again at 2GB) |
 | 8GB | 1 | **PASS, 0 anomalies** |
 | 1GB | 2, 999, 0xC0FFEE | **PASS, 0 anomalies, all 3** |
-| 16GB (2^34 bytes) | 1 | **PASS, "no anomalies in 240 test result(s)"** (233s) |
+| 16GB (2^34 bytes) | 1 | **PASS, 0 anomalies (240 results)** |
+
+**Full-scale run to 1TB** (single pipe, `-tlmin 8GB -tlmax 1TB`, seed=1,
+2026-08-27), matching the 1TB tier commonly cited in the wider PRNG
+literature (Vigna/xoshiro, O'Neill/PCG) as strong evidence of quality for
+a non-cryptographic generator — supersedes the standalone 128GB run
+above:
+
+| tier | cumulative time | result |
+|---|---:|---|
+| 8GB (2^33) | 107s | 0 anomalies (230 results) |
+| 16GB (2^34) | 219s | 0 anomalies (240 results) |
+| 32GB (2^35) | 427s | 0 anomalies (251 results) |
+| 64GB (2^36) | 872s | 0 anomalies (263 results) |
+| 128GB (2^37) | 1800s | 0 anomalies (273 results) |
+| 256GB (2^38) | 3593s | 0 anomalies (284 results) |
+| 512GB (2^39) | 7074s | 0 anomalies (295 results) |
+| **1TB (2^40)** | **13736s (~3h49m)** | **0 anomalies (304 results)** |
+
+**Clean at every doubling from 8GB to 1TB, 0 anomalies throughout — no
+exceptions.** The result count climbing each tier (230→304) is expected,
+not a discrepancy: PractRand's `core` tests (`BCFN`, `DistC6`, `Gap16`,
+`FPF`, `BRank`, `mod3n`, `TripleMirrorFreqN` — see
+`~/Documents/research/PractRand/src/test_batteries.cpp`) each carry
+internal sub-parameterizations (e.g. `BCFN` has up to 32 internal
+correlation-spacing "levels", `~/Documents/research/PractRand/include/
+PractRand/Tests/BCFN.h`) that only become statistically meaningful once
+enough data has streamed past — larger spacings need more samples before
+they can produce a valid result at all, so they "switch on" and add a row
+to the results table as the stream grows. This means each doubling tests
+genuinely new ground, not a re-run of the same checks for longer. Raw
+output: `practrand_pruned_winner_128GB.txt` (128GB standalone run),
+`practrand_pruned_winner_1TB.txt` (full 1TB run, includes all tiers
+above).
+
+**A note on wall-clock, corrected after checking it (2026-08-27):** the
+stored `PractRand.txt` for the original algorithm took 14586s to reach
+128GB, vs. 1623s here — naively an ~9x gap. That comparison is **not
+apples-to-apples** and was initially mis-reported as a pruning speedup; it
+isn't one. Re-running the original binary (`build/bin/ra_prng2`) fresh, on
+this same machine, right now, piped into the same `RNG_test` up to 8GB
+took **110s** — essentially tied with `pruned_winner`'s **103s** on an
+identical fresh run (ratio ~1.07x). The stored `PractRand.txt` was
+captured under different machine/load conditions than today's session and
+its absolute wall-clock isn't a valid speed baseline to diff against a
+fresh run — only same-session, same-moment measurements are. A
+generation-only check (piped to `wc -c`, no analysis, 2GB) confirms the
+real generation-side gap is much smaller than `perf stat`'s pure-compute
+figure too: 286 MB/s (pruned) vs. 225 MB/s (original), ~1.27x — because
+`fwrite`-per-value and pipe I/O compress the ~2.5x compute-only ratio.
+Once piped through `RNG_test`, the analysis cost dominates wall time for
+*both* binaries (each already generates far faster than `RNG_test` can
+consume), so generator speed stops being the bottleneck and the two
+converge to near-parity. **The only trustworthy, controlled speedup
+number for this candidate remains the `perf stat` pure-compute ratio
+above (~2.4-2.5x)** — PractRand/dieharder wall-clock is not a valid speed
+metric for this candidate, only a quality gate.
 
 ### Quality — dieharder (27 "Good"-reliability tests, individually piped)
 
@@ -179,8 +235,15 @@ access pattern changed to `sequential`, all shift/rotation amounts left at
 their original values** — that delivers a reproducible **~2.4-2.5x
 speedup** (fewer instructions, fewer cycles, and lower wall time, all
 measured with matched build flags) while passing every quality gate applied
-in this experiment: the avalanche sanity check, PractRand up to 16GB with
-zero anomalies, and all 27 "Good"-reliability dieharder tests.
+in this experiment: the avalanche sanity check, PractRand up to **1TB**
+(the tier commonly cited in the wider PRNG literature — Vigna/xoshiro,
+O'Neill/PCG — as strong evidence of quality) with zero anomalies across
+all 8 doublings, and all 27 "Good"-reliability dieharder tests. The **~2.4-2.5x
+`perf stat` ratio is the only trustworthy speedup figure** for this
+candidate — PractRand/dieharder wall-clock is dominated by the test
+tool's own analysis cost once piped, not generator speed (see the note
+under the PractRand table), so it must not be read as a speed
+comparison.
 
 The key methodological finding, confirmed three separate times (twice for
 `TAP*`, once for `ROT_*`) and directly validated against the user's own
@@ -199,7 +262,7 @@ than leaving them untouched).
   the `a/b/o/c` update chain) — a structurally larger search space,
   deliberately deferred to a separate round per the plan.
 - **TestU01/BigCrush wrapper** — optional in the plan, not run; PractRand
-  16GB + full "Good"-battery dieharder were judged sufficient evidence for
+  1TB + full "Good"-battery dieharder were judged sufficient evidence for
   this experiment's scope.
 - This candidate is a research artifact for measuring the pruning
   technique's ceiling, not a drop-in replacement — `src/ra_prng2/c/*`

@@ -232,6 +232,52 @@ apples build flags, re-confirmed on a clean rerun):
 - 16GB (2^34 bytes, seed=1): **"no anomalies in 240 test result(s)"**, 233s.
   (This is on top of the earlier 8GB pass + 1GB x3-extra-seed pass already
   recorded above under "MIN_ACTIVE_ROTS constraint: SUCCESS".)
+- **Standalone 128GB run (2026-08-27)**, single pipe `-tlmin 8GB -tlmax
+  128GB`, seed=1: clean at every doubling, 0 anomalies throughout. Raw
+  output: `practrand_pruned_winner_128GB.txt`.
+- **Full 1TB run (2026-08-27)**, single pipe `-tlmin 8GB -tlmax 1TB`,
+  seed=1 — matches the 1TB tier commonly cited in the wider PRNG
+  literature (Vigna/xoshiro, O'Neill/PCG) as strong evidence of quality
+  for a non-cryptographic generator: **clean at every doubling, 0
+  anomalies throughout, all 8 tiers.**
+
+  | length | time (cumulative) | result |
+  |---|---:|---|
+  | 8GB | 107s | 0 anomalies (230 results) |
+  | 16GB | 219s | 0 anomalies (240 results) |
+  | 32GB | 427s | 0 anomalies (251 results) |
+  | 64GB | 872s | 0 anomalies (263 results) |
+  | 128GB | 1800s | 0 anomalies (273 results) |
+  | 256GB | 3593s | 0 anomalies (284 results) |
+  | 512GB | 7074s | 0 anomalies (295 results) |
+  | **1TB** | **13736s (~3h49m)** | **0 anomalies (304 results)** |
+
+  Result count climbing (230→304) is expected, not a discrepancy: `core`
+  tests (`BCFN`, `DistC6`, `Gap16`, `FPF`, `BRank`, `mod3n`,
+  `TripleMirrorFreqN`) carry internal sub-parameterizations (e.g. `BCFN`
+  has up to 32 internal correlation-spacing levels) that only become
+  statistically meaningful once enough data has streamed past — each
+  doubling activates genuinely new checks, not a re-run of old ones. Raw
+  output: `practrand_pruned_winner_1TB.txt`.
+
+  **Correction after checking (2026-08-27)**: initially reported this as
+  "~9x faster than the original's 128GB run (14586s)" — that was wrong,
+  a stale-baseline artifact, not a real pruning effect. The stored
+  original `PractRand.txt` was captured under different machine/load
+  conditions than this session; it is not a valid diff target for a
+  fresh run. Re-ran the original binary (`build/bin/ra_prng2`) fresh, on
+  this machine, right now, into the same `RNG_test` up to 8GB: **110s**,
+  essentially tied with `pruned_winner`'s **103s** fresh run (~1.07x).
+  Reason: once a generator is already far faster than `RNG_test` can
+  analyze (both are, ~693-1760 MB/s pure-compute vs. tens of MB/s
+  pipeline throughput), `RNG_test`'s own analysis cost becomes the
+  bottleneck for *both* binaries and generator-speed differences mostly
+  disappear from the wall-clock. A generation-only check (`wc -c`, no
+  analysis, 2GB) shows the real generation-side gap is smaller than the
+  compute-only ratio too: 286 MB/s (pruned) vs. 225 MB/s (original),
+  ~1.27x. **The `perf stat` pure-compute ratio (~2.4-2.5x) remains the
+  only trustworthy speedup number** — PractRand/dieharder wall-clock is a
+  quality gate here, not a speed metric.
 
 **Quality — dieharder** (all 27 "Good"-reliability tests, run individually via
 direct pipe — `-a`/file-based full battery is infeasible here: it requires
@@ -270,9 +316,13 @@ below for concrete evidence of this):
 **Verdict**: the winning candidate (4/18 tracked ops active, 14/18 removed —
 `TAP6`, `TAP7`, `ROT_C`, `SHR13` kept; all shifts/rotations at original
 widths) delivers a reproducible **~2.4-2.5x speedup** and passes every
-quality gate applied in this experiment: avalanche, PractRand up to 16GB,
-and all 27 "Good"-reliability dieharder tests. See `RESULTS.md` for the full
-writeup.
+quality gate applied in this experiment: avalanche, PractRand up to
+**1TB** (the tier commonly cited in the wider PRNG literature as strong
+evidence of quality, 0 anomalies throughout all 8 doublings), and all 27
+"Good"-reliability dieharder tests. The `perf stat` ratio is the only
+trustworthy speedup number — see the PractRand correction note above for
+why PractRand/dieharder wall-clock isn't one. See `RESULTS.md` for the
+full writeup.
 
 ## Not started (out of scope for this experiment, noted as future work)
 
@@ -283,7 +333,7 @@ writeup.
 - Operand-position changes (which state variable feeds which slot in the
   `a/b/o/c` update chain) — explicitly out of scope per the plan, proposed
   as a separate follow-up round.
-- Optional TestU01/BigCrush wrapper — not run; PractRand 16GB + full
+- Optional TestU01/BigCrush wrapper — not run; PractRand 1TB + full
   dieharder "Good" battery were judged sufficient for this experiment's
   scope, and BigCrush was optional in the plan ("kalau kandidat final
   menjanjikan dan waktu memungkinkan").
