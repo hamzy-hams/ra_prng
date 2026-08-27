@@ -287,3 +287,45 @@ writeup.
   dieharder "Good" battery were judged sufficient for this experiment's
   scope, and BigCrush was optional in the plan ("kalau kandidat final
   menjanjikan dan waktu memungkinkan").
+
+## Follow-up micro-refactor: sliding-window TAP6/TAP7 load reuse — bit-identical, perf-neutral
+
+After Step 2a concluded, checked `pruned_winner.c` for redundant ops/vars
+that could be merged without changing output. Found one real (not
+cosmetic) redundancy: in `ra_permutation_cycle`, `M` is `const` (never
+written inside the function) and the loop counter `i` decrements by 1 each
+step, so `idx7(i) = (i+7)&0xFF == idx6(i+1)` — the TAP7 array index this
+iteration is always the TAP6 index from the iteration immediately before
+it. One of the two per-iteration `M[]` reads is therefore provably
+redundant and can be replaced by carrying the previous iteration's TAP6
+load forward in a register, primed once with `M[6]` before the loop.
+
+Implemented in `pruned_winner_refactored.c` (new file; `pruned_winner.c`
+left untouched as the reference). Also dropped the dead `c = 0`
+initialization before the loop (never read before being overwritten in the
+first iteration) by scoping `c` inside the loop body.
+
+- **Bit-identical**: confirmed via `--stream` output `cmp` across 4 seeds x
+  3 lengths (1K, 12345, 300K outputs) + the default `TOTAL_RNG` path's
+  `last_cons` — all identical, no exceptions.
+- **Speed** (`perf stat -e instructions,cycles`, same build flags, 3 runs
+  each):
+  - instructions: 6,255,028,xxx → 6,054,243,xxx — a real, reproducible
+    **~3.2% fewer instructions** (matches the expected ~1 fewer load per
+    255-step cycle).
+  - cycles: ~1.75B → ~1.75B — **no measurable difference** (within
+    run-to-run noise).
+  - wall time: ~0.43s → ~0.42s — **no measurable difference**.
+
+**Conclusion: bit-identical, verified-safe, but perf-neutral in practice.**
+The loop is latency-bound by the sequential `a`→`b`→`c`→`d` dependency
+chain (each step needs the previous step's `c`/`d` before it can proceed),
+not by load throughput — `M` is 1KB and stays L1-resident regardless, so
+removing one of two L1-hit loads doesn't shorten the critical path. This
+matches the precedent already recorded in `HANDOVER.md`: generic
+instruction-count micro-optimizations on this algorithm tend to be
+perf-neutral once the dependency chain, not raw instruction count, is the
+bottleneck. Kept as a documented, validated finding rather than adopted as
+the new "winner" — `pruned_winner.c` remains the reference candidate for
+this experiment's verdict in `RESULTS.md` since the refactor changes
+nothing measurable there.
