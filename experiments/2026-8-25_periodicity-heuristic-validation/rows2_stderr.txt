@@ -1,0 +1,1 @@
+n=8 w=4 G=4 rows=2 shifts=(1,2,2,2) c_m=0x1 c_l=0x9

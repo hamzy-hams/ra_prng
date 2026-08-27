@@ -1,0 +1,54 @@
+n=8 w=4 G=1 rows=8 shifts=(1,2,2,2) c_m=0x1 c_l=0x9
+interrupted at seed=0 - checkpoint saved to .cycle_measure_ckpt_n8_w4_rows8_seed0.bin. Re-run the same command to resume.
+n=8 w=4 G=1 rows=8 shifts=(1,2,2,2) c_m=0x1 c_l=0x9
+resumed seed=0 from checkpoint: phase=0 lam=4829323266 power=68719476736 k=0 mu=0
+interrupted at seed=0 - checkpoint saved to .cycle_measure_ckpt_n8_w4_rows8_seed0.bin. Re-run the same command to resume.
+n=8 w=4 G=1 rows=8 shifts=(1,2,2,2) c_m=0x1 c_l=0x9
+resumed seed=0 from checkpoint: phase=0 lam=5854723266 power=68719476736 k=0 mu=0
+progress seed=0 phase=0 lam=16145323266 power=68719476736 k=0 mu=0 elapsed_this_run=6137s
+progress seed=0 phase=0 lam=34294323266 power=68719476736 k=0 mu=0 elapsed_this_run=7937s
+progress seed=0 phase=0 lam=51949723266 power=68719476736 k=0 mu=0 elapsed_this_run=9737s
+progress seed=0 phase=0 lam=1259246530 power=137438953472 k=0 mu=0 elapsed_this_run=11537s
+progress seed=0 phase=0 lam=19467646530 power=137438953472 k=0 mu=0 elapsed_this_run=13337s
+progress seed=0 phase=0 lam=38268046530 power=137438953472 k=0 mu=0 elapsed_this_run=15137s
+progress seed=0 phase=0 lam=56382046530 power=137438953472 k=0 mu=0 elapsed_this_run=16937s
+progress seed=0 phase=0 lam=74254046530 power=137438953472 k=0 mu=0 elapsed_this_run=18737s
+progress seed=0 phase=0 lam=92834846530 power=137438953472 k=0 mu=0 elapsed_this_run=20537s
+progress seed=0 phase=0 lam=110024046530 power=137438953472 k=0 mu=0 elapsed_this_run=22337s
+progress seed=0 phase=0 lam=125367646530 power=137438953472 k=0 mu=0 elapsed_this_run=24137s
+progress seed=0 phase=0 lam=6318893058 power=274877906944 k=0 mu=0 elapsed_this_run=25937s
+progress seed=0 phase=0 lam=25163493058 power=274877906944 k=0 mu=0 elapsed_this_run=27737s
+progress seed=0 phase=0 lam=44001693058 power=274877906944 k=0 mu=0 elapsed_this_run=29537s
+progress seed=0 phase=0 lam=59081893058 power=274877906944 k=0 mu=0 elapsed_this_run=31337s
+progress seed=0 phase=0 lam=75141293058 power=274877906944 k=0 mu=0 elapsed_this_run=33137s
+progress seed=0 phase=0 lam=91079093058 power=274877906944 k=0 mu=0 elapsed_this_run=34937s
+progress seed=0 phase=0 lam=108065093058 power=274877906944 k=0 mu=0 elapsed_this_run=36737s
+progress seed=0 phase=0 lam=125776493058 power=274877906944 k=0 mu=0 elapsed_this_run=38537s
+progress seed=0 phase=0 lam=142950293058 power=274877906944 k=0 mu=0 elapsed_this_run=40337s
+progress seed=0 phase=0 lam=160890893058 power=274877906944 k=0 mu=0 elapsed_this_run=42137s
+progress seed=0 phase=0 lam=179135293058 power=274877906944 k=0 mu=0 elapsed_this_run=43937s
+progress seed=0 phase=0 lam=197439893058 power=274877906944 k=0 mu=0 elapsed_this_run=45737s
+progress seed=0 phase=0 lam=215769093058 power=274877906944 k=0 mu=0 elapsed_this_run=47537s
+progress seed=0 phase=0 lam=234078893058 power=274877906944 k=0 mu=0 elapsed_this_run=49337s
+progress seed=0 phase=0 lam=252360693058 power=274877906944 k=0 mu=0 elapsed_this_run=51137s
+progress seed=0 phase=0 lam=270695093058 power=274877906944 k=0 mu=0 elapsed_this_run=52937s
+progress seed=0 phase=0 lam=14151786114 power=549755813888 k=0 mu=0 elapsed_this_run=54737s
+progress seed=0 phase=0 lam=32547386114 power=549755813888 k=0 mu=0 elapsed_this_run=56537s
+progress seed=0 phase=0 lam=50946986114 power=549755813888 k=0 mu=0 elapsed_this_run=58337s
+progress seed=0 phase=0 lam=69410586114 power=549755813888 k=0 mu=0 elapsed_this_run=60137s
+progress seed=0 phase=0 lam=88835986114 power=549755813888 k=0 mu=0 elapsed_this_run=61937s
+progress seed=0 phase=0 lam=108333986114 power=549755813888 k=0 mu=0 elapsed_this_run=63737s
+progress seed=0 phase=0 lam=127831186114 power=549755813888 k=0 mu=0 elapsed_this_run=65537s
+progress seed=0 phase=0 lam=147369386114 power=549755813888 k=0 mu=0 elapsed_this_run=67337s
+progress seed=0 phase=0 lam=166752386114 power=549755813888 k=0 mu=0 elapsed_this_run=69137s
+progress seed=0 phase=0 lam=186242786114 power=549755813888 k=0 mu=0 elapsed_this_run=70937s
+progress seed=0 phase=0 lam=204381586114 power=549755813888 k=0 mu=0 elapsed_this_run=72737s
+interrupted at seed=0 - checkpoint saved to .cycle_measure_ckpt_n8_w4_rows8_seed0.bin. Re-run the same command to resume.
+n=8 w=4 G=1 rows=8 shifts=(1,2,2,2) c_m=0x1 c_l=0x9
+resumed seed=0 from checkpoint: phase=0 lam=206535986114 power=549755813888 k=0 mu=0
+progress seed=0 phase=0 lam=226234586114 power=549755813888 k=0 mu=0 elapsed_this_run=1800s
+progress seed=0 phase=0 lam=245276586114 power=549755813888 k=0 mu=0 elapsed_this_run=3600s
+progress seed=0 phase=0 lam=264284986114 power=549755813888 k=0 mu=0 elapsed_this_run=5400s
+progress seed=0 phase=0 lam=281891786114 power=549755813888 k=0 mu=0 elapsed_this_run=7200s
+progress seed=0 phase=0 lam=300842986114 power=549755813888 k=0 mu=0 elapsed_this_run=9000s
+interrupted at seed=0 - checkpoint saved to .cycle_measure_ckpt_n8_w4_rows8_seed0.bin. Re-run the same command to resume.

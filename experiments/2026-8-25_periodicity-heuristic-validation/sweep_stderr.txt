@@ -1,0 +1,11 @@
+=== n=2 w=8 (python, 500 seeds) ===
+  done in 3.8s
+=== n=4 w=8 (python, 100 seeds) ===
+  done in 435.5s
+=== n=2 w=4 (python, 500 seeds) ===
+  done in 0.1s
+=== n=4 w=4 (python, 500 seeds) ===
+  done in 994.9s
+=== n=8 w=4 (c, 100 seeds) ===
+n=8 w=4 G=2 rows=4 shifts=(1,2,2,2) c_m=0x1 c_l=0x9
+  done in 345.8s

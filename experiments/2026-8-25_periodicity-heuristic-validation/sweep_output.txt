@@ -1,0 +1,11 @@
+
+  n   w   log2|S|    lambda_pred  seeds    lambda_mean  lambda_median   lambda_min   lambda_max  ratio(mean/pred)
+  2   8      33.0      7.251e+04    500      5.550e+02      7.680e+02          256          768            0.0077
+  4   8      52.6      6.431e+07    100      1.542e+05      2.004e+05         4352       200448            0.0024
+  2   4      17.0      2.833e+02    500      1.600e+01      1.600e+01           16           16            0.0565
+  4   4      28.6      1.570e+04    500      8.284e+04      1.073e+05        15232       107328            5.2764
+  8   4      55.3      1.647e+08    100      6.319e+06      6.319e+06      6318640      6318640            0.0384
+
+Infeasible to measure (analytic only):
+  n=  8 w=8: log2|S|=95.3  lambda_pred=1.727e+14  (not measured)
+  n= 16 w=4: log2|S|=116.3  lambda_pred=2.459e+17  (not measured)

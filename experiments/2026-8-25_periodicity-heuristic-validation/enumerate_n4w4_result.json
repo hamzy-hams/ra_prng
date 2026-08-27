@@ -1,0 +1,56 @@
+{
+  "n": 4,
+  "w": 4,
+  "rows": 4,
+  "G": 1,
+  "state_space_size": 402653184,
+  "distinct_image_points": 9613824,
+  "image_fraction": 0.023876190185546875,
+  "max_in_degree": 208,
+  "in_degree_histogram": {
+    "0": 393039360,
+    "16": 5184000,
+    "64": 3110400,
+    "80": 1036800,
+    "128": 207360,
+    "144": 69120,
+    "192": 4608,
+    "208": 1536
+  },
+  "chi_square": {
+    "cutoff": 6,
+    "observed": [
+      393039360,
+      0,
+      0,
+      0,
+      0,
+      0,
+      9613824
+    ],
+    "expected": [
+      148127828.31582195,
+      148127828.31582195,
+      74063914.15791097,
+      24687971.385970324,
+      6171992.846492581,
+      1234398.5692985163,
+      239250.40868371725
+    ],
+    "statistic": 1026542728.9903138,
+    "dof": 6,
+    "pvalue": 0.0
+  },
+  "verdict": "REJECTS Poisson(1) at alpha=0.01 - F's collision structure deviates significantly from a uniform random mapping",
+  "elapsed_seconds": 176.02251267433167,
+  "cons_invariance_check": {
+    "note": "Independently verified: the image set of F restricted to a single cons value (sweeping all lperm x M x it) is IDENTICAL across cons=0,7,15 (and, per the full run log, contributes zero new distinct points for cons=1..15 beyond cons=0). |image|=9613824 for every single cons value tested - not a bug (cons does affect individual outputs, confirmed separately), a genuine structural property of this map at G=1.",
+    "tested_cons_values": [
+      0,
+      7,
+      15
+    ],
+    "image_size_each": 9613824,
+    "images_identical": true
+  }
+}
