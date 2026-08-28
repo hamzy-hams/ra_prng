@@ -70,24 +70,67 @@ def _capture_first_cycle(seed: int, cand: Candidate) -> list[int]:
     return out
 
 
-def avalanche_gate(cand: Candidate, base_seed: int = 1,
-                    low: float = 0.3, high: float = 0.7) -> dict:
-    baseline = _capture_first_cycle(base_seed, cand)
+def avalanche_stats(capture_fn, base_seed: int = 1) -> dict:
+    """Generic per-bit avalanche measurement: flip each of the 32 seed
+    bits, capture one cycle via `capture_fn(seed) -> list[int]`, measure
+    mean Hamming distance against the baseline capture.
+
+    Added after `avalanche_gate()`'s scalar (32-bit-averaged) fraction was
+    found to hide a real defect: `pruned_winner` (ops={TAP6,TAP7,ROT_C,
+    SHR13}) has seed bits 5 and 6 almost completely avalanche-dead (253/255
+    output positions show 0 bit difference when either is flipped, mean
+    Hamming 0.0078/32) while the *average* fraction (0.418459) still landed
+    inside avalanche_gate()'s passing [0.3, 0.7] band -- see
+    ../2026-8-27_operand-position-search/HANDOVER.md. Per-bit fractions
+    (and their minimum) are the only way to catch this class of defect;
+    the overall average alone cannot.
+
+    `capture_fn` is generic (not tied to `Candidate`/`pruned_prng.py`) so
+    this is reusable for wiring-parameterized generators too (see
+    ../2026-8-27_operand-position-search/wired_prng.py).
+    """
+    baseline = capture_fn(base_seed)
     per_bit_means = []
     for bit in range(32):
         flipped_seed = (base_seed ^ (1 << bit)) & 0xFFFFFFFF
-        mutated = _capture_first_cycle(flipped_seed, cand)
+        mutated = capture_fn(flipped_seed)
         dists = [hamming(a, b) for a, b in zip(baseline, mutated)]
         per_bit_means.append(sum(dists) / len(dists) if dists else 0.0)
 
+    per_bit_fractions = [m / 32.0 for m in per_bit_means]
     overall_bits = sum(per_bit_means) / len(per_bit_means) if per_bit_means else 0.0
     fraction = overall_bits / 32.0
+    return {
+        "overall_mean_hamming_bits": overall_bits,
+        "overall_mean_hamming_fraction": fraction,
+        "per_bit_fractions": per_bit_fractions,
+        "min_bit_fraction": min(per_bit_fractions) if per_bit_fractions else 0.0,
+    }
+
+
+def avalanche_gate(cand: Candidate, base_seed: int = 1,
+                    low: float = 0.3, high: float = 0.7) -> dict:
+    stats = avalanche_stats(lambda seed: _capture_first_cycle(seed, cand), base_seed)
+    fraction = stats["overall_mean_hamming_fraction"]
     passed = low <= fraction <= high
     return {
         "passed": passed,
-        "overall_mean_hamming_bits": overall_bits,
+        "overall_mean_hamming_bits": stats["overall_mean_hamming_bits"],
         "overall_mean_hamming_fraction": fraction,
     }
+
+
+def avalanche_gate_min_bit(cand: Candidate, base_seed: int = 1,
+                            low: float = 0.3, high: float = 0.7,
+                            min_bit_floor: float = 0.2) -> dict:
+    """Like avalanche_gate(), but also rejects any candidate where the
+    *weakest* single seed bit falls below `min_bit_floor` -- closes the
+    blind spot documented in avalanche_stats()'s docstring. Used by
+    ../2026-8-27_operand-position-search/operand_search.py's Tier 0."""
+    stats = avalanche_stats(lambda seed: _capture_first_cycle(seed, cand), base_seed)
+    fraction = stats["overall_mean_hamming_fraction"]
+    passed = (low <= fraction <= high) and (stats["min_bit_fraction"] >= min_bit_floor)
+    return {"passed": passed, **stats}
 
 
 def practrand_prefix_gate(cand: Candidate, seed: int = 1,

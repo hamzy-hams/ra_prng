@@ -1,0 +1,76 @@
+=== ra_prng2_orig_local ===
+Generated 200000000 pseudorandom updates across threads in 1.338 seconds
+Last cons from RNGing: 4074910095
+Generated 200000000 pseudorandom updates across threads in 1.340 seconds
+Last cons from RNGing: 4074910095
+Generated 200000000 pseudorandom updates across threads in 1.347 seconds
+Last cons from RNGing: 4074910095
+Generated 200000000 pseudorandom updates across threads in 1.336 seconds
+Last cons from RNGing: 4074910095
+Generated 200000000 pseudorandom updates across threads in 1.411 seconds
+Last cons from RNGing: 4074910095
+
+ Performance counter stats for './ra_prng2_orig_local' (5 runs):
+
+    14,898,166,874      instructions:u                                                          ( +-  0.00% )
+     4,319,094,484      cycles:u                                                                ( +-  0.11% )
+
+       1.355013848 +- 0.014222310 seconds time elapsed  ( +-  1.05% )
+
+=== baseline_local ===
+Generated 200000000 pseudorandom updates in 0.542 seconds
+Last cons from RNGing: 3157249958
+Generated 200000000 pseudorandom updates in 0.558 seconds
+Last cons from RNGing: 3157249958
+Generated 200000000 pseudorandom updates in 0.559 seconds
+Last cons from RNGing: 3157249958
+Generated 200000000 pseudorandom updates in 0.562 seconds
+Last cons from RNGing: 3157249958
+Generated 200000000 pseudorandom updates in 0.569 seconds
+Last cons from RNGing: 3157249958
+
+ Performance counter stats for './baseline_local' (5 runs):
+
+     6,255,028,308      instructions:u                                                          ( +-  0.00% )
+     1,749,807,842      cycles:u                                                                ( +-  0.27% )
+
+       0.558827724 +- 0.004499037 seconds time elapsed  ( +-  0.81% )
+
+=== winner_wired ===
+Generated 200000000 pseudorandom updates in 0.647 seconds
+Last cons from RNGing: 4080471357
+Generated 200000000 pseudorandom updates in 0.661 seconds
+Last cons from RNGing: 4080471357
+Generated 200000000 pseudorandom updates in 0.674 seconds
+Last cons from RNGing: 4080471357
+Generated 200000000 pseudorandom updates in 0.650 seconds
+Last cons from RNGing: 4080471357
+Generated 200000000 pseudorandom updates in 0.661 seconds
+Last cons from RNGing: 4080471357
+
+ Performance counter stats for './winner_wired' (5 runs):
+
+     6,453,459,773      instructions:u                                                          ( +-  0.00% )
+     2,097,439,849      cycles:u                                                                ( +-  0.13% )
+
+       0.659549587 +- 0.004835974 seconds time elapsed  ( +-  0.73% )
+
+=== winner_wired_v2 ===
+Generated 200000000 pseudorandom updates in 0.608 seconds
+Last cons from RNGing: 4066440045
+Generated 200000000 pseudorandom updates in 0.603 seconds
+Last cons from RNGing: 4066440045
+Generated 200000000 pseudorandom updates in 0.611 seconds
+Last cons from RNGing: 4066440045
+Generated 200000000 pseudorandom updates in 0.603 seconds
+Last cons from RNGing: 4066440045
+Generated 200000000 pseudorandom updates in 0.625 seconds
+Last cons from RNGing: 4066440045
+
+ Performance counter stats for './winner_wired_v2' (5 runs):
+
+     6,053,459,771      instructions:u                                                          ( +-  0.00% )
+     1,921,317,069      cycles:u                                                                ( +-  0.46% )
+
+       0.610427548 +- 0.004105975 seconds time elapsed  ( +-  0.67% )
+

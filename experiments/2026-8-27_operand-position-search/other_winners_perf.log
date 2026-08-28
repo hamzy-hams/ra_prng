@@ -1,0 +1,239 @@
+=== baseline_local ===
+Generated 200000000 pseudorandom updates in 0.438 seconds
+Last cons from RNGing: 3157249958
+Generated 200000000 pseudorandom updates in 0.428 seconds
+Last cons from RNGing: 3157249958
+Generated 200000000 pseudorandom updates in 0.431 seconds
+Last cons from RNGing: 3157249958
+
+ Performance counter stats for './baseline_local' (3 runs):
+
+     6,255,028,100      instructions:u                                                          ( +-  0.00% )
+     1,751,178,009      cycles:u                                                                ( +-  0.16% )
+
+       0.433109255 +- 0.003055357 seconds time elapsed  ( +-  0.71% )
+
+
+=== winner_wired ===
+Generated 200000000 pseudorandom updates in 0.512 seconds
+Last cons from RNGing: 4080471357
+Generated 200000000 pseudorandom updates in 0.512 seconds
+Last cons from RNGing: 4080471357
+Generated 200000000 pseudorandom updates in 0.513 seconds
+Last cons from RNGing: 4080471357
+
+ Performance counter stats for './winner_wired' (3 runs):
+
+     6,453,459,599      instructions:u                                                          ( +-  0.00% )
+     2,088,200,394      cycles:u                                                                ( +-  0.06% )
+
+       0.513576980 +- 0.000424864 seconds time elapsed  ( +-  0.08% )
+
+
+=== v01 ===
+Generated 200000000 pseudorandom updates in 0.377 seconds
+Last cons from RNGing: 196712391
+Generated 200000000 pseudorandom updates in 0.398 seconds
+Last cons from RNGing: 196712391
+Generated 200000000 pseudorandom updates in 0.375 seconds
+Last cons from RNGing: 196712391
+
+ Performance counter stats for './v01' (3 runs):
+
+     5,854,243,737      instructions:u                                                          ( +-  0.00% )
+     1,562,174,030      cycles:u                                                                ( +-  1.97% )
+
+       0.384099897 +- 0.007439589 seconds time elapsed  ( +-  1.94% )
+
+
+=== v02 ===
+Generated 200000000 pseudorandom updates in 0.359 seconds
+Last cons from RNGing: 2022349710
+Generated 200000000 pseudorandom updates in 0.357 seconds
+Last cons from RNGing: 2022349710
+Generated 200000000 pseudorandom updates in 0.362 seconds
+Last cons from RNGing: 2022349710
+
+ Performance counter stats for './v02' (3 runs):
+
+     5,653,459,449      instructions:u                                                          ( +-  0.00% )
+     1,463,320,105      cycles:u                                                                ( +-  0.33% )
+
+       0.359903416 +- 0.001581372 seconds time elapsed  ( +-  0.44% )
+
+
+=== v03 ===
+Generated 200000000 pseudorandom updates in 0.370 seconds
+Last cons from RNGing: 3835360230
+Generated 200000000 pseudorandom updates in 0.370 seconds
+Last cons from RNGing: 3835360230
+Generated 200000000 pseudorandom updates in 0.369 seconds
+Last cons from RNGing: 3835360230
+
+ Performance counter stats for './v03' (3 runs):
+
+     5,854,243,796      instructions:u                                                          ( +-  0.00% )
+     1,505,126,590      cycles:u                                                                ( +-  0.09% )
+
+       0.370247280 +- 0.000379906 seconds time elapsed  ( +-  0.10% )
+
+
+=== v04 ===
+Generated 200000000 pseudorandom updates in 0.347 seconds
+Last cons from RNGing: 435870234
+Generated 200000000 pseudorandom updates in 0.351 seconds
+Last cons from RNGing: 435870234
+Generated 200000000 pseudorandom updates in 0.350 seconds
+Last cons from RNGing: 435870234
+
+ Performance counter stats for './v04' (3 runs):
+
+     5,453,459,449      instructions:u                                                          ( +-  0.00% )
+     1,422,073,366      cycles:u                                                                ( +-  0.29% )
+
+       0.349845293 +- 0.001115319 seconds time elapsed  ( +-  0.32% )
+
+
+=== v06 ===
+Generated 200000000 pseudorandom updates in 0.470 seconds
+Last cons from RNGing: 435871532
+Generated 200000000 pseudorandom updates in 0.472 seconds
+Last cons from RNGing: 435871532
+Generated 200000000 pseudorandom updates in 0.470 seconds
+Last cons from RNGing: 435871532
+
+ Performance counter stats for './v06' (3 runs):
+
+     6,253,459,533      instructions:u                                                          ( +-  0.00% )
+     1,917,041,101      cycles:u                                                                ( +-  0.13% )
+
+       0.471130221 +- 0.000820981 seconds time elapsed  ( +-  0.17% )
+
+
+=== v07 ===
+Generated 200000000 pseudorandom updates in 0.471 seconds
+Last cons from RNGing: 43544360
+Generated 200000000 pseudorandom updates in 0.470 seconds
+Last cons from RNGing: 43544360
+Generated 200000000 pseudorandom updates in 0.472 seconds
+Last cons from RNGing: 43544360
+
+ Performance counter stats for './v07' (3 runs):
+
+     6,053,459,550      instructions:u                                                          ( +-  0.00% )
+     1,918,341,299      cycles:u                                                                ( +-  0.13% )
+
+       0.471411366 +- 0.000784317 seconds time elapsed  ( +-  0.17% )
+
+
+=== v08 ===
+Generated 200000000 pseudorandom updates in 0.463 seconds
+Last cons from RNGing: 4066440045
+Generated 200000000 pseudorandom updates in 0.467 seconds
+Last cons from RNGing: 4066440045
+Generated 200000000 pseudorandom updates in 0.479 seconds
+Last cons from RNGing: 4066440045
+
+ Performance counter stats for './v08' (3 runs):
+
+     6,053,459,567      instructions:u                                                          ( +-  0.00% )
+     1,911,059,473      cycles:u                                                                ( +-  0.80% )
+
+       0.470121595 +- 0.004742934 seconds time elapsed  ( +-  1.01% )
+
+
+=== v09 ===
+Generated 200000000 pseudorandom updates in 0.418 seconds
+Last cons from RNGing: 2153311296
+Generated 200000000 pseudorandom updates in 0.425 seconds
+Last cons from RNGing: 2153311296
+Generated 200000000 pseudorandom updates in 0.424 seconds
+Last cons from RNGing: 2153311296
+
+ Performance counter stats for './v09' (3 runs):
+
+     5,655,812,567      instructions:u                                                          ( +-  0.00% )
+     1,716,028,303      cycles:u                                                                ( +-  0.45% )
+
+       0.423138258 +- 0.002384577 seconds time elapsed  ( +-  0.56% )
+
+
+=== v10 ===
+Generated 200000000 pseudorandom updates in 0.547 seconds
+Last cons from RNGing: 3281505008
+Generated 200000000 pseudorandom updates in 0.440 seconds
+Last cons from RNGing: 3281505008
+Generated 200000000 pseudorandom updates in 0.443 seconds
+Last cons from RNGing: 3281505008
+
+ Performance counter stats for './v10' (3 runs):
+
+     5,655,812,669      instructions:u                                                          ( +-  0.00% )
+     1,894,020,832      cycles:u                                                                ( +-  5.99% )
+
+       0.477028333 +- 0.035056688 seconds time elapsed  ( +-  7.35% )
+
+
+=== v11 ===
+Generated 200000000 pseudorandom updates in 0.412 seconds
+Last cons from RNGing: 68075976
+Generated 200000000 pseudorandom updates in 0.392 seconds
+Last cons from RNGing: 68075976
+Generated 200000000 pseudorandom updates in 0.445 seconds
+Last cons from RNGing: 68075976
+
+ Performance counter stats for './v11' (3 runs):
+
+     5,853,459,603      instructions:u                                                          ( +-  0.00% )
+     1,657,498,059      cycles:u                                                                ( +-  3.07% )
+
+       0.417052873 +- 0.015441764 seconds time elapsed  ( +-  3.70% )
+
+
+=== v12 ===
+Generated 200000000 pseudorandom updates in 0.408 seconds
+Last cons from RNGing: 2817456328
+Generated 200000000 pseudorandom updates in 0.399 seconds
+Last cons from RNGing: 2817456328
+Generated 200000000 pseudorandom updates in 0.383 seconds
+Last cons from RNGing: 2817456328
+
+ Performance counter stats for './v12' (3 runs):
+
+     5,453,459,607      instructions:u                                                          ( +-  0.00% )
+     1,540,020,425      cycles:u                                                                ( +-  1.67% )
+
+       0.397482584 +- 0.007280338 seconds time elapsed  ( +-  1.83% )
+
+
+=== v13 ===
+Generated 200000000 pseudorandom updates in 0.384 seconds
+Last cons from RNGing: 2727881899
+Generated 200000000 pseudorandom updates in 0.381 seconds
+Last cons from RNGing: 2727881899
+Generated 200000000 pseudorandom updates in 0.430 seconds
+Last cons from RNGing: 2727881899
+
+ Performance counter stats for './v13' (3 runs):
+
+     5,653,459,552      instructions:u                                                          ( +-  0.00% )
+     1,575,145,736      cycles:u                                                                ( +-  3.41% )
+
+       0.398795254 +- 0.015996646 seconds time elapsed  ( +-  4.01% )
+
+
+=== ra_prng2_orig_local ===
+Generated 200000000 pseudorandom updates across threads in 2.370 seconds
+Last cons from RNGing: 4074910095
+Generated 200000000 pseudorandom updates across threads in 2.096 seconds
+Last cons from RNGing: 4074910095
+Generated 200000000 pseudorandom updates across threads in 2.653 seconds
+Last cons from RNGing: 4074910095
+
+ Performance counter stats for './ra_prng2_orig_local' (3 runs):
+
+    14,898,167,592      instructions:u                                                          ( +-  0.00% )
+     5,785,928,086      cycles:u                                                                ( +-  1.74% )
+
+       2.374591331 +- 0.160788296 seconds time elapsed  ( +-  6.77% )
+

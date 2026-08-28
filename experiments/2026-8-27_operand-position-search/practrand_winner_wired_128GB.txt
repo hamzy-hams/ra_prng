@@ -1,0 +1,24 @@
+RNG_test using PractRand version 0.95
+RNG = RNG_stdin32, seed = unknown
+test set = core, folding = standard (32 bit)
+
+rng=RNG_stdin32, seed=unknown
+length= 8 gigabytes (2^33 bytes), time= 75.8 seconds
+  no anomalies in 230 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 16 gigabytes (2^34 bytes), time= 151 seconds
+  no anomalies in 240 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 32 gigabytes (2^35 bytes), time= 308 seconds
+  no anomalies in 251 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 64 gigabytes (2^36 bytes), time= 627 seconds
+  no anomalies in 263 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 128 gigabytes (2^37 bytes), time= 1232 seconds
+  no anomalies in 273 test result(s)
+

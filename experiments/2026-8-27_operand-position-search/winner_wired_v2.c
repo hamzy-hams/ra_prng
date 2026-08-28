@@ -1,0 +1,166 @@
+// winner_wired_v2.c
+// SUPERSEDES winner_wired.c (the a_xor=d/c_shift=b/rotc_amount=b/rotc_xor=a
+// wiring, "v05" in the 13-winner survey below) as this experiment's
+// recommended candidate, per the 2026-08-28 follow-up survey that checked
+// all 13 wirings from operand_search.py's 108-wiring search head-to-head
+// on speed, avalanche, and PractRand quality (not just the one winner_wired.c
+// picked for being the smallest single-slot change). winner_wired.c is left
+// in place, unmodified, as a still-valid, still-fully-validated (128GB
+// PractRand clean) historical artifact -- not deleted, just no longer the
+// top recommendation.
+//
+// Wiring: Wiring(a_xor_operand="d", c_shift_operand="a",
+// rotc_amount_source="b", rotc_xor_operand="a") -- i.e. baseline.c's
+// `a = (b^o)^(cons+a)` becomes `a = (d^o)^(cons+a)` (same change as
+// winner_wired.c) AND `c = rot32((b>>13)^a, b)` becomes
+// `c = rot32((a>>13)^a, b)` (one more slot changed: c's right-shift now
+// reads the freshly-updated `a` instead of `b`).
+//
+// Why this wiring over winner_wired.c's (see RESULTS.md's "Survey of the
+// other 12 winners" section for the full 13-way comparison):
+//   - avalanche min-bit fraction: 0.4730 vs winner_wired.c's 0.4723
+//     (marginally better, both far above baseline.c's dead-bit 0.000245)
+//   - instructions/iteration: ~6.05B vs winner_wired.c's ~6.45B for the
+//     TOTAL_RNG=200,000,000 benchmark (~6% fewer, deterministic instruction
+//     count, not noise)
+//   - PractRand: clean at 16GB in the survey screen, clean at 128GB in
+//     this file's own follow-up validation (see practrand_v08_128GB.txt)
+// So this wiring is not a trade-off against winner_wired.c -- it is better
+// on both the quality axis and the speed axis simultaneously, which is why
+// it was promoted over winner_wired.c despite changing one more slot.
+//
+// Derivation (from wired_prng.py's permutation_cycle with
+// Wiring(a_xor_operand="d", c_shift_operand="a", rotc_amount_source="b",
+// rotc_xor_operand="a") -- verified bit-identical against wired_prng.py
+// and against v08's auto-generated binary before being promoted to this
+// canonical filename):
+//   o = (M[(i+6)&0xFF] << 6) ^ (M[(i+7)&0xFF] << 7)
+//   a = (d ^ o) ^ (cons + a)
+//   b = (cons + a) ^ (o + d)
+//   c = rot32((a >> 13) ^ a, b)   <-- c_shift_operand changed vs winner_wired.c
+//   d = c & 0xFF
+//
+// Written as a direct structural mirror of baseline.c/winner_wired.c so
+// perf numbers stay comparable apples-to-apples: op count/instruction
+// shape is identical to the fixed {TAP6,TAP7,ROT_C,SHR13} set both derive
+// from, only which operand feeds two XOR/shift slots differs.
+//
+// Copyright (c) 2025 Hamas A. Rahman (derivative research variant)
+// Licensed under CC BY-NC-SA 4.0, matching the original this derives from.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+#include <time.h>
+
+#define TOTAL_RNG 200000000UL // matches baseline.c's benchmark constant
+
+static inline uint32_t rot32(uint32_t n, uint32_t r) {
+    r &= 31;
+    return ((n << r) | (n >> (32 - r))) & 0xFFFFFFFFu;
+}
+
+// hash_access=sequential, HASH_SELFIDX off, HASH_DEPTH fixed at 32.
+static void ra_hash(const uint32_t *N, uint32_t *out8) {
+    for (int i = 0; i < 8; ++i) {
+        out8[i] = 0;
+        int base = i * 32;
+        for (int j = 0; j < 32; ++j) out8[i] ^= N[base + j];
+    }
+}
+
+static void ra_init_state(uint32_t *L, uint32_t *M) {
+    for (int i = 0; i < 256; ++i) {
+        M[i] = (uint32_t)(i * 0x06a0dd9bUL + 0x06a0dd9bUL);
+        L[i] = (uint32_t)(i * 0x9e3779b7UL + 0x9e3779b7UL);
+    }
+}
+
+// One full 255-step permutation cycle, promoted candidate.
+static void ra_permutation_cycle(uint32_t cons, size_t it,
+                                  const uint32_t *M, uint32_t *L,
+                                  uint64_t *count, FILE *raw_stream) {
+    uint32_t a = cons, b = (uint32_t)it, c = 0, d = 0;
+
+    for (uint32_t i = 255; i > 0; --i) {
+        uint32_t o = (M[(uint8_t)(i + 6)] << 6) ^ (M[(uint8_t)(i + 7)] << 7);
+
+        a = (d ^ o) ^ (cons + a);
+        b = (cons + a) ^ (o + d);
+        c = rot32((a >> 13) ^ a, b);   // <-- was (b >> 13) ^ a in winner_wired.c
+
+        if (raw_stream) fwrite(&c, sizeof(uint32_t), 1, raw_stream);
+
+        d = c & 0xFFu;
+
+        if (*count <= 1) break;
+        --(*count);
+
+        uint32_t tmp = L[i];
+        L[i] = L[d];
+        L[d] = tmp;
+    }
+}
+
+static uint32_t ra_reseed(uint32_t *M, const uint32_t *L) {
+    for (int i = 0; i < 256; ++i) M[i] ^= L[i];
+
+    uint32_t tmp8[8];
+    ra_hash(M, tmp8);
+
+    uint32_t new_cons = 0;
+    for (int e = 0; e < 8; ++e) new_cons ^= (tmp8[e] << e);
+    return new_cons;
+}
+
+uint32_t ra_core(uint32_t seed, size_t rng, FILE *raw_stream) {
+    if (rng == 0) return seed;
+
+    alignas(64) uint32_t L[256], M[256];
+    uint64_t count = rng;
+    uint64_t iteration = rng / 255 + 1;
+
+    uint32_t cons = seed;
+    ra_init_state(L, M);
+
+    for (size_t it = 0; it < iteration; ++it) {
+        ra_permutation_cycle(cons, it, M, L, &count, raw_stream);
+        if (count <= 1) return cons;
+        cons = ra_reseed(M, L);
+    }
+    return cons;
+}
+
+int main(int argc, char **argv) {
+    uint32_t last_cons;
+    uint32_t seed;
+
+    if (argc >= 4 && strcmp(argv[1], "--stream") == 0) {
+        seed = (uint32_t)strtoul(argv[2], NULL, 0);
+        size_t rng = (size_t)strtoull(argv[3], NULL, 0);
+
+        struct timespec t0, t1;
+        clock_gettime(CLOCK_MONOTONIC, &t0);
+        last_cons = ra_core(seed, rng, stdout);
+        clock_gettime(CLOCK_MONOTONIC, &t1);
+        double elapsed = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
+
+        fprintf(stderr, "Streamed %zu pseudorandom outputs in %.3f seconds\n", rng, elapsed);
+        fprintf(stderr, "Last cons from RNGing: %u\n", last_cons);
+        return 0;
+    }
+
+    struct timespec t0, t1;
+    clock_gettime(CLOCK_MONOTONIC, &t0);
+    seed = 1;
+    last_cons = ra_core(seed, TOTAL_RNG, NULL);
+    clock_gettime(CLOCK_MONOTONIC, &t1);
+    double elapsed = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
+
+    printf("Generated %lu pseudorandom updates in %.3f seconds\n",
+           (unsigned long)TOTAL_RNG, elapsed);
+    printf("Last cons from RNGing: %lu\n", (unsigned long)last_cons);
+
+    return 0;
+}
