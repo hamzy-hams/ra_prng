@@ -1,0 +1,31 @@
+=== scalar ===
+mode=scalar: 200000000 updates x 8 lanes in 0.367 seconds
+scalar sample c[0]=4043309088
+mode=scalar: 200000000 updates x 8 lanes in 0.365 seconds
+scalar sample c[0]=4043309088
+mode=scalar: 200000000 updates x 8 lanes in 0.360 seconds
+scalar sample c[0]=4043309088
+
+ Performance counter stats for './simd_prototype scalar' (3 runs):
+
+     4,007,190,066      instructions:u                                                          ( +-  0.00% )
+     1,460,931,763      cycles:u                                                                ( +-  0.11% )
+
+       0.364923098 +- 0.002157876 seconds time elapsed  ( +-  0.59% )
+
+
+=== simd ===
+mode=simd: 200000000 updates x 8 lanes in 0.420 seconds
+simd sample c[0]=4043309088
+mode=simd: 200000000 updates x 8 lanes in 0.419 seconds
+simd sample c[0]=4043309088
+mode=simd: 200000000 updates x 8 lanes in 0.415 seconds
+simd sample c[0]=4043309088
+
+ Performance counter stats for './simd_prototype simd' (3 runs):
+
+     4,803,268,460      instructions:u                                                          ( +-  0.00% )
+     1,555,076,776      cycles:u                                                                ( +-  0.21% )
+
+       0.418569142 +- 0.001692358 seconds time elapsed  ( +-  0.40% )
+

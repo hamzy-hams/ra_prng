@@ -13,7 +13,8 @@ each top-level directory is for.
 │   └── ra_prng3/            64-bit experimental version ("do not use")
 │       ├── c/                single-file C implementation + CHANGELOG.md
 │       └── python/            empty - no Python port exists yet
-├── bindings/cpython/        Python <-> C binding (see bindings/cpython/README.md)
+├── bindings/cpython/        Python <-> C binding, a real installable package
+│                              (see bindings/cpython/README.md)
 ├── tests/                   c/ and python/ test suites (currently empty scaffolding)
 ├── benchmarks/
 │   ├── results/              precomputed statistical-test output (Dieharder,

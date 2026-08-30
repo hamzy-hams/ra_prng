@@ -1,0 +1,26 @@
+{
+  "original_m_permute": {
+    "passed": true,
+    "stdout_tail": "RNG_test using PractRand version 0.95\nRNG = RNG_stdin32, seed = unknown\ntest set = core, folding = standard (32 bit)\n\nrng=RNG_stdin32, seed=unknown\nlength= 16 gigabytes (2^34 bytes), time= 234 seconds\n  no anomalies in 240 test result(s)\n\n"
+  },
+  "original_m_inject": {
+    "passed": true,
+    "stdout_tail": "RNG_test using PractRand version 0.95\nRNG = RNG_stdin32, seed = unknown\ntest set = core, folding = standard (32 bit)\n\nrng=RNG_stdin32, seed=unknown\nlength= 16 gigabytes (2^34 bytes), time= 240 seconds\n  no anomalies in 240 test result(s)\n\n"
+  },
+  "original_m_overwrite": {
+    "passed": true,
+    "stdout_tail": "RNG_test using PractRand version 0.95\nRNG = RNG_stdin32, seed = unknown\ntest set = core, folding = standard (32 bit)\n\nrng=RNG_stdin32, seed=unknown\nlength= 16 gigabytes (2^34 bytes), time= 244 seconds\n  Test Name                         Raw       Processed     Evaluation\n  [Low1/32]Gap-16:A                 R=  +5.2  p =  6.0e-4   unusual          \n  ...and 239 test result(s) without anomalies\n\n"
+  },
+  "winner_m_permute": {
+    "passed": true,
+    "stdout_tail": "RNG_test using PractRand version 0.95\nRNG = RNG_stdin32, seed = unknown\ntest set = core, folding = standard (32 bit)\n\nrng=RNG_stdin32, seed=unknown\nlength= 16 gigabytes (2^34 bytes), time= 230 seconds\n  no anomalies in 240 test result(s)\n\n"
+  },
+  "winner_m_inject": {
+    "passed": false,
+    "stdout_tail": "       R= +59.7  p =  7.3e-55    FAIL !!!!      \n  FPF-14+6/16:(3,14-0)              R= +43.3  p =  1.0e-39    FAIL !!!       \n  FPF-14+6/16:(4,14-0)              R= +28.2  p =  1.0e-25    FAIL !!        \n  FPF-14+6/16:(5,14-0)              R= +12.9  p =  1.5e-11   VERY SUSPICIOUS \n  FPF-14+6/16:(6,14-0)              R= +10.8  p =  1.3e-9   very suspicious  \n  FPF-14+6/16:all                   R=+157.9  p =  1.1e-147   FAIL !!!!!     \n  FPF-14+6/16:cross                 R=+416.8  p =  5.3e-351   FAIL !!!!!!!   \n  mod3n(5):(0,9-6)                  R= +12.7  p =  3.5e-5   unusual          \n  [Low8/32]BCFN(2+0,13-0,T)         R=+133.9  p =  4.2e-71    FAIL !!!!      \n  [Low8/32]BCFN(2+1,13-0,T)         R= +31.1  p =  3.8e-16    FAIL !         \n  [Low8/32]DC6-9x1Bytes-1           R=+131.3  p =  3.8e-62    FAIL !!!!      \n  [Low8/32]FPF-14+6/16:(0,14-0)     R= +56.9  p =  3.1e-52    FAIL !!!!      \n  [Low8/32]FPF-14+6/16:(1,14-0)     R= +27.1  p =  9.8e-25    FAIL !!        \n  [Low8/32]FPF-14+6/16:(2,14-0)     R= +18.3  p =  1.3e-16    FAIL !         \n  [Low8/32]FPF-14+6/16:(3,14-0)     R= +13.2  p =  8.1e-12   VERY SUSPICIOUS \n  [Low8/32]FPF-14+6/16:(4,14-0)     R= +11.4  p =  3.6e-10  very suspicious  \n  [Low8/32]FPF-14+6/16:(10,14-2)    R=  +8.2  p =  5.8e-7   mildly suspicious\n  [Low8/32]FPF-14+6/16:all          R= +50.1  p =  1.7e-46    FAIL !!!       \n  [Low8/32]FPF-14+6/16:cross        R= +84.0  p =  5.1e-71    FAIL !!!!      \n  ...and 212 test result(s) without anomalies\n\n"
+  },
+  "winner_m_overwrite": {
+    "passed": true,
+    "stdout_tail": "RNG_test using PractRand version 0.95\nRNG = RNG_stdin32, seed = unknown\ntest set = core, folding = standard (32 bit)\n\nrng=RNG_stdin32, seed=unknown\nlength= 16 gigabytes (2^34 bytes), time= 230 seconds\n  no anomalies in 240 test result(s)\n\n"
+  }
+}

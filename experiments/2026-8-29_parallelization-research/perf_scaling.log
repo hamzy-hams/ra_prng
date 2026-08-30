@@ -1,0 +1,75 @@
+=== N=1 (n_per_proc=200000000) ===
+
+ Performance counter stats for 'bash -c 
+        for i in $(seq 0 0); do
+            "../2026-8-27_operand-position-search/winner_wired_v2" --stream "$i" 200000000 >/dev/null 2>/dev/null &
+        done
+        wait
+    ' (3 runs):
+
+    35,301,771,285      instructions:u                                                          ( +-  0.00% )
+     7,808,069,986      cycles:u                                                                ( +-  0.19% )
+
+       2.228035765 +- 0.012570095 seconds time elapsed  ( +-  0.56% )
+
+
+=== N=2 (n_per_proc=200000000) ===
+
+ Performance counter stats for 'bash -c 
+        for i in $(seq 0 1); do
+            "../2026-8-27_operand-position-search/winner_wired_v2" --stream "$i" 200000000 >/dev/null 2>/dev/null &
+        done
+        wait
+    ' (3 runs):
+
+    70,601,253,202      instructions:u                                                          ( +-  0.00% )
+    16,004,828,636      cycles:u                                                                ( +-  0.16% )
+
+       2.380786396 +- 0.020437940 seconds time elapsed  ( +-  0.86% )
+
+
+=== N=3 (n_per_proc=200000000) ===
+
+ Performance counter stats for 'bash -c 
+        for i in $(seq 0 2); do
+            "../2026-8-27_operand-position-search/winner_wired_v2" --stream "$i" 200000000 >/dev/null 2>/dev/null &
+        done
+        wait
+    ' (3 runs):
+
+   105,900,740,779      instructions:u                                                          ( +-  0.00% )
+    32,340,759,891      cycles:u                                                                ( +-  0.04% )
+
+       3.718795237 +- 0.011272079 seconds time elapsed  ( +-  0.30% )
+
+
+=== N=4 (n_per_proc=200000000) ===
+
+ Performance counter stats for 'bash -c 
+        for i in $(seq 0 3); do
+            "../2026-8-27_operand-position-search/winner_wired_v2" --stream "$i" 200000000 >/dev/null 2>/dev/null &
+        done
+        wait
+    ' (3 runs):
+
+   141,200,239,782      instructions:u                                                          ( +-  0.00% )
+    59,263,007,028      cycles:u                                                                ( +-  0.14% )
+
+       5.167872929 +- 0.046754485 seconds time elapsed  ( +-  0.90% )
+
+
+=== N=8 (n_per_proc=200000000) ===
+
+ Performance counter stats for 'bash -c 
+        for i in $(seq 0 7); do
+            "../2026-8-27_operand-position-search/winner_wired_v2" --stream "$i" 200000000 >/dev/null 2>/dev/null &
+        done
+        wait
+    ' (3 runs):
+
+   282,398,194,467      instructions:u                                                          ( +-  0.00% )
+   118,463,253,280      cycles:u                                                                ( +-  0.09% )
+
+      11.020990093 +- 0.215282325 seconds time elapsed  ( +-  1.95% )
+
+

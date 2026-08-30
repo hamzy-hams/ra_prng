@@ -39,6 +39,7 @@ r.advance(10)   # -> int, last output after 10 steps
 ```
 
 `RaPrng2` is a `ctypes` wrapper calling directly into `ra_prng_init`/`next`/
-`advance` above (requires `make build-ext` first). See
-`bindings/cpython/README.md` for why this replaces the previously-committed,
-source-less `.so` files.
+`advance` above (requires either `make build-ext` in a dev checkout, or a
+regular `pip install` of this package, which compiles the same C source
+automatically). See `bindings/cpython/README.md` for why this replaces the
+previously-committed, source-less `.so` files.

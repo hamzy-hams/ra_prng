@@ -1,0 +1,1 @@
+include src/ra_prng2/c/ra_prng2_struct.c

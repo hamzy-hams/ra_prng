@@ -1,0 +1,20 @@
+{
+  "prefix": {
+    "mode": "prefix",
+    "m_seeds": 100,
+    "n_words": 64,
+    "fingerprints": 100,
+    "collisions_found": 0,
+    "collisions": [],
+    "digest_collision_prob_estimate": 2.6834003769016235e-16
+  },
+  "blocksweep": {
+    "mode": "blocksweep",
+    "m_seeds": 100,
+    "v_words": 10000,
+    "total_blocks": 3900,
+    "collisions_found": 0,
+    "collisions": [],
+    "digest_collision_prob_estimate": 4.121621663757957e-13
+  }
+}

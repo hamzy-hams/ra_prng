@@ -1,0 +1,32 @@
+{
+  "1": {
+    "wall_seconds": 2.110632964002434,
+    "throughput_values_per_sec": 94758303.98324497,
+    "speedup": 1.0,
+    "efficiency": 1.0
+  },
+  "2": {
+    "wall_seconds": 2.047193672013236,
+    "throughput_values_per_sec": 195389427.71674109,
+    "speedup": 2.061976834782623,
+    "efficiency": 1.0309884173913115
+  },
+  "3": {
+    "wall_seconds": 3.162033151020296,
+    "throughput_values_per_sec": 189751331.29341084,
+    "speedup": 2.002477073956098,
+    "efficiency": 0.667492357985366
+  },
+  "4": {
+    "wall_seconds": 4.408968179981457,
+    "throughput_values_per_sec": 181448349.66882536,
+    "speedup": 1.9148543403743148,
+    "efficiency": 0.4787135850935787
+  },
+  "8": {
+    "wall_seconds": 9.163296476006508,
+    "throughput_values_per_sec": 174609651.0343734,
+    "speedup": 1.842684426530551,
+    "efficiency": 0.2303355533163189
+  }
+}

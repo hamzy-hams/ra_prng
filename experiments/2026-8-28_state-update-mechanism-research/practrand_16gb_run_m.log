@@ -1,0 +1,31 @@
+=== original_m_permute: 16GB PractRand ===
+Streamed 4294967551 pseudorandom outputs in 233.549 seconds
+Last cons from RNGing: 2010750444
+  passed=True
+    no anomalies in 240 test result(s)
+=== original_m_inject: 16GB PractRand ===
+Streamed 4294967551 pseudorandom outputs in 239.253 seconds
+Last cons from RNGing: 1289068327
+  passed=True
+    no anomalies in 240 test result(s)
+=== original_m_overwrite: 16GB PractRand ===
+Streamed 4294967551 pseudorandom outputs in 243.911 seconds
+Last cons from RNGing: 812023909
+  passed=True
+    ...and 239 test result(s) without anomalies
+=== winner_m_permute: 16GB PractRand ===
+Streamed 4294967551 pseudorandom outputs in 229.557 seconds
+Last cons from RNGing: 799649544
+  passed=True
+    no anomalies in 240 test result(s)
+=== winner_m_inject: 16GB PractRand ===
+Streamed 4294967551 pseudorandom outputs in 229.954 seconds
+Last cons from RNGing: 204159443
+  passed=False
+    ...and 212 test result(s) without anomalies
+=== winner_m_overwrite: 16GB PractRand ===
+Streamed 4294967551 pseudorandom outputs in 229.545 seconds
+Last cons from RNGing: 2947976969
+  passed=True
+    no anomalies in 240 test result(s)
+done

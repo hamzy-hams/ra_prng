@@ -1,0 +1,40 @@
+{
+  "n": 4,
+  "w": 4,
+  "rows": 4,
+  "G": 1,
+  "state_space_size": 402653184,
+  "distinct_image_points": 25165824,
+  "image_fraction": 0.0625,
+  "max_in_degree": 16,
+  "in_degree_histogram": {
+    "0": 377487360,
+    "16": 25165824
+  },
+  "chi_square": {
+    "cutoff": 6,
+    "observed": [
+      377487360,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25165824
+    ],
+    "expected": [
+      148127828.31582195,
+      148127828.31582195,
+      74063914.15791097,
+      24687971.385970324,
+      6171992.846492581,
+      1234398.5692985163,
+      239250.40868371725
+    ],
+    "statistic": 3206427105.4370003,
+    "dof": 6,
+    "pvalue": 0.0
+  },
+  "verdict": "REJECTS Poisson(1) at alpha=0.01 - F's collision structure deviates significantly from a uniform random mapping",
+  "elapsed_seconds": 279.7656571865082
+}

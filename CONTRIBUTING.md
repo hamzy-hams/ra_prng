@@ -13,6 +13,9 @@ make install        # editable install of the pure-Python ra_prng2 module (pip i
 make dev-install     # same, plus dev dependencies (pytest, build)
 make test             # run tests/ (currently an empty scaffold - see tests/)
 make clean             # remove build/
+
+pip install .          # end-user install on a fresh machine: also compiles + bundles
+                        # bindings.cpython's C engine (requires gcc on that machine)
 ```
 
 All build output goes to `build/` (gitignored). Do not compile in-place into

@@ -1,0 +1,4 @@
+n=8 w=4 G=2 rows=4 S13=2 taps=(0,1) c_m=0x1 c_l=0x9
+resumed seed=0 from checkpoint: phase=0 lam=315293058 power=274877906944 k=0 mu=0
+progress seed=0 phase=0 lam=22103893058 power=274877906944 k=0 mu=0 elapsed_this_run=1800s
+interrupted at seed=0 - checkpoint saved to .cycle_measure_ckpt_n8_w4_rows4_seed0.bin. Re-run the same command to resume.

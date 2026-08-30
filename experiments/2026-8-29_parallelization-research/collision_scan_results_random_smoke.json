@@ -1,0 +1,22 @@
+{
+  "seed_mode": "random",
+  "tier": "smoke",
+  "prefix": {
+    "mode": "prefix",
+    "m_seeds": 2000,
+    "n_words": 64,
+    "fingerprints": 2000,
+    "collisions_found": 0,
+    "collisions": [],
+    "digest_collision_prob_estimate": 1.0836600713992617e-13
+  },
+  "blocksweep": {
+    "mode": "blocksweep",
+    "m_seeds": 500,
+    "v_words": 10000,
+    "total_blocks": 19500,
+    "collisions_found": 0,
+    "collisions": [],
+    "digest_collision_prob_estimate": 1.030616835363124e-11
+  }
+}

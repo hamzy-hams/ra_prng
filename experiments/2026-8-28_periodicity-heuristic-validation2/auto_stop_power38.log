@@ -1,0 +1,5 @@
+[2026-08-28 21:51:46] Started auto-stop monitor for power >= 2**38 (274,877,906,944)
+[2026-08-28 22:45:18] Condition reached! power=274,877,906,944 (2**38) lam=201,093,058 phase=0. Terminating cycle_measure pids=[4477]...
+[2026-08-28 22:45:21] Termination signal sent successfully.
+[2026-08-29 14:19:24] Started auto-stop monitor for power >= 2**39 (549,755,813,888), pattern='cycle_measure 8 4 4 0 1'
+[2026-08-29 14:57:56] cycle_measure process no longer running. Exiting.

@@ -21,8 +21,21 @@
  * seed's checkpoint is tracked - see RESULTS.md / the plan for why this
  * scope was chosen).
  *
+ * State-update-mechanism spectrum for L (see
+ * experiments/2026-8-28_state-update-mechanism-research/HANDOVER.md):
+ * mechanism 0 = permute (today's swap, default), 1 = inject (ra_prng3-style
+ * one-directional overwrite, L[i]=L[d]; L[d]=c), 2 = overwrite (direct
+ * overwrite, no relocation, L[i]=c). Mirrors toy_prng.py's MECHANISMS.
+ *
+ * State-update-mechanism spectrum for M's once-per-cycle reseed fold
+ * (HANDOVER.md catalog #4, "symmetric treatment of M" -- design choices
+ * made explicit here, see toy_prng.py's M_MECHANISMS docstring for the
+ * full rationale): m_mechanism 0 = xor_fold (today's M[i]^=L[i], default),
+ * 1 = permute (M[i],M[L[i]%n] swapped for each i), 2 = inject (M[i]=M[j];
+ * M[j]=L[i] where j=L[i]%n), 3 = overwrite (M[i]=L[i] for all i).
+ *
  * Compile: gcc -O3 -march=native -std=gnu17 cycle_measure.c -o cycle_measure
- * Usage:   ./cycle_measure <n> <w> <rows> <seed_start> <seed_count>
+ * Usage:   ./cycle_measure <n> <w> <rows> <mechanism> <m_mechanism> <seed_start> <seed_count>
  */
 
 #include <stdio.h>
@@ -35,11 +48,16 @@
 static volatile sig_atomic_t g_stop_requested = 0;
 static void handle_signal(int sig) { (void)sig; g_stop_requested = 1; }
 
+enum { MECH_PERMUTE = 0, MECH_INJECT = 1, MECH_OVERWRITE = 2 };
+enum { MMECH_XOR_FOLD = 0, MMECH_PERMUTE = 1, MMECH_INJECT = 2, MMECH_OVERWRITE = 3 };
+
 typedef struct {
     int n, w, G;
     uint32_t mask;
     uint32_t S9, S18, S13, S14;
     uint32_t c_m, c_l;
+    int mechanism;
+    int m_mechanism;
 } Params;
 
 static uint32_t rotw(uint32_t x, uint32_t r, const Params *p) {
@@ -72,7 +90,7 @@ static uint32_t truncate_const(uint32_t c32, int w) {
     return c_w ? c_w : 1u;
 }
 
-static void params_init(Params *p, int n, int w, int rows) {
+static void params_init(Params *p, int n, int w, int rows, int mechanism, int m_mechanism) {
     p->n = n;
     p->w = w;
     p->mask = (w >= 32) ? 0xFFFFFFFFu : ((1u << w) - 1u);
@@ -81,6 +99,16 @@ static void params_init(Params *p, int n, int w, int rows) {
         exit(1);
     }
     p->G = n / rows;
+    if (mechanism < MECH_PERMUTE || mechanism > MECH_OVERWRITE) {
+        fprintf(stderr, "mechanism=%d must be 0 (permute), 1 (inject), or 2 (overwrite)\n", mechanism);
+        exit(1);
+    }
+    p->mechanism = mechanism;
+    if (m_mechanism < MMECH_XOR_FOLD || m_mechanism > MMECH_OVERWRITE) {
+        fprintf(stderr, "m_mechanism=%d must be 0 (xor_fold), 1 (permute), 2 (inject), or 3 (overwrite)\n", m_mechanism);
+        exit(1);
+    }
+    p->m_mechanism = m_mechanism;
     p->S9  = rescale_shift(9, w);
     p->S18 = rescale_shift(18, w);
     p->S13 = rescale_shift(13, w);
@@ -115,11 +143,11 @@ static int state_equal(const State *a, const State *b, int n) {
  * phase: 0 = Brent search (tortoise/hare doubling), 1 = reset (advancing
  * a fresh hare exactly lam steps from x0), 2 = final (mu search). */
 #define CKPT_MAGIC 0x52415052u /* "RAPR" */
-#define CKPT_VERSION 1u
+#define CKPT_VERSION 3u /* bumped: CkptHeader gained `m_mechanism` */
 
 typedef struct {
     uint32_t magic, version;
-    int32_t n, w, rows;
+    int32_t n, w, rows, mechanism, m_mechanism;
     uint32_t seed;
     int32_t phase;
     uint64_t lam, power, k, mu;
@@ -147,8 +175,8 @@ static void save_checkpoint(const char *path, const Params *p, uint32_t seed,
     snprintf(tmp_path, sizeof(tmp_path), "%s.tmp", path);
     FILE *f = fopen(tmp_path, "wb");
     if (!f) { perror("checkpoint fopen"); return; }
-    CkptHeader h = { CKPT_MAGIC, CKPT_VERSION, p->n, p->w, p->n / p->G, seed,
-                      phase, lam, power, k, mu };
+    CkptHeader h = { CKPT_MAGIC, CKPT_VERSION, p->n, p->w, p->n / p->G, p->mechanism, p->m_mechanism,
+                      seed, phase, lam, power, k, mu };
     fwrite(&h, sizeof(h), 1, f);
     state_write(f, tortoise, p->n);
     state_write(f, hare, p->n);
@@ -166,7 +194,8 @@ static int load_checkpoint(const char *path, const Params *p, uint32_t seed,
     CkptHeader h;
     if (fread(&h, sizeof(h), 1, f) != 1 ||
         h.magic != CKPT_MAGIC || h.version != CKPT_VERSION ||
-        h.n != p->n || h.w != p->w || h.rows != p->n / p->G || h.seed != seed ||
+        h.n != p->n || h.w != p->w || h.rows != p->n / p->G ||
+        h.mechanism != p->mechanism || h.m_mechanism != p->m_mechanism || h.seed != seed ||
         state_read(f, tortoise, p->n) != 0 ||
         state_read(f, hare, p->n) != 0) {
         fclose(f);
@@ -218,10 +247,32 @@ static void next_state(State *s, const Params *p, uint32_t *hash_out /* scratch,
 
         d = (uint32_t)(((uint64_t)c * (uint64_t)(i + 1)) >> w);
 
-        uint32_t tmp = s->L[i]; s->L[i] = s->L[(int)d]; s->L[(int)d] = tmp;
+        if (p->mechanism == MECH_PERMUTE) {
+            uint32_t tmp = s->L[i]; s->L[i] = s->L[(int)d]; s->L[(int)d] = tmp;
+        } else if (p->mechanism == MECH_INJECT) {
+            s->L[i] = s->L[(int)d];
+            s->L[(int)d] = c;
+        } else { /* MECH_OVERWRITE */
+            s->L[i] = c;
+        }
     }
 
-    for (int i = 0; i < n; i++) s->M[i] ^= s->L[i];
+    if (p->m_mechanism == MMECH_XOR_FOLD) {
+        for (int i = 0; i < n; i++) s->M[i] ^= s->L[i];
+    } else if (p->m_mechanism == MMECH_PERMUTE) {
+        for (int i = 0; i < n; i++) {
+            int j = (int)(s->L[i] & (uint32_t)(n - 1));
+            uint32_t tmp = s->M[i]; s->M[i] = s->M[j]; s->M[j] = tmp;
+        }
+    } else if (p->m_mechanism == MMECH_INJECT) {
+        for (int i = 0; i < n; i++) {
+            int j = (int)(s->L[i] & (uint32_t)(n - 1));
+            s->M[i] = s->M[j];
+            s->M[j] = s->L[i];
+        }
+    } else { /* MMECH_OVERWRITE */
+        for (int i = 0; i < n; i++) s->M[i] = s->L[i];
+    }
 
     ra_hash_gen(s->M, p, hash_out);
 
@@ -342,23 +393,27 @@ done:
 }
 
 int main(int argc, char **argv) {
-    if (argc != 6) {
-        fprintf(stderr, "usage: %s <n> <w> <rows> <seed_start> <seed_count>\n", argv[0]);
+    if (argc != 8) {
+        fprintf(stderr, "usage: %s <n> <w> <rows> <mechanism 0=permute|1=inject|2=overwrite> "
+                        "<m_mechanism 0=xor_fold|1=permute|2=inject|3=overwrite> "
+                        "<seed_start> <seed_count>\n", argv[0]);
         return 1;
     }
     int n = atoi(argv[1]);
     int w = atoi(argv[2]);
     int rows = atoi(argv[3]);
-    uint32_t seed_start = (uint32_t)strtoul(argv[4], NULL, 10);
-    int seed_count = atoi(argv[5]);
+    int mechanism = atoi(argv[4]);
+    int m_mechanism = atoi(argv[5]);
+    uint32_t seed_start = (uint32_t)strtoul(argv[6], NULL, 10);
+    int seed_count = atoi(argv[7]);
 
     signal(SIGTERM, handle_signal);
     signal(SIGINT, handle_signal);
 
     Params p;
-    params_init(&p, n, w, rows);
-    fprintf(stderr, "n=%d w=%d G=%d rows=%d shifts=(%u,%u,%u,%u) c_m=0x%x c_l=0x%x\n",
-            p.n, p.w, p.G, p.n / p.G, p.S9, p.S18, p.S13, p.S14, p.c_m, p.c_l);
+    params_init(&p, n, w, rows, mechanism, m_mechanism);
+    fprintf(stderr, "n=%d w=%d G=%d rows=%d mechanism=%d m_mechanism=%d shifts=(%u,%u,%u,%u) c_m=0x%x c_l=0x%x\n",
+            p.n, p.w, p.G, p.n / p.G, p.mechanism, p.m_mechanism, p.S9, p.S18, p.S13, p.S14, p.c_m, p.c_l);
 
     printf("seed,lambda,mu\n");
     fflush(stdout);
@@ -366,7 +421,8 @@ int main(int argc, char **argv) {
         uint32_t seed = seed_start + (uint32_t)k;
         char ckpt_path[256];
         snprintf(ckpt_path, sizeof(ckpt_path),
-                 ".cycle_measure_ckpt_n%d_w%d_rows%d_seed%u.bin", p.n, p.w, p.n / p.G, seed);
+                 ".cycle_measure_ckpt_n%d_w%d_rows%d_mech%d_mmech%d_seed%u.bin",
+                 p.n, p.w, p.n / p.G, p.mechanism, p.m_mechanism, seed);
 
         uint64_t lam, mu;
         int rc = brent_resumable(&p, seed, ckpt_path, &lam, &mu);

@@ -1,0 +1,152 @@
+=== original_permute ===
+Generated 200000000 pseudorandom updates across threads in 1.406 seconds
+Last cons from RNGing: 4074910095
+Generated 200000000 pseudorandom updates across threads in 1.419 seconds
+Last cons from RNGing: 4074910095
+Generated 200000000 pseudorandom updates across threads in 1.406 seconds
+Last cons from RNGing: 4074910095
+Generated 200000000 pseudorandom updates across threads in 1.439 seconds
+Last cons from RNGing: 4074910095
+Generated 200000000 pseudorandom updates across threads in 1.421 seconds
+Last cons from RNGing: 4074910095
+
+ Performance counter stats for './original_permute' (5 runs):
+
+    14,898,167,206      instructions:u                                                          ( +-  0.00% )
+     4,580,359,081      cycles:u                                                                ( +-  0.27% )
+
+       1.419063929 +- 0.006002494 seconds time elapsed  ( +-  0.42% )
+
+=== original_m_permute ===
+Generated 200000000 pseudorandom updates across threads in 1.554 seconds
+Last cons from RNGing: 1241452438
+Generated 200000000 pseudorandom updates across threads in 1.568 seconds
+Last cons from RNGing: 1241452438
+Generated 200000000 pseudorandom updates across threads in 1.562 seconds
+Last cons from RNGing: 1241452438
+Generated 200000000 pseudorandom updates across threads in 1.571 seconds
+Last cons from RNGing: 1241452438
+Generated 200000000 pseudorandom updates across threads in 1.567 seconds
+Last cons from RNGing: 1241452438
+
+ Performance counter stats for './original_m_permute' (5 runs):
+
+    16,529,538,177      instructions:u                                                          ( +-  0.00% )
+     5,070,648,480      cycles:u                                                                ( +-  0.13% )
+
+       1.565240415 +- 0.002966704 seconds time elapsed  ( +-  0.19% )
+
+=== original_m_inject ===
+Generated 200000000 pseudorandom updates across threads in 1.554 seconds
+Last cons from RNGing: 1681399599
+Generated 200000000 pseudorandom updates across threads in 1.557 seconds
+Last cons from RNGing: 1681399599
+Generated 200000000 pseudorandom updates across threads in 1.589 seconds
+Last cons from RNGing: 1681399599
+Generated 200000000 pseudorandom updates across threads in 1.551 seconds
+Last cons from RNGing: 1681399599
+Generated 200000000 pseudorandom updates across threads in 1.559 seconds
+Last cons from RNGing: 1681399599
+
+ Performance counter stats for './original_m_inject' (5 runs):
+
+    16,531,106,839      instructions:u                                                          ( +-  0.00% )
+     5,002,398,155      cycles:u                                                                ( +-  0.18% )
+
+       1.562495980 +- 0.006883584 seconds time elapsed  ( +-  0.44% )
+
+=== original_m_overwrite ===
+Generated 200000000 pseudorandom updates across threads in 1.484 seconds
+Last cons from RNGing: 1177035420
+Generated 200000000 pseudorandom updates across threads in 1.431 seconds
+Last cons from RNGing: 1177035420
+Generated 200000000 pseudorandom updates across threads in 1.464 seconds
+Last cons from RNGing: 1177035420
+Generated 200000000 pseudorandom updates across threads in 1.446 seconds
+Last cons from RNGing: 1177035420
+Generated 200000000 pseudorandom updates across threads in 1.474 seconds
+Last cons from RNGing: 1177035420
+
+ Performance counter stats for './original_m_overwrite' (5 runs):
+
+    14,822,089,799      instructions:u                                                          ( +-  0.00% )
+     4,655,710,631      cycles:u                                                                ( +-  0.35% )
+
+       1.460735296 +- 0.009605454 seconds time elapsed  ( +-  0.66% )
+
+=== winner_permute ===
+Generated 200000000 pseudorandom updates in 0.612 seconds
+Last cons from RNGing: 4066440045
+Generated 200000000 pseudorandom updates in 0.626 seconds
+Last cons from RNGing: 4066440045
+Generated 200000000 pseudorandom updates in 0.613 seconds
+Last cons from RNGing: 4066440045
+Generated 200000000 pseudorandom updates in 0.650 seconds
+Last cons from RNGing: 4066440045
+Generated 200000000 pseudorandom updates in 0.637 seconds
+Last cons from RNGing: 4066440045
+
+ Performance counter stats for './winner_permute' (5 runs):
+
+     6,053,459,896      instructions:u                                                          ( +-  0.00% )
+     1,992,991,020      cycles:u                                                                ( +-  0.40% )
+
+       0.628209748 +- 0.007216868 seconds time elapsed  ( +-  1.15% )
+
+=== winner_m_permute ===
+Generated 200000000 pseudorandom updates in 0.753 seconds
+Last cons from RNGing: 1290307374
+Generated 200000000 pseudorandom updates in 0.755 seconds
+Last cons from RNGing: 1290307374
+Generated 200000000 pseudorandom updates in 0.761 seconds
+Last cons from RNGing: 1290307374
+Generated 200000000 pseudorandom updates in 0.745 seconds
+Last cons from RNGing: 1290307374
+Generated 200000000 pseudorandom updates in 0.739 seconds
+Last cons from RNGing: 1290307374
+
+ Performance counter stats for './winner_m_permute' (5 runs):
+
+     7,506,791,985      instructions:u                                                          ( +-  0.00% )
+     2,403,281,052      cycles:u                                                                ( +-  0.33% )
+
+       0.751489518 +- 0.004013263 seconds time elapsed  ( +-  0.53% )
+
+=== winner_m_inject ===
+Generated 200000000 pseudorandom updates in 0.748 seconds
+Last cons from RNGing: 1926589479
+Generated 200000000 pseudorandom updates in 0.738 seconds
+Last cons from RNGing: 1926589479
+Generated 200000000 pseudorandom updates in 0.741 seconds
+Last cons from RNGing: 1926589479
+Generated 200000000 pseudorandom updates in 0.757 seconds
+Last cons from RNGing: 1926589479
+Generated 200000000 pseudorandom updates in 0.747 seconds
+Last cons from RNGing: 1926589479
+
+ Performance counter stats for './winner_m_inject' (5 runs):
+
+     7,506,791,984      instructions:u                                                          ( +-  0.00% )
+     2,376,109,939      cycles:u                                                                ( +-  0.24% )
+
+       0.747125795 +- 0.003329357 seconds time elapsed  ( +-  0.45% )
+
+=== winner_m_overwrite ===
+Generated 200000000 pseudorandom updates in 0.598 seconds
+Last cons from RNGing: 3790354024
+Generated 200000000 pseudorandom updates in 0.601 seconds
+Last cons from RNGing: 3790354024
+Generated 200000000 pseudorandom updates in 0.622 seconds
+Last cons from RNGing: 3790354024
+Generated 200000000 pseudorandom updates in 0.607 seconds
+Last cons from RNGing: 3790354024
+Generated 200000000 pseudorandom updates in 0.596 seconds
+Last cons from RNGing: 3790354024
+
+ Performance counter stats for './winner_m_overwrite' (5 runs):
+
+     5,992,284,247      instructions:u                                                          ( +-  0.00% )
+     1,946,122,788      cycles:u                                                                ( +-  0.35% )
+
+       0.605548550 +- 0.004696641 seconds time elapsed  ( +-  0.78% )
+

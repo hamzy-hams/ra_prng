@@ -1,6 +1,9 @@
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
+# setup.py supplies a build_py subclass (compiles src/ra_prng2/c/ra_prng2_struct.c
+# into bindings/cpython/libra_prng2.so via gcc) and a Distribution subclass
+# marking the wheel platform-specific; see setup.py.
 
 [project]
 name = "ra-prng"
@@ -23,8 +26,9 @@ Homepage = "https://github.com/hamzy-hams"
 dev = ["pytest>=7", "build"]
 
 [tool.setuptools]
-package-dir = { "" = "src/ra_prng2/python" }
+package-dir = { "" = "src/ra_prng2/python", "bindings" = "bindings" }
 py-modules = ["ra_prng2"]
+packages = ["bindings", "bindings.cpython"]
 
 [tool.pytest.ini_options]
 # tests/verify_equivalence.py predates pytest's default test_*.py naming

@@ -14,6 +14,14 @@ Build the shared library it depends on, then use it:
 make build-ext          # -> build/lib/libra_prng2.so
 ```
 
+Alternatively, `pip install .` (or `pip install <sdist>.tar.gz`) compiles the
+same C source via `gcc` at install time and bundles `libra_prng2.so` inside
+the installed `bindings.cpython` package automatically - no separate
+`make build-ext` step needed in that case. Requires `gcc` on the target
+machine. Because compilation uses `-march=native`, install packages this way
+**on the machine they'll run on** - do not copy a wheel built on one machine
+to another with a different CPU.
+
 ```python
 from bindings.cpython._ra_prng2 import RaPrng2
 
