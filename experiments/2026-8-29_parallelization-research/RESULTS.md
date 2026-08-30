@@ -60,29 +60,49 @@ nonlinear/bit-level di luar cakupan metode ini (lihat Method B).
 ### Method B: interleaved PractRand (`interleave_practrand.py`)
 
 K stream di-interleave word-level round-robin, dipipe langsung ke
-`RNG_test stdin32 -tlmin <L> -tlmax <L>`. Tahapan berurutan dengan
+`RNG_test stdin32 -tlmin <Lmin> -tlmax <Lmax>`. Tahapan berurutan dengan
 checkpoint (semua tier harus bersih sebelum naik):
 
 | Tier | K | Total data | Waktu | Hasil |
 |---|---|---|---|---|
 | smoke | 4 | 64MB | 0.7s | bersih, 142 test, no anomalies |
 | medium | 8 | 1GB | 11.7s | bersih, 194 test, no anomalies |
-| **full** | **8** | **16GB** | **196s (~3.3 menit)** | **bersih, 240 test, no anomalies** |
+| full | 8 | 16GB | 204s (~3.4 menit) | bersih, 240 test, no anomalies |
+| **xlarge** | **8** | **128GB** | **1699s (~28,3 menit)** | **bersih, 273 test, no anomalies** |
 
-**Kesimpulan Q1 Method B**: interleave 8 stream (seed 0-7) sampai 16GB
-gabungan tidak menghasilkan satu pun FAIL/SUSPICIOUS di PractRand (240 test
-result). Kalau stream-stream ini saling berkorelasi, menggabungkannya
-sebagai "satu RNG besar" seharusnya membuat PractRand mendeteksi pola jauh
-lebih cepat dibanding baseline single-stream 128GB-clean yang sudah
-diverifikasi di eksperimen 2026-8-27 — tidak terjadi di sini. Ini bukti
-tambahan (menangkap dependensi nonlinear, tidak seperti Method A) yang
-konsisten dengan hasil Method A: tidak ada sinyal dependensi antar-stream
-pada skala uji ini.
+**Kesimpulan Q1 Method B**: interleave 8 stream (seed 0-7) sampai 128GB
+gabungan tidak menghasilkan satu pun FAIL/SUSPICIOUS di PractRand (checkpoint
+bertahap 8GB→16GB→32GB→64GB→128GB, 273 test result di titik akhir). Kalau
+stream-stream ini saling berkorelasi, menggabungkannya sebagai "satu RNG
+besar" seharusnya membuat PractRand mendeteksi pola jauh lebih cepat
+dibanding baseline single-stream 128GB-clean yang sudah diverifikasi di
+eksperimen 2026-8-27 — tidak terjadi di sini. Ini bukti tambahan (menangkap
+dependensi nonlinear, tidak seperti Method A) yang konsisten dengan hasil
+Method A: tidak ada sinyal dependensi antar-stream, sekarang divalidasi pada
+skala yang sama dengan baseline single-stream 128GB-clean, bukan cuma 16GB.
 
-**Catatan skala**: 16GB dianggap cukup informatif untuk keputusan go/no-go
-riset paralelisasi ini (bukan validasi produksi final skala 128GB/1TB —
-itu follow-up terpisah kalau ada sinyal mencurigakan, yang tidak ada di
-sini).
+**Catatan implementasi (lesson learned, Fase 2)**: percobaan pertama ke
+128GB gagal dua kali secara berurutan sebelum berhasil, murni karena bug di
+*harness*-nya (bukan di generator, yang tidak pernah diubah):
+1. Skrip awal memakai `-tlmin <L> -tlmax <L>` dengan `L` sama persis —
+   cocok sampai 16GB tapi PractRand gagal ("error reading standard input",
+   tanpa baris hasil tes sama sekali) di 128GB. Deteksi pass/fail yang lama
+   (`"FAIL"/"SUSPICIOUS" not in stdout`) salah melaporkan ini sebagai
+   "PASSED" karena tidak memeriksa apakah baris hasil tes yang asli memang
+   ada. Diperbaiki dengan pola rentang (`-tlmin 8GB -tlmax 128GB`, meniru
+   konvensi yang sudah terbukti di `2026-8-27_operand-position-search/`) dan
+   memperketat deteksi pass/fail agar mensyaratkan baris `"no anomalies in N
+   test result(s)"` benar-benar ada.
+2. Percobaan kedua (dengan fix di atas) sudah dapat checkpoint bersih sampai
+   64GB, tapi tetap gagal tepat sebelum 128GB — total data yang terkirim ke
+   PractRand kurang 8 word (dari ~34,4 miliar word) dari target persis.
+   Diperbaiki dengan pola "over-supply": tiap stream generator diminta
+   sedikit lebih banyak data dari kebutuhan, dan PractRand sendiri yang
+   menghentikan pembacaan (`BrokenPipeError` di sisi penulis) begitu
+   `-tlmax` tercapai — pola yang sama seperti yang sudah dipakai
+   `other_winners_practrand.sh` di riset sebelumnya.
+Kedua fix ini murni perbaikan alat ukur; binary yang diuji (`winner_wired_v2`)
+tidak pernah disentuh.
 
 ## 2. Probabilitas collision/overlap antar-stream (`collision_scan.py`)
 
@@ -96,14 +116,55 @@ eksperimen periodisitas terpisah, bukan cakupan di sini).
 | `prefix` (64-word fingerprint/seed) | M=10,000 seed | 10,000 fingerprint | **0** | ≈2.71×10⁻¹² |
 | `blocksweep` (blok 255-word) | M=10,000 seed, V=250,000/seed | 9,800,000 blok | **0** | ≈2.60×10⁻⁶ |
 
-**Kesimpulan Q2**: nol collision terdeteksi di kedua mode pada skala uji
-10.000 seed / 9,8 juta blok. Karena probabilitas digest-collision murni
-(blake2b 64-bit) di skala ini diabaikan (≈10⁻⁶ hingga 10⁻¹²), hasil nol-hit
-ini bukan artefak hash — ini batas bawah confidence empiris untuk skala
-yang diuji: **tidak ada overlap antar-stream terdeteksi di antara 10.000
-seed pertama, masing-masing diperiksa sampai 250.000 nilai (≈1MB) pertama**.
-Ini bukan klaim atas seluruh ruang seed 2³², hanya atas skala yang benar-
-benar diuji di sini.
+**Kesimpulan Q2 (baseline sekuensial)**: nol collision terdeteksi di kedua
+mode pada skala uji 10.000 seed / 9,8 juta blok. Karena probabilitas
+digest-collision murni (blake2b 64-bit) di skala ini diabaikan (≈10⁻⁶
+hingga 10⁻¹²), hasil nol-hit ini bukan artefak hash — ini batas bawah
+confidence empiris untuk skala yang diuji: **tidak ada overlap antar-stream
+terdeteksi di antara 10.000 seed pertama, masing-masing diperiksa sampai
+250.000 nilai (≈1MB) pertama**. Ini bukan klaim atas seluruh ruang seed
+2³², hanya atas skala yang benar-benar diuji di sini — lihat sub-bagian
+berikut untuk validasi lanjutan yang menutup gap ini.
+
+### Validasi lanjutan: seed acak dari ruang 2³² penuh
+
+Skala sekuensial (`0..M-1`) di atas hanya menguji seed yang berdekatan.
+`collision_scan.py --seeds random` menyampel seed via `common.random_seeds()`
+(`random.Random(rng_seed).sample(range(2**32), m)`, tanpa replacement,
+reproducible) — tidak berurutan, tersebar di seluruh ruang 2³², jauh lebih
+representatif untuk skenario produksi (mis. worker terdistribusi yang
+menurunkan seed dari hash job-id, bukan counter berurutan).
+
+| Mode | Skala full (seed acak 2³²) | Unit diperiksa | Collision ditemukan | Probabilitas digest-collision murni (pembanding) |
+|---|---|---|---|---|
+| `prefix` | M=500.000 seed | 500.000 fingerprint | **0** | ≈6,78×10⁻⁹ |
+| `blocksweep` | M=25.000 seed, V=250.000/seed | 24.500.000 blok | **0** | ≈1,63×10⁻⁵ |
+
+Waktu tempuh gabungan (kedua mode, 4 worker paralel): 10 menit 25 detik —
+50x lebih banyak seed (prefix) dan 2,5x lebih banyak seed (blocksweep)
+dibanding baseline sekuensial, dari ruang 2³² penuh bukan `0..M-1`.
+
+**Kesimpulan Q2 (validasi lanjutan)**: nol collision di 500.000 seed acak
+(prefix) dan di 25.000 seed acak × 24,5 juta blok (blocksweep) dari seluruh
+ruang 2³². Digabung dengan hasil sekuensial di atas, ini adalah bukti
+empiris paling kuat yang dikumpulkan riset ini bahwa collision antar-stream
+tidak teramati baik untuk seed berdekatan maupun seed tersebar acak, pada
+skala uji gabungan >500.000 seed berbeda. Tetap bukan bukti matematis untuk
+seluruh 2³² — lihat Keterbatasan.
+
+**Catatan implementasi (lesson learned)**: paralelisasi awal memakai
+`ProcessPoolExecutor` dengan pola map-reduce (tiap worker proses bangun
+dict lokal, dikirim balik ke proses utama untuk di-merge). Ini bekerja di
+skala sedang (M≤20.000) tapi **deadlock** di skala penuh (prefix
+M=500.000/blocksweep M=25.000) — worker berhenti mengonsumsi CPU tanpa
+pernah selesai, kemungkinan besar karena mem-pickle dict berukuran
+ratusan-MB per worker lewat pipe IPC pool melebihi kapasitas praktis, atau
+efek fork-safety dari memanggil `subprocess.Popen` di dalam worker pool di
+bawah beban tinggi. Diganti ke `ThreadPoolExecutor` dengan dict bersama +
+`threading.Lock` (tanpa serialisasi antar-proses sama sekali, memakai
+memori bersama) — pola yang sama seperti konkurensi subprocess di Q3
+(`wall_time_scaling.py`) yang sudah terbukti stabil. Setelah diganti, run
+penuh selesai bersih tanpa hang.
 
 ## 3. Skalabilitas throughput (`wall_time_scaling.py` + `perf_scaling.sh`)
 
@@ -210,13 +271,17 @@ tidak otomatis terwujud tanpa kerja tambahan signifikan pada bagian
 
 ## Next steps
 
-- Kalau ingin validasi lebih dalam Q1: naikkan Method B ke 128GB/1TB
-  (seperti validasi single-stream 2026-8-27), atau perbesar K di Method A
-  untuk cakupan pasangan lebih luas.
-- Kalau ingin validasi lebih dalam Q2: sampling seed acak dari seluruh
-  ruang 2³² (bukan berurutan dari 0), atau naikkan M/V lebih jauh dengan
-  paralelisasi hashing lintas-core (`multiprocessing.Pool`, disebut sebagai
-  opsi di rencana riset).
+- ~~Kalau ingin validasi lebih dalam Q1: naikkan Method B ke 128GB/1TB~~ —
+  **128GB (tier `xlarge`) dikerjakan di Fase 2**, lihat tabel Method B di
+  atas. 1TB masih terbuka sebagai follow-up opsional berikutnya (ekstrapolasi
+  waktu ~8x dari 128GB, tidak feasible dalam satu sesi kerja tambahan tanpa
+  dijadwalkan terpisah).
+- ~~Kalau ingin validasi lebih dalam Q2: sampling seed acak dari seluruh
+  ruang 2³²~~ — **dikerjakan di Fase 2** (prefix M=500.000, blocksweep
+  M=25.000×V=250.000 dari `common.random_seeds()`), lihat sub-bagian
+  "Validasi lanjutan" di bagian Q2. Kalau ingin naik lebih jauh lagi:
+  perbesar M, atau uji beberapa `rng_seed` berbeda untuk `random_seeds()`
+  supaya tidak bergantung pada satu sampel acak tetap.
 - Kalau ingin serius mengejar SIMD lintas-stream: implementasikan swap
   `L[i]↔L[d]` via AVX-512 gather/scatter (`_mm512_i32gather_epi32`/
   `_mm512_i32scatter_epi32`) dan validasi ulang lewat PractRand — bagian

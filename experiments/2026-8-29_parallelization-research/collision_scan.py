@@ -29,13 +29,25 @@ Two seed sources (Phase 2, --seeds flag):
     at a raised scale (TIERS_Q2_RANDOM) -- closer to a real production seed
     distribution than sequential 0..M-1.
 
-Both modes are parallelized via a map-reduce over os.cpu_count() worker
-processes: each worker scans its own seed chunk into a local dict (and
-already checks for collisions WITHIN its chunk), then the main process
-merges all local dicts and checks for collisions ACROSS chunk boundaries too
--- this dogfoods Q3's own finding (process-level parallelism scales cleanly
-on this generator) to keep the raised validation scale feasible in one
-session instead of running everything on a single core.
+Both modes are parallelized via `ThreadPoolExecutor` driving concurrent
+`subprocess.Popen` calls against a SHARED dict guarded by a `threading.Lock`
+-- the same concurrent-subprocess-from-one-process primitive already proven
+to work cleanly in Q3's `wall_time_scaling.py`. `subprocess.Popen`/`.read()`
+release the GIL while blocked on I/O, and `hashlib.blake2b`'s C update()
+releases it too, so this gets real parallelism without ever pickling data
+between processes.
+
+NOTE (lesson from this session): an earlier version of this file used
+`ProcessPoolExecutor` with a map-reduce merge (each worker building its own
+local dict, returned to the main process for merging). It worked at modest
+scale (M up to ~20,000) but **deadlocked** at the raised validation scale
+(prefix M=500,000 / blocksweep M=25,000, V=250,000) -- workers finished
+their chunks (near-zero further CPU ticks) but never returned, most likely
+because pickling a several-hundred-MB-to-GB dict back through the pool's
+IPC pipe per worker either exceeded practical pipe/queue throughput or hit
+a fork-safety edge case from calling `subprocess.Popen` inside pool workers
+under sustained load. Switching to threads (shared memory, no IPC) sidesteps
+the failure mode entirely rather than working around it.
 """
 
 from __future__ import annotations
@@ -45,7 +57,8 @@ import json
 import os
 import subprocess
 import sys
-from concurrent.futures import ProcessPoolExecutor, as_completed
+import threading
+from concurrent.futures import ThreadPoolExecutor
 from math import comb
 
 from common import HERE, TIERS_Q2, TIERS_Q2_RANDOM, WINNER_BIN, random_seeds
@@ -61,47 +74,29 @@ def digest_collision_prob(n_items: int) -> float:
     return comb(n_items, 2) / (2 ** 64)
 
 
-def _chunk_seeds(seeds: list[int], n_chunks: int) -> list[list[int]]:
-    chunks = [seeds[i::n_chunks] for i in range(n_chunks)]
-    return [c for c in chunks if c]
-
-
 # --- prefix mode -------------------------------------------------------------
 
-def _scan_prefix_worker(args: tuple[list[int], int]) -> dict:
-    seeds_chunk, n_words = args
-    local: dict[bytes, int] = {}
-    collisions = []
-    for seed in seeds_chunk:
+def scan_prefix(seeds: list[int], n_words: int = 64, max_workers: int | None = None) -> dict:
+    max_workers = max_workers or os.cpu_count() or 1
+    global_seen: dict[bytes, int] = {}
+    collisions: list[dict] = []
+    lock = threading.Lock()
+
+    def worker(seed: int) -> None:
         result = subprocess.run(
             [str(WINNER_BIN), "--stream", str(seed), str(n_words)],
             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, check=True,
         )
         h = hashlib.blake2b(result.stdout, digest_size=DIGEST_SIZE).digest()
-        if h in local:
-            collisions.append({"seed_a": local[h], "seed_b": seed, "hash": h.hex()})
-        else:
-            local[h] = seed
-    return {"local": local, "collisions": collisions}
+        with lock:
+            if h in global_seen:
+                if global_seen[h] != seed:
+                    collisions.append({"seed_a": global_seen[h], "seed_b": seed, "hash": h.hex()})
+            else:
+                global_seen[h] = seed
 
-
-def scan_prefix(seeds: list[int], n_words: int = 64, max_workers: int | None = None) -> dict:
-    max_workers = max_workers or os.cpu_count() or 1
-    chunks = _chunk_seeds(seeds, max_workers)
-    global_seen: dict[bytes, int] = {}
-    collisions = []
-
-    with ProcessPoolExecutor(max_workers=max_workers) as ex:
-        futures = [ex.submit(_scan_prefix_worker, (chunk, n_words)) for chunk in chunks]
-        for fut in as_completed(futures):
-            res = fut.result()
-            collisions.extend(res["collisions"])
-            for h, seed in res["local"].items():
-                if h in global_seen:
-                    if global_seen[h] != seed:
-                        collisions.append({"seed_a": global_seen[h], "seed_b": seed, "hash": h.hex()})
-                else:
-                    global_seen[h] = seed
+    with ThreadPoolExecutor(max_workers=max_workers) as ex:
+        list(ex.map(worker, seeds))  # drive to completion; exceptions propagate here
 
     prob = digest_collision_prob(len(seeds))
     return {
@@ -113,13 +108,13 @@ def scan_prefix(seeds: list[int], n_words: int = 64, max_workers: int | None = N
 
 # --- blocksweep mode ----------------------------------------------------------
 
-def _scan_blocksweep_worker(args: tuple[list[int], int]) -> dict:
-    seeds_chunk, v_words = args
-    local: dict[bytes, tuple[int, int]] = {}
-    collisions = []
-    total_blocks = 0
+def scan_blocksweep(seeds: list[int], v_words: int, max_workers: int | None = None) -> dict:
+    max_workers = max_workers or os.cpu_count() or 1
+    global_seen: dict[bytes, tuple[int, int]] = {}
+    collisions: list[dict] = []
+    lock = threading.Lock()
 
-    for seed in seeds_chunk:
+    def worker(seed: int) -> int:
         proc = subprocess.Popen(
             [str(WINNER_BIN), "--stream", str(seed), str(v_words)],
             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
@@ -136,46 +131,24 @@ def _scan_blocksweep_worker(args: tuple[list[int], int]) -> dict:
                 block = buf[:BLOCK_BYTES]
                 buf = buf[BLOCK_BYTES:]
                 h = hashlib.blake2b(block, digest_size=DIGEST_SIZE).digest()
-                if h in local:
-                    owner_seed, owner_pos = local[h]
-                    if owner_seed != seed:
-                        collisions.append({
-                            "seed_a": owner_seed, "pos_a": owner_pos,
-                            "seed_b": seed, "pos_b": pos, "hash": h.hex(),
-                        })
-                else:
-                    local[h] = (seed, pos)
-                total_blocks += 1
+                with lock:
+                    if h in global_seen:
+                        owner_seed, owner_pos = global_seen[h]
+                        if owner_seed != seed:
+                            collisions.append({
+                                "seed_a": owner_seed, "pos_a": owner_pos,
+                                "seed_b": seed, "pos_b": pos, "hash": h.hex(),
+                            })
+                    else:
+                        global_seen[h] = (seed, pos)
                 pos += 1
         proc.stdout.close()
         proc.wait()
+        return pos  # blocks processed for this seed
 
-    return {"local": local, "collisions": collisions, "total_blocks": total_blocks}
-
-
-def scan_blocksweep(seeds: list[int], v_words: int, max_workers: int | None = None) -> dict:
-    max_workers = max_workers or os.cpu_count() or 1
-    chunks = _chunk_seeds(seeds, max_workers)
-    global_seen: dict[bytes, tuple[int, int]] = {}
-    collisions = []
-    total_blocks = 0
-
-    with ProcessPoolExecutor(max_workers=max_workers) as ex:
-        futures = [ex.submit(_scan_blocksweep_worker, (chunk, v_words)) for chunk in chunks]
-        for fut in as_completed(futures):
-            res = fut.result()
-            collisions.extend(res["collisions"])
-            total_blocks += res["total_blocks"]
-            for h, (seed, pos) in res["local"].items():
-                if h in global_seen:
-                    owner_seed, owner_pos = global_seen[h]
-                    if owner_seed != seed:
-                        collisions.append({
-                            "seed_a": owner_seed, "pos_a": owner_pos,
-                            "seed_b": seed, "pos_b": pos, "hash": h.hex(),
-                        })
-                else:
-                    global_seen[h] = (seed, pos)
+    with ThreadPoolExecutor(max_workers=max_workers) as ex:
+        counts = list(ex.map(worker, seeds))
+    total_blocks = sum(counts)
 
     prob = digest_collision_prob(total_blocks)
     return {
