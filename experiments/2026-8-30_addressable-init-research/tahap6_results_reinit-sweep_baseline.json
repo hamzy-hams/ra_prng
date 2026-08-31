@@ -1,0 +1,109 @@
+{
+  "rows": [
+    {
+      "K": 1,
+      "cycles": 200000,
+      "addr_ns_per_word_steadystate": 52.759,
+      "philox_ns_per_word": 12.002,
+      "ratio": 4.396,
+      "checksum": 3986491784
+    },
+    {
+      "K": 2,
+      "cycles": 200000,
+      "addr_ns_per_word_steadystate": 27.818,
+      "philox_ns_per_word": 5.998,
+      "ratio": 4.638,
+      "checksum": 0
+    },
+    {
+      "K": 4,
+      "cycles": 200000,
+      "addr_ns_per_word_steadystate": 14.68,
+      "philox_ns_per_word": 2.998,
+      "ratio": 4.896,
+      "checksum": 3986491784
+    },
+    {
+      "K": 8,
+      "cycles": 200000,
+      "addr_ns_per_word_steadystate": 8.241,
+      "philox_ns_per_word": 2.916,
+      "ratio": 2.826,
+      "checksum": 2333931090
+    },
+    {
+      "K": 16,
+      "cycles": 200000,
+      "addr_ns_per_word_steadystate": 4.951,
+      "philox_ns_per_word": 3.033,
+      "ratio": 1.632,
+      "checksum": 2091285653
+    },
+    {
+      "K": 24,
+      "cycles": 200000,
+      "addr_ns_per_word_steadystate": 4.142,
+      "philox_ns_per_word": 2.85,
+      "ratio": 1.453,
+      "checksum": 2432737907
+    },
+    {
+      "K": 32,
+      "cycles": 200000,
+      "addr_ns_per_word_steadystate": 3.597,
+      "philox_ns_per_word": 2.847,
+      "ratio": 1.264,
+      "checksum": 1270177137
+    },
+    {
+      "K": 48,
+      "cycles": 200000,
+      "addr_ns_per_word_steadystate": 3.039,
+      "philox_ns_per_word": 2.83,
+      "ratio": 1.074,
+      "checksum": 548796166
+    },
+    {
+      "K": 64,
+      "cycles": 200000,
+      "addr_ns_per_word_steadystate": 2.778,
+      "philox_ns_per_word": 2.836,
+      "ratio": 0.98,
+      "checksum": 3647379079
+    },
+    {
+      "K": 80,
+      "cycles": 200000,
+      "addr_ns_per_word_steadystate": 2.597,
+      "philox_ns_per_word": 2.842,
+      "ratio": 0.914,
+      "checksum": 3363219220
+    },
+    {
+      "K": 96,
+      "cycles": 200000,
+      "addr_ns_per_word_steadystate": 2.492,
+      "philox_ns_per_word": 2.82,
+      "ratio": 0.884,
+      "checksum": 3406786791
+    },
+    {
+      "K": 128,
+      "cycles": 156250,
+      "addr_ns_per_word_steadystate": 2.349,
+      "philox_ns_per_word": 2.817,
+      "ratio": 0.834,
+      "checksum": 3161046484
+    },
+    {
+      "K": 192,
+      "cycles": 104166,
+      "addr_ns_per_word_steadystate": 2.215,
+      "philox_ns_per_word": 2.84,
+      "ratio": 0.78,
+      "checksum": 1656596692
+    }
+  ],
+  "k_star_estimate": 60.12909828048965
+}

@@ -1,0 +1,6 @@
+{
+  "repeats": 5000000,
+  "addr_ns_per_init": 48.337,
+  "philox_ns_per_call": 9.911,
+  "ratio": 4.877
+}

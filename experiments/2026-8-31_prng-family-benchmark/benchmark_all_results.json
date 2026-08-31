@@ -1,0 +1,1263 @@
+{
+  "paperorig": {
+    "status": "OK",
+    "sweep": [
+      {
+        "K": 1,
+        "cycles": 200000,
+        "call_ns": 24.852,
+        "ns_per_word": 24.852
+      },
+      {
+        "K": 2,
+        "cycles": 200000,
+        "call_ns": 30.935,
+        "ns_per_word": 15.467
+      },
+      {
+        "K": 4,
+        "cycles": 200000,
+        "call_ns": 40.138,
+        "ns_per_word": 10.035
+      },
+      {
+        "K": 8,
+        "cycles": 200000,
+        "call_ns": 61.141,
+        "ns_per_word": 7.643
+      },
+      {
+        "K": 16,
+        "cycles": 125000,
+        "call_ns": 102.536,
+        "ns_per_word": 6.409
+      },
+      {
+        "K": 24,
+        "cycles": 83333,
+        "call_ns": 144.019,
+        "ns_per_word": 6.001
+      },
+      {
+        "K": 32,
+        "cycles": 62500,
+        "call_ns": 185.693,
+        "ns_per_word": 5.803
+      },
+      {
+        "K": 48,
+        "cycles": 41666,
+        "call_ns": 268.499,
+        "ns_per_word": 5.594
+      },
+      {
+        "K": 64,
+        "cycles": 31250,
+        "call_ns": 352.243,
+        "ns_per_word": 5.504
+      },
+      {
+        "K": 80,
+        "cycles": 25000,
+        "call_ns": 434.224,
+        "ns_per_word": 5.428
+      },
+      {
+        "K": 96,
+        "cycles": 20833,
+        "call_ns": 518.033,
+        "ns_per_word": 5.396
+      },
+      {
+        "K": 128,
+        "cycles": 15625,
+        "call_ns": 686.537,
+        "ns_per_word": 5.364
+      },
+      {
+        "K": 192,
+        "cycles": 10416,
+        "call_ns": 1021.955,
+        "ns_per_word": 5.323
+      },
+      {
+        "K": 255,
+        "cycles": 7843,
+        "call_ns": 1348.44,
+        "ns_per_word": 5.288
+      },
+      {
+        "K": 256,
+        "cycles": 7812,
+        "call_ns": 1358.063,
+        "ns_per_word": 5.305
+      },
+      {
+        "K": 512,
+        "cycles": 3906,
+        "call_ns": 2723.873,
+        "ns_per_word": 5.32
+      },
+      {
+        "K": 1024,
+        "cycles": 1953,
+        "call_ns": 5421.544,
+        "ns_per_word": 5.294
+      },
+      {
+        "K": 4096,
+        "cycles": 488,
+        "call_ns": 21563.869,
+        "ns_per_word": 5.265
+      },
+      {
+        "K": 65536,
+        "cycles": 30,
+        "call_ns": 344834.733,
+        "ns_per_word": 5.262
+      },
+      {
+        "K": 1000000,
+        "cycles": 10,
+        "call_ns": 5263398.9,
+        "ns_per_word": 5.263
+      }
+    ],
+    "regression": {
+      "a_ns": 10.369787486677524,
+      "b_ns_per_word": 5.263380901859115
+    }
+  },
+  "wiredv2": {
+    "status": "OK",
+    "sweep": [
+      {
+        "K": 1,
+        "cycles": 200000,
+        "call_ns": 25.236,
+        "ns_per_word": 25.236
+      },
+      {
+        "K": 2,
+        "cycles": 200000,
+        "call_ns": 29.451,
+        "ns_per_word": 14.726
+      },
+      {
+        "K": 4,
+        "cycles": 200000,
+        "call_ns": 32.018,
+        "ns_per_word": 8.005
+      },
+      {
+        "K": 8,
+        "cycles": 200000,
+        "call_ns": 42.131,
+        "ns_per_word": 5.266
+      },
+      {
+        "K": 16,
+        "cycles": 125000,
+        "call_ns": 58.807,
+        "ns_per_word": 3.675
+      },
+      {
+        "K": 24,
+        "cycles": 83333,
+        "call_ns": 89.347,
+        "ns_per_word": 3.723
+      },
+      {
+        "K": 32,
+        "cycles": 62500,
+        "call_ns": 119.368,
+        "ns_per_word": 3.73
+      },
+      {
+        "K": 48,
+        "cycles": 41666,
+        "call_ns": 131.478,
+        "ns_per_word": 2.739
+      },
+      {
+        "K": 64,
+        "cycles": 31250,
+        "call_ns": 159.036,
+        "ns_per_word": 2.485
+      },
+      {
+        "K": 80,
+        "cycles": 25000,
+        "call_ns": 192.768,
+        "ns_per_word": 2.41
+      },
+      {
+        "K": 96,
+        "cycles": 20833,
+        "call_ns": 221.361,
+        "ns_per_word": 2.306
+      },
+      {
+        "K": 128,
+        "cycles": 15625,
+        "call_ns": 286.409,
+        "ns_per_word": 2.238
+      },
+      {
+        "K": 192,
+        "cycles": 10416,
+        "call_ns": 414.616,
+        "ns_per_word": 2.159
+      },
+      {
+        "K": 255,
+        "cycles": 7843,
+        "call_ns": 540.219,
+        "ns_per_word": 2.119
+      },
+      {
+        "K": 256,
+        "cycles": 7812,
+        "call_ns": 541.118,
+        "ns_per_word": 2.114
+      },
+      {
+        "K": 512,
+        "cycles": 3906,
+        "call_ns": 1096.58,
+        "ns_per_word": 2.142
+      },
+      {
+        "K": 1024,
+        "cycles": 1953,
+        "call_ns": 2201.571,
+        "ns_per_word": 2.15
+      },
+      {
+        "K": 4096,
+        "cycles": 488,
+        "call_ns": 8591.762,
+        "ns_per_word": 2.098
+      },
+      {
+        "K": 65536,
+        "cycles": 30,
+        "call_ns": 136376.533,
+        "ns_per_word": 2.081
+      },
+      {
+        "K": 1000000,
+        "cycles": 10,
+        "call_ns": 2079542.8,
+        "ns_per_word": 2.08
+      }
+    ],
+    "regression": {
+      "a_ns": 33.84389779040066,
+      "b_ns_per_word": 2.079513053322994
+    }
+  },
+  "addrcont": {
+    "status": "OK",
+    "sweep": [
+      {
+        "K": 1,
+        "cycles": 200000,
+        "call_ns": 52.071,
+        "ns_per_word": 52.071
+      },
+      {
+        "K": 2,
+        "cycles": 200000,
+        "call_ns": 53.772,
+        "ns_per_word": 26.886
+      },
+      {
+        "K": 4,
+        "cycles": 200000,
+        "call_ns": 57.29,
+        "ns_per_word": 14.322
+      },
+      {
+        "K": 8,
+        "cycles": 200000,
+        "call_ns": 64.875,
+        "ns_per_word": 8.109
+      },
+      {
+        "K": 16,
+        "cycles": 125000,
+        "call_ns": 84.401,
+        "ns_per_word": 5.275
+      },
+      {
+        "K": 24,
+        "cycles": 83333,
+        "call_ns": 101.223,
+        "ns_per_word": 4.218
+      },
+      {
+        "K": 32,
+        "cycles": 62500,
+        "call_ns": 115.326,
+        "ns_per_word": 3.604
+      },
+      {
+        "K": 48,
+        "cycles": 41666,
+        "call_ns": 146.694,
+        "ns_per_word": 3.056
+      },
+      {
+        "K": 64,
+        "cycles": 31250,
+        "call_ns": 178.623,
+        "ns_per_word": 2.791
+      },
+      {
+        "K": 80,
+        "cycles": 25000,
+        "call_ns": 210.383,
+        "ns_per_word": 2.63
+      },
+      {
+        "K": 96,
+        "cycles": 20833,
+        "call_ns": 241.68,
+        "ns_per_word": 2.518
+      },
+      {
+        "K": 128,
+        "cycles": 15625,
+        "call_ns": 304.476,
+        "ns_per_word": 2.379
+      },
+      {
+        "K": 192,
+        "cycles": 10416,
+        "call_ns": 427.999,
+        "ns_per_word": 2.229
+      },
+      {
+        "K": 255,
+        "cycles": 7843,
+        "call_ns": 552.334,
+        "ns_per_word": 2.166
+      },
+      {
+        "K": 256,
+        "cycles": 7812,
+        "call_ns": 553.005,
+        "ns_per_word": 2.16
+      },
+      {
+        "K": 512,
+        "cycles": 3906,
+        "call_ns": 1119.015,
+        "ns_per_word": 2.186
+      },
+      {
+        "K": 1024,
+        "cycles": 1953,
+        "call_ns": 2174.875,
+        "ns_per_word": 2.124
+      },
+      {
+        "K": 4096,
+        "cycles": 488,
+        "call_ns": 8559.16,
+        "ns_per_word": 2.09
+      },
+      {
+        "K": 65536,
+        "cycles": 30,
+        "call_ns": 136036.567,
+        "ns_per_word": 2.076
+      },
+      {
+        "K": 1000000,
+        "cycles": 10,
+        "call_ns": 2076646.5,
+        "ns_per_word": 2.077
+      }
+    ],
+    "regression": {
+      "a_ns": 39.36863537275349,
+      "b_ns_per_word": 2.0766009771707865
+    }
+  },
+  "singleblock": {
+    "status": "OK",
+    "sweep": [
+      {
+        "K": 1,
+        "cycles": 200000,
+        "call_ns": 33.413,
+        "ns_per_word": 33.413
+      },
+      {
+        "K": 2,
+        "cycles": 200000,
+        "call_ns": 33.679,
+        "ns_per_word": 16.84
+      },
+      {
+        "K": 4,
+        "cycles": 200000,
+        "call_ns": 33.751,
+        "ns_per_word": 8.438
+      },
+      {
+        "K": 8,
+        "cycles": 200000,
+        "call_ns": 33.82,
+        "ns_per_word": 4.227
+      },
+      {
+        "K": 16,
+        "cycles": 125000,
+        "call_ns": 33.849,
+        "ns_per_word": 2.116
+      },
+      {
+        "K": 24,
+        "cycles": 83333,
+        "call_ns": 33.773,
+        "ns_per_word": 1.407
+      },
+      {
+        "K": 32,
+        "cycles": 62500,
+        "call_ns": 33.538,
+        "ns_per_word": 1.048
+      },
+      {
+        "K": 48,
+        "cycles": 41666,
+        "call_ns": 33.456,
+        "ns_per_word": 0.697
+      },
+      {
+        "K": 64,
+        "cycles": 31250,
+        "call_ns": 33.941,
+        "ns_per_word": 0.53
+      },
+      {
+        "K": 80,
+        "cycles": 25000,
+        "call_ns": 33.9,
+        "ns_per_word": 0.424
+      },
+      {
+        "K": 96,
+        "cycles": 20833,
+        "call_ns": 33.807,
+        "ns_per_word": 0.352
+      },
+      {
+        "K": 128,
+        "cycles": 15625,
+        "call_ns": 33.806,
+        "ns_per_word": 0.264
+      },
+      {
+        "K": 192,
+        "cycles": 10416,
+        "call_ns": 33.782,
+        "ns_per_word": 0.176
+      },
+      {
+        "K": 255,
+        "cycles": 7843,
+        "call_ns": 33.774,
+        "ns_per_word": 0.132
+      }
+    ],
+    "regression": {
+      "a_ns": 33.69586222352854,
+      "b_ns_per_word": 0.0005757146006319337
+    }
+  },
+  "philox": {
+    "status": "OK",
+    "sweep": [
+      {
+        "K": 1,
+        "cycles": 200000,
+        "call_ns": 12.135,
+        "ns_per_word": 12.135
+      },
+      {
+        "K": 2,
+        "cycles": 200000,
+        "call_ns": 11.495,
+        "ns_per_word": 5.748
+      },
+      {
+        "K": 4,
+        "cycles": 200000,
+        "call_ns": 12.2,
+        "ns_per_word": 3.05
+      },
+      {
+        "K": 8,
+        "cycles": 200000,
+        "call_ns": 22.805,
+        "ns_per_word": 2.851
+      },
+      {
+        "K": 16,
+        "cycles": 125000,
+        "call_ns": 43.598,
+        "ns_per_word": 2.725
+      },
+      {
+        "K": 24,
+        "cycles": 83333,
+        "call_ns": 64.401,
+        "ns_per_word": 2.683
+      },
+      {
+        "K": 32,
+        "cycles": 62500,
+        "call_ns": 85.082,
+        "ns_per_word": 2.659
+      },
+      {
+        "K": 48,
+        "cycles": 41666,
+        "call_ns": 126.636,
+        "ns_per_word": 2.638
+      },
+      {
+        "K": 64,
+        "cycles": 31250,
+        "call_ns": 168.321,
+        "ns_per_word": 2.63
+      },
+      {
+        "K": 80,
+        "cycles": 25000,
+        "call_ns": 209.671,
+        "ns_per_word": 2.621
+      },
+      {
+        "K": 96,
+        "cycles": 20833,
+        "call_ns": 251.582,
+        "ns_per_word": 2.621
+      },
+      {
+        "K": 128,
+        "cycles": 15625,
+        "call_ns": 334.627,
+        "ns_per_word": 2.614
+      },
+      {
+        "K": 192,
+        "cycles": 10416,
+        "call_ns": 500.949,
+        "ns_per_word": 2.609
+      },
+      {
+        "K": 255,
+        "cycles": 7843,
+        "call_ns": 668.341,
+        "ns_per_word": 2.621
+      },
+      {
+        "K": 256,
+        "cycles": 7812,
+        "call_ns": 668.317,
+        "ns_per_word": 2.611
+      },
+      {
+        "K": 512,
+        "cycles": 3906,
+        "call_ns": 1331.914,
+        "ns_per_word": 2.601
+      },
+      {
+        "K": 1024,
+        "cycles": 1953,
+        "call_ns": 2665.081,
+        "ns_per_word": 2.603
+      },
+      {
+        "K": 4096,
+        "cycles": 488,
+        "call_ns": 10634.219,
+        "ns_per_word": 2.596
+      },
+      {
+        "K": 65536,
+        "cycles": 30,
+        "call_ns": 170207.033,
+        "ns_per_word": 2.597
+      },
+      {
+        "K": 1000000,
+        "cycles": 10,
+        "call_ns": 2599625.3,
+        "ns_per_word": 2.6
+      }
+    ],
+    "regression": {
+      "a_ns": -6.124881090770941,
+      "b_ns_per_word": 2.5996212185504453
+    }
+  },
+  "xoshiro256": {
+    "status": "OK",
+    "sweep": [
+      {
+        "K": 1,
+        "cycles": 200000,
+        "call_ns": 6.482,
+        "ns_per_word": 6.482
+      },
+      {
+        "K": 2,
+        "cycles": 200000,
+        "call_ns": 7.496,
+        "ns_per_word": 3.748
+      },
+      {
+        "K": 4,
+        "cycles": 200000,
+        "call_ns": 9.63,
+        "ns_per_word": 2.407
+      },
+      {
+        "K": 8,
+        "cycles": 200000,
+        "call_ns": 13.84,
+        "ns_per_word": 1.73
+      },
+      {
+        "K": 16,
+        "cycles": 125000,
+        "call_ns": 21.387,
+        "ns_per_word": 1.337
+      },
+      {
+        "K": 24,
+        "cycles": 83333,
+        "call_ns": 28.927,
+        "ns_per_word": 1.205
+      },
+      {
+        "K": 32,
+        "cycles": 62500,
+        "call_ns": 38.356,
+        "ns_per_word": 1.199
+      },
+      {
+        "K": 48,
+        "cycles": 41666,
+        "call_ns": 56.652,
+        "ns_per_word": 1.18
+      },
+      {
+        "K": 64,
+        "cycles": 31250,
+        "call_ns": 70.792,
+        "ns_per_word": 1.106
+      },
+      {
+        "K": 80,
+        "cycles": 25000,
+        "call_ns": 85.779,
+        "ns_per_word": 1.072
+      },
+      {
+        "K": 96,
+        "cycles": 20833,
+        "call_ns": 101.872,
+        "ns_per_word": 1.061
+      },
+      {
+        "K": 128,
+        "cycles": 15625,
+        "call_ns": 131.301,
+        "ns_per_word": 1.026
+      },
+      {
+        "K": 192,
+        "cycles": 10416,
+        "call_ns": 193.277,
+        "ns_per_word": 1.007
+      },
+      {
+        "K": 255,
+        "cycles": 7843,
+        "call_ns": 251.805,
+        "ns_per_word": 0.987
+      },
+      {
+        "K": 256,
+        "cycles": 7812,
+        "call_ns": 250.927,
+        "ns_per_word": 0.98
+      },
+      {
+        "K": 512,
+        "cycles": 3906,
+        "call_ns": 492.733,
+        "ns_per_word": 0.962
+      },
+      {
+        "K": 1024,
+        "cycles": 1953,
+        "call_ns": 969.344,
+        "ns_per_word": 0.947
+      },
+      {
+        "K": 4096,
+        "cycles": 488,
+        "call_ns": 3860.629,
+        "ns_per_word": 0.943
+      },
+      {
+        "K": 65536,
+        "cycles": 30,
+        "call_ns": 61447.833,
+        "ns_per_word": 0.938
+      },
+      {
+        "K": 1000000,
+        "cycles": 10,
+        "call_ns": 936738.2,
+        "ns_per_word": 0.937
+      }
+    ],
+    "regression": {
+      "a_ns": 12.696537092866492,
+      "b_ns_per_word": 0.9367285399106494
+    }
+  },
+  "pcg32": {
+    "status": "OK",
+    "sweep": [
+      {
+        "K": 1,
+        "cycles": 200000,
+        "call_ns": 3.179,
+        "ns_per_word": 3.179
+      },
+      {
+        "K": 2,
+        "cycles": 200000,
+        "call_ns": 3.423,
+        "ns_per_word": 1.711
+      },
+      {
+        "K": 4,
+        "cycles": 200000,
+        "call_ns": 3.94,
+        "ns_per_word": 0.985
+      },
+      {
+        "K": 8,
+        "cycles": 200000,
+        "call_ns": 6.339,
+        "ns_per_word": 0.792
+      },
+      {
+        "K": 16,
+        "cycles": 125000,
+        "call_ns": 11.976,
+        "ns_per_word": 0.749
+      },
+      {
+        "K": 24,
+        "cycles": 83333,
+        "call_ns": 18.131,
+        "ns_per_word": 0.755
+      },
+      {
+        "K": 32,
+        "cycles": 62500,
+        "call_ns": 25.709,
+        "ns_per_word": 0.803
+      },
+      {
+        "K": 48,
+        "cycles": 41666,
+        "call_ns": 45.761,
+        "ns_per_word": 0.953
+      },
+      {
+        "K": 64,
+        "cycles": 31250,
+        "call_ns": 65.885,
+        "ns_per_word": 1.029
+      },
+      {
+        "K": 80,
+        "cycles": 25000,
+        "call_ns": 88.845,
+        "ns_per_word": 1.111
+      },
+      {
+        "K": 96,
+        "cycles": 20833,
+        "call_ns": 109.146,
+        "ns_per_word": 1.137
+      },
+      {
+        "K": 128,
+        "cycles": 15625,
+        "call_ns": 149.526,
+        "ns_per_word": 1.168
+      },
+      {
+        "K": 192,
+        "cycles": 10416,
+        "call_ns": 230.386,
+        "ns_per_word": 1.2
+      },
+      {
+        "K": 255,
+        "cycles": 7843,
+        "call_ns": 309.886,
+        "ns_per_word": 1.215
+      },
+      {
+        "K": 256,
+        "cycles": 7812,
+        "call_ns": 322.582,
+        "ns_per_word": 1.26
+      },
+      {
+        "K": 512,
+        "cycles": 3906,
+        "call_ns": 661.485,
+        "ns_per_word": 1.292
+      },
+      {
+        "K": 1024,
+        "cycles": 1953,
+        "call_ns": 1319.299,
+        "ns_per_word": 1.288
+      },
+      {
+        "K": 4096,
+        "cycles": 488,
+        "call_ns": 5297.848,
+        "ns_per_word": 1.293
+      },
+      {
+        "K": 65536,
+        "cycles": 30,
+        "call_ns": 84637.133,
+        "ns_per_word": 1.291
+      },
+      {
+        "K": 1000000,
+        "cycles": 10,
+        "call_ns": 1287806.8,
+        "ns_per_word": 1.288
+      }
+    ],
+    "regression": {
+      "a_ns": 4.768566726605059,
+      "b_ns_per_word": 1.2878174104048288
+    }
+  },
+  "chacha20": {
+    "status": "OK",
+    "sweep": [
+      {
+        "K": 1,
+        "cycles": 200000,
+        "call_ns": 121.459,
+        "ns_per_word": 121.459
+      },
+      {
+        "K": 2,
+        "cycles": 200000,
+        "call_ns": 122.439,
+        "ns_per_word": 61.219
+      },
+      {
+        "K": 4,
+        "cycles": 200000,
+        "call_ns": 122.024,
+        "ns_per_word": 30.506
+      },
+      {
+        "K": 8,
+        "cycles": 200000,
+        "call_ns": 122.381,
+        "ns_per_word": 15.298
+      },
+      {
+        "K": 16,
+        "cycles": 125000,
+        "call_ns": 122.426,
+        "ns_per_word": 7.652
+      },
+      {
+        "K": 24,
+        "cycles": 83333,
+        "call_ns": 241.681,
+        "ns_per_word": 10.07
+      },
+      {
+        "K": 32,
+        "cycles": 62500,
+        "call_ns": 240.863,
+        "ns_per_word": 7.527
+      },
+      {
+        "K": 48,
+        "cycles": 41666,
+        "call_ns": 354.37,
+        "ns_per_word": 7.383
+      },
+      {
+        "K": 64,
+        "cycles": 31250,
+        "call_ns": 472.452,
+        "ns_per_word": 7.382
+      },
+      {
+        "K": 80,
+        "cycles": 25000,
+        "call_ns": 588.352,
+        "ns_per_word": 7.354
+      },
+      {
+        "K": 96,
+        "cycles": 20833,
+        "call_ns": 701.367,
+        "ns_per_word": 7.306
+      },
+      {
+        "K": 128,
+        "cycles": 15625,
+        "call_ns": 931.967,
+        "ns_per_word": 7.281
+      },
+      {
+        "K": 192,
+        "cycles": 10416,
+        "call_ns": 1388.029,
+        "ns_per_word": 7.229
+      },
+      {
+        "K": 255,
+        "cycles": 7843,
+        "call_ns": 1857.772,
+        "ns_per_word": 7.285
+      },
+      {
+        "K": 256,
+        "cycles": 7812,
+        "call_ns": 1836.604,
+        "ns_per_word": 7.174
+      },
+      {
+        "K": 512,
+        "cycles": 3906,
+        "call_ns": 3705.757,
+        "ns_per_word": 7.238
+      },
+      {
+        "K": 1024,
+        "cycles": 1953,
+        "call_ns": 7348.707,
+        "ns_per_word": 7.176
+      },
+      {
+        "K": 4096,
+        "cycles": 488,
+        "call_ns": 29969.721,
+        "ns_per_word": 7.317
+      },
+      {
+        "K": 65536,
+        "cycles": 30,
+        "call_ns": 482230.967,
+        "ns_per_word": 7.358
+      },
+      {
+        "K": 1000000,
+        "cycles": 10,
+        "call_ns": 7343947.2,
+        "ns_per_word": 7.344
+      }
+    ],
+    "regression": {
+      "a_ns": 47.92284837376792,
+      "b_ns_per_word": 7.343956568354441
+    }
+  },
+  "mt19937": {
+    "status": "OK",
+    "sweep": [
+      {
+        "K": 1,
+        "cycles": 200000,
+        "call_ns": 1289.437,
+        "ns_per_word": 1289.437
+      },
+      {
+        "K": 2,
+        "cycles": 200000,
+        "call_ns": 1290.747,
+        "ns_per_word": 645.374
+      },
+      {
+        "K": 4,
+        "cycles": 200000,
+        "call_ns": 1295.284,
+        "ns_per_word": 323.821
+      },
+      {
+        "K": 8,
+        "cycles": 200000,
+        "call_ns": 1297.073,
+        "ns_per_word": 162.134
+      },
+      {
+        "K": 16,
+        "cycles": 125000,
+        "call_ns": 1309.604,
+        "ns_per_word": 81.85
+      },
+      {
+        "K": 24,
+        "cycles": 83333,
+        "call_ns": 1326.324,
+        "ns_per_word": 55.263
+      },
+      {
+        "K": 32,
+        "cycles": 62500,
+        "call_ns": 1336.082,
+        "ns_per_word": 41.753
+      },
+      {
+        "K": 48,
+        "cycles": 41666,
+        "call_ns": 1359.576,
+        "ns_per_word": 28.325
+      },
+      {
+        "K": 64,
+        "cycles": 31250,
+        "call_ns": 1381.633,
+        "ns_per_word": 21.588
+      },
+      {
+        "K": 80,
+        "cycles": 25000,
+        "call_ns": 1404.756,
+        "ns_per_word": 17.559
+      },
+      {
+        "K": 96,
+        "cycles": 20833,
+        "call_ns": 1426.765,
+        "ns_per_word": 14.862
+      },
+      {
+        "K": 128,
+        "cycles": 15625,
+        "call_ns": 1474.548,
+        "ns_per_word": 11.52
+      },
+      {
+        "K": 192,
+        "cycles": 10416,
+        "call_ns": 1562.142,
+        "ns_per_word": 8.136
+      },
+      {
+        "K": 255,
+        "cycles": 7843,
+        "call_ns": 1651.312,
+        "ns_per_word": 6.476
+      },
+      {
+        "K": 256,
+        "cycles": 7812,
+        "call_ns": 1651.981,
+        "ns_per_word": 6.453
+      },
+      {
+        "K": 512,
+        "cycles": 3906,
+        "call_ns": 2013.39,
+        "ns_per_word": 3.932
+      },
+      {
+        "K": 1024,
+        "cycles": 1953,
+        "call_ns": 2967.405,
+        "ns_per_word": 2.898
+      },
+      {
+        "K": 4096,
+        "cycles": 488,
+        "call_ns": 8435.406,
+        "ns_per_word": 2.059
+      },
+      {
+        "K": 65536,
+        "cycles": 30,
+        "call_ns": 117867.733,
+        "ns_per_word": 1.799
+      },
+      {
+        "K": 1000000,
+        "cycles": 10,
+        "call_ns": 1775826.0,
+        "ns_per_word": 1.776
+      }
+    ],
+    "regression": {
+      "a_ns": 1257.2279817878298,
+      "b_ns_per_word": 1.7745885655230766
+    }
+  },
+  "splitmix64": {
+    "status": "OK",
+    "sweep": [
+      {
+        "K": 1,
+        "cycles": 200000,
+        "call_ns": 2.981,
+        "ns_per_word": 2.981
+      },
+      {
+        "K": 2,
+        "cycles": 200000,
+        "call_ns": 2.983,
+        "ns_per_word": 1.491
+      },
+      {
+        "K": 4,
+        "cycles": 200000,
+        "call_ns": 3.423,
+        "ns_per_word": 0.856
+      },
+      {
+        "K": 8,
+        "cycles": 200000,
+        "call_ns": 3.912,
+        "ns_per_word": 0.489
+      },
+      {
+        "K": 16,
+        "cycles": 125000,
+        "call_ns": 6.12,
+        "ns_per_word": 0.383
+      },
+      {
+        "K": 24,
+        "cycles": 83333,
+        "call_ns": 6.112,
+        "ns_per_word": 0.255
+      },
+      {
+        "K": 32,
+        "cycles": 62500,
+        "call_ns": 7.455,
+        "ns_per_word": 0.233
+      },
+      {
+        "K": 48,
+        "cycles": 41666,
+        "call_ns": 10.508,
+        "ns_per_word": 0.219
+      },
+      {
+        "K": 64,
+        "cycles": 31250,
+        "call_ns": 13.947,
+        "ns_per_word": 0.218
+      },
+      {
+        "K": 80,
+        "cycles": 25000,
+        "call_ns": 18.587,
+        "ns_per_word": 0.232
+      },
+      {
+        "K": 96,
+        "cycles": 20833,
+        "call_ns": 31.713,
+        "ns_per_word": 0.33
+      },
+      {
+        "K": 128,
+        "cycles": 15625,
+        "call_ns": 39.467,
+        "ns_per_word": 0.308
+      },
+      {
+        "K": 192,
+        "cycles": 10416,
+        "call_ns": 54.916,
+        "ns_per_word": 0.286
+      },
+      {
+        "K": 255,
+        "cycles": 7843,
+        "call_ns": 71.677,
+        "ns_per_word": 0.281
+      },
+      {
+        "K": 256,
+        "cycles": 7812,
+        "call_ns": 70.509,
+        "ns_per_word": 0.275
+      },
+      {
+        "K": 512,
+        "cycles": 3906,
+        "call_ns": 133.485,
+        "ns_per_word": 0.261
+      },
+      {
+        "K": 1024,
+        "cycles": 1953,
+        "call_ns": 258.488,
+        "ns_per_word": 0.252
+      },
+      {
+        "K": 4096,
+        "cycles": 488,
+        "call_ns": 1009.426,
+        "ns_per_word": 0.246
+      },
+      {
+        "K": 65536,
+        "cycles": 30,
+        "call_ns": 16030.0,
+        "ns_per_word": 0.245
+      },
+      {
+        "K": 1000000,
+        "cycles": 10,
+        "call_ns": 244666.5,
+        "ns_per_word": 0.245
+      }
+    ],
+    "regression": {
+      "a_ns": 3.631673547482933,
+      "b_ns_per_word": 0.24466238040930713
+    }
+  },
+  "dev_urandom": {
+    "status": "OK",
+    "flat": {
+      "ns_per_word": 7.525,
+      "mb_per_s": 506.951
+    }
+  }
+}

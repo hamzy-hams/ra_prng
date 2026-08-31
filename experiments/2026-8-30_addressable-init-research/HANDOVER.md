@@ -431,7 +431,24 @@ Penamaan bagian-bagian lain RA-PRNG (di luar addressing) masih berlangsung
 di sesi lanjutan — bagian ini akan diperbarui begitu ada keputusan final
 berikutnya.
 
+## Tahap 6 (2026-08-31)
+
+Fast path tanpa `L[]` untuk kasus `rng <= 255` ("addressable penuh/agresif")
+— ide yang sudah diantisipasi & ditunda di `HANDOVER_TAHAP5.md` section 4,
+dikerjakan setelah user eksplisit meminta di sesi ini. **Selesai** —
+validasi bit-identik exhaustif (9.945/9.945 kombinasi PASS) dan benchmark
+menunjukkan `ra_core_singleblock` jauh lebih cepat dari baseline di semua
+titik sweep `K in [1,255]` (36-92% lebih cepat tergantung `K`). Detail
+lengkap: `HANDOVER_TAHAP6.md`, `RESULTS.md` bagian "## Tahap 6". Belum
+dipromosikan ke `winner_wired_addressable.c`/`_v2.c`/`src/` — tetap
+kandidat riset berscope sempit (`rng<=255` saja).
+
 ## Setelah selesai
 
 Jalankan `/graphify --update` sebelum menutup tugas — wajib per `CLAUDE.md`
 proyek ini untuk memasukkan file-file baru ke knowledge graph.
+
+**Catatan (2026-08-31, Tahap 6)**: skill `graphify` tidak terdaftar di
+sesi tempat Tahap 6 dikerjakan — langkah ini tidak bisa dijalankan otomatis
+di sesi itu. Perlu di-flag ke user / dijalankan manual di sesi lain yang
+skill-nya tersedia.

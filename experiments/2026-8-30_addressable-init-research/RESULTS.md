@@ -578,3 +578,121 @@ baseline for whatever comes next**, not `_v2.c`. `_v2.c` is not deprecated
 or wrong -- it stays as a validated, opt-in fast path specifically for
 x86/AVX-512VL targets, selected deliberately when that's confirmed to be
 the deployment target, not picked by default.
+
+## Tahap 6: no-`L[]` fast path for `rng <= 255` ("addressable penuh/agresif")
+
+User-initiated (2026-08-31), following up on the exact idea `HANDOVER_TAHAP5.md`
+section 4 had already flagged and deferred as "Ruled out... catat sebagai
+kemungkinan 'Tahap 6' terpisah... hanya kalau user eksplisit minta." User
+independently spotted the same dead-code pattern: `L[256]` is written by
+`ra_init_state_addressable`/swapped in `ra_permutation_cycle`, but is never
+read by anything that influences the output word `c` -- its only functional
+reader is `ra_reseed`'s `M[i] ^= L[i]`, and `ra_reseed` is provably
+unreachable whenever `rng <= 255` (`iteration = rng/255 + 1 == 1` in that
+range, so `ra_core` returns before a second loop iteration -- and thus
+`ra_reseed` -- is ever reached). This holds for the "addressable penuh":
+one key/address = one init = up to 255 output words, then discard/re-init
+for a new address, no reseed/continuation.
+
+New file `tahap6_bench.c` (forks `tahap5_bench.c`'s structure, does not
+modify it or any earlier file in place) adds `ra_init_state_full`/
+`ra_permutation_cycle_full`/`ra_core_singleblock` alongside an unmodified
+copy of the baseline core (kept as `ra_core_baseline` for validation and
+side-by-side benchmarking). `d = c & 0xFFu` is kept unchanged in the no-L
+hot loop -- unlike the swap, it feeds `a`/`b` on the next iteration
+regardless of whether `L` exists, so it is not dead code. `ra_core_singleblock`
+hard-aborts (`fprintf`+`abort`, not a bare `assert()`) if called with
+`rng > 255` -- it is a scoped fast path, not a general replacement for
+`ra_core`.
+
+### Correctness gate
+
+`./tahap6_bench validate`: exhaustive in-process comparison (via `fmemopen`
+buffers) of `ra_core_singleblock` vs `ra_core_baseline`, every key in
+`{0, 0xFFFFFFFF, 5 fixed keys, 0..31}` (39 keys) x every `rng` in `1..255`
+(255 lengths) = 9,945 combinations.
+
+**Result: 9,945/9,945 bit-identical, 0 mismatches.** Additionally spot-checked
+via `--stream` + `cmp` against the true `winner_wired_addressable --stream`
+binary (5 keys x 4 lengths incl. edge cases 1, 254, 255) for both
+`core=baseline` and `core=singleblock` -- 0 mismatches, confirming this
+file's own `ra_core_baseline` copy is faithful to the original before
+trusting it as ground truth.
+
+Per the established validation-gate convention (`HANDOVER_TAHAP5.md`
+section 6): since the output is bit-identical to the already-validated
+formula, the existing 128GB PractRand / 0-collision / 0-cross-correlation
+guarantees carry over automatically to `ra_core_singleblock` -- **but this
+inheritance is valid ONLY for `rng <= 255`**. No statistical claim is made
+or implied for `rng > 255`, since `ra_core_singleblock` cannot even run
+there (hard guard aborts).
+
+### Benchmark results
+
+Methodology identical to Tahap 4/5 (`CLOCK_MONOTONIC`, min-of-trials,
+volatile checksum sink, Philox4x32-10 as the built-in comparator), sweep
+points reused verbatim from `tahap5_benchmark.py`'s `THROUGHPUT_N`/
+`REINIT_SWEEP_K` arrays, filtered to the `<=255` subset
+(`[1,2,4,8,16,24,32,48,64,80,96,128,192]`) that `ra_core_singleblock`'s
+hard guard allows. `tahap6_benchmark.py` runs `validate` first and refuses
+to benchmark if it fails.
+
+| metric | baseline (with `L`) | singleblock (no `L`) | change |
+|---|---:|---:|---:|
+| init-cost (ns/call) | 48.337 | 30.734 | -36.4% |
+| N\* (throughput crossover vs Philox) | ~41.4 | ~10.2 | -75.4% |
+| K\* (reinit-sweep crossover vs Philox, steady-state) | ~60.1 | ~12.3 | -79.5% |
+
+Direct baseline-vs-singleblock comparison at matched `K` (same run,
+`tahap6_results_reinit-sweep_{baseline,singleblock}.json`), steady-state
+`ns/word`:
+
+| K | baseline | singleblock | singleblock vs baseline |
+|---:|---:|---:|---:|
+| 1 | 52.759 | 33.695 | +36.1% faster |
+| 8 | 8.241 | 4.193 | +49.1% faster |
+| 32 | 3.597 | 1.019 | +71.7% faster |
+| 64 | 2.778 | 0.526 | +81.1% faster |
+| 128 | 2.349 | 0.263 | +88.8% faster |
+| 192 | 2.215 | 0.178 | +92.0% faster |
+
+(Full 13-point table in `tahap6_results_reinit-sweep_baseline.json`/
+`_singleblock.json`.)
+
+**Interpretation**: the win grows with `K` within the swept range, not
+shrinks -- opposite of what a fixed one-time init saving alone would
+predict. This is consistent with `L`'s removal cutting cost in **both**
+places: the O(256) init (now `M`-only, no `l_val`/`L[i]` computation) AND
+every hot-loop iteration up to `K` times (no swap, no extra cache line
+touched) -- so the per-word saving compounds as more words are drawn per
+address, not just the fixed init overhead being amortized away. This is a
+substantially larger win than the ~13%-of-gap explained by reseed+8-wide-`M`-read
+found in `addressable-shuffle/SPEED_BENCHMARK.md`'s "dekomposisi gap 1.62x"
+checkpoint -- that measurement was for a structurally different workload
+(a single long shuffle run dominated by file I/O and a different tool's
+own reseed, not a repeated-init microbenchmark isolating pure generate
+cost), so the two numbers are not in tension, just answering different
+questions.
+
+For the "addressable agresif" use case (frequent re-init, small-to-moderate
+`K` per address), `ra_core_singleblock` clears Philox at roughly a **fifth**
+of the address-lifetime threshold baseline needed (`K*` ~60 -> ~12), on top
+of being faster than baseline at every swept `K` in `[1,255]`.
+
+### Status: Tahap 6 complete (research candidate; not adopted/promoted)
+
+Correctness gate passed exhaustively, benchmark shows a large, consistent,
+measured win across the entire valid range. **Not promoted to
+`winner_wired_addressable.c`/`_v2.c`, not moved to `src/`** -- this is
+intentionally a separate, narrower-scope fast path (`rng<=255` only), not
+a drop-in replacement for the general-purpose `ra_core`, and adoption
+decisions for a scoped variant like this are left for whenever an actual
+"one address = one init, bounded output length" consumer exists to adopt
+it. Files: `tahap6_bench.c` (harness + candidate), `tahap6_benchmark.py`
+(orchestration), `tahap6_results_*.json` (raw data), `HANDOVER_TAHAP6.md`
+(session handover). Follow-up ideas (explicitly NOT part of this Tahap,
+would need full Tahap 0 + Tahap 3 re-validation since they change output):
+optimizing the `d = c & 0xFFu` byte-mask itself now that it no longer must
+double as an array index; a `>255`-capable variant that keeps the no-L
+saving for the initial block and only reintroduces `L`/reseed machinery
+once continuation is actually requested.
