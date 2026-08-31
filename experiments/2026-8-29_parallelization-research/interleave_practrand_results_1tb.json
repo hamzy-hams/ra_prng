@@ -1,0 +1,10 @@
+{
+  "k": 8,
+  "total_bytes": 1099511627776,
+  "words_written": 274877906944,
+  "passed": true,
+  "ran_real_test": true,
+  "io_error": false,
+  "stderr": "",
+  "stdout_tail": "RNG_test using PractRand version 0.95\nRNG = RNG_stdin32, seed = unknown\ntest set = core, folding = standard (32 bit)\n\nrng=RNG_stdin32, seed=unknown\nlength= 64 gigabytes (2^36 bytes), time= 1319 seconds\n  no anomalies in 263 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 128 gigabytes (2^37 bytes), time= 2434 seconds\n  no anomalies in 273 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 256 gigabytes (2^38 bytes), time= 4157 seconds\n  no anomalies in 284 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 512 gigabytes (2^39 bytes), time= 7545 seconds\n  no anomalies in 295 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 1 terabyte (2^40 bytes), time= 13907 seconds\n  Test Name                         Raw       Processed     Evaluation\n  BCFN(2+0,13-0,T)                  R= +14.4  p =  3.0e-7   very suspicious  \n  FPF-14+6/16:(5,14-0)              R=  +9.2  p =  3.7e-8   suspicious       \n  FPF-14+6/16:all                   R=  +7.9  p =  7.0e-7   suspicious       \n  ...and 301 test result(s) without anomalies\n\n"
+}

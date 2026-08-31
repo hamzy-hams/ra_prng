@@ -1,0 +1,21 @@
+=== sanity_check ===
+sanity_check: PASSED -- Python port bit-identical to winner_wired_v2 for seeds (1, 42, 12345), n=2000
+=== kandidat1: distinctness (tier=full) ===
+  multiset collisions=0 stream collisions=0 min_n_distinct_L=256/256
+  avalanche mean_fraction=0.4874 min_bit_fraction=0.4730
+=== kandidat2: distinctness (tier=full) ===
+  multiset collisions=0 stream collisions=0 min_n_distinct_L=256/256
+  avalanche mean_fraction=0.4994 min_bit_fraction=0.4874
+=== kandidat3_control: distinctness (tier=full) ===
+  multiset collisions=1999 stream collisions=1744 min_n_distinct_L=256/256
+  avalanche mean_fraction=0.4874 min_bit_fraction=0.4730
+=== kandidat4: distinctness (tier=full) ===
+  multiset collisions=0 stream collisions=0 min_n_distinct_L=256/256
+  avalanche mean_fraction=0.4874 min_bit_fraction=0.4730
+=== kandidat5: distinctness (tier=full) ===
+  multiset collisions=0 stream collisions=0 min_n_distinct_L=256/256
+  avalanche mean_fraction=0.4989 min_bit_fraction=0.4859
+=== kandidat5_low5bit_stress ===
+  multiset collisions=0 stream collisions=0
+
+Wrote /home/zep/Documents/research/ra_prng/experiments/2026-8-30_addressable-init-research/tahap0_results_full.json

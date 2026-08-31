@@ -81,6 +81,61 @@ dependensi nonlinear, tidak seperti Method A) yang konsisten dengan hasil
 Method A: tidak ada sinyal dependensi antar-stream, sekarang divalidasi pada
 skala yang sama dengan baseline single-stream 128GB-clean, bukan cuma 16GB.
 
+**1TB (checkpoint follow-up, 2026-08-31)**: tier `1tb` ditambahkan ke
+`TIERS_Q1B` di `common.py` (data tier saja, `interleave_practrand.py`
+sendiri tidak diedit), dijalankan via `python3 interleave_practrand.py 1tb`
+di background (~3h52m wall-clock: 1319s→2434s→4157s→7545s→13907s kumulatif
+untuk checkpoint 64GB/128GB/256GB/512GB/1TB). Hasil mentah, apa adanya:
+
+| Checkpoint | Test result | Anomali |
+|---|---|---|
+| 64GB | 263 | tidak ada |
+| 128GB | 273 | tidak ada |
+| 256GB | 284 | tidak ada |
+| 512GB | 295 | tidak ada |
+| **1TB** | 304 | **3 flagged**: `BCFN(2+0,13-0,T)` R=+14.4 p=3.0e-7 **very suspicious**; `FPF-14+6/16:(5,14-0)` R=+9.2 p=3.7e-8 **suspicious**; `FPF-14+6/16:all` R=+7.9 p=7.0e-7 **suspicious** (301 test lain di checkpoint ini bersih) |
+
+**Bersih sampai 512GB, TIDAK bersih di checkpoint akhir 1TB** — 3 dari 304
+test di checkpoint 1TB kena tag "suspicious"/"very suspicious". Per konvensi
+interpretasi yang sudah dipakai di `2026-8-30_addressable-init-research/HANDOVER.md`
+("hanya tag FAIL/SUSPICIOUS yang blocking; tag `unusual` terisolasi yang
+tidak persisten antar-checkpoint adalah noise rutin"), tag "suspicious"/"very
+suspicious" **termasuk blocking**, jadi ini bukan noise rutin dan tidak boleh
+dilaporkan sebagai "PASSED" begitu saja.
+
+**Bug harness ditemukan (dilaporkan, TIDAK diperbaiki in-place)**: field
+`passed` di JSON hasil (dan skrip `interleave_practrand.py` `main()`) salah
+melaporkan tier `1tb` ini sebagai `PASSED`. Sebabnya:
+`run_interleave_practrand()`'s pengecekan anomali
+(`any(kw in stdout_s for kw in ("FAIL", "SUSPICIOUS"))`) mem-match string
+persis huruf besar `"SUSPICIOUS"`, padahal PractRand menulis tag ini huruf
+kecil (`suspicious`, `very suspicious`) di kolom Evaluation — jadi
+pengecekan itu **tidak pernah bisa match** tag suspicious yang sesungguhnya,
+hanya `FAIL` (yang memang selalu huruf besar). Verdict tier smoke/medium/
+full/xlarge sebelumnya (di folder ini maupun turunannya di
+`2026-8-30_addressable-init-research/tahap3_interleave_practrand.py`) TETAP
+valid -- semuanya secara eksplisit menulis "no anomalies in N test result(s)"
+di stdout mentah, jadi PractRand sendiri (bukan boolean yang buggy) yang
+mengonfirmasi nol anomali di skala itu. Bug ini baru kena dampak sekarang
+karena baru run 1TB inilah yang untuk pertama kalinya benar-benar
+menghasilkan tabel Evaluation berisi anomali. **Tidak diperbaiki di
+`interleave_practrand.py`** (dipakai ulang oleh eksperimen lain sebagai
+read-only precedent) -- dicatat di sini sebagai temuan eksplisit supaya
+sesi mendatang membaca `stdout` mentah, bukan cuma field `passed`, untuk run
+skala besar.
+
+**Interpretasi & batasan**: ini SATU run, tidak diulang untuk konfirmasi
+(ulang penuh ke 1TB ≈ 3h52m lagi). p-value BCFN (~3e-7) cukup kecil untuk
+jadi sinyal asli, bukan cuma kebisingan multiple-testing dari ratusan test
+kumulatif -- tapi karena hanya muncul di checkpoint TERAKHIR (tidak ada
+checkpoint lebih besar untuk melihat apakah persisten, beda dari pola
+"unusual" 1-checkpoint yang biasanya "resolve" di checkpoint berikutnya yang
+sudah terlihat di riset ini sebelumnya), status faktualnya adalah **flagged,
+belum dikonfirmasi** -- bukan "PASSED bersih ke 1TB" (klaim lama di seksi
+"Next steps" di bawah) dan bukan juga "FAIL terbukti". Kalau klaim 1TB-clean
+dibutuhkan untuk paper, run konfirmasi ulang (idealnya 2-3x independent run)
+diperlukan sebelum ditulis sebagai hasil final.
+
 **Catatan implementasi (lesson learned, Fase 2)**: percobaan pertama ke
 128GB gagal dua kali secara berurutan sebelum berhasil, murni karena bug di
 *harness*-nya (bukan di generator, yang tidak pernah diubah):
@@ -103,6 +158,35 @@ skala yang sama dengan baseline single-stream 128GB-clean, bukan cuma 16GB.
    `other_winners_practrand.sh` di riset sebelumnya.
 Kedua fix ini murni perbaikan alat ukur; binary yang diuji (`winner_wired_v2`)
 tidak pernah disentuh.
+
+### Pembanding: `ra_prng2.c` (paper-exact) vs `winner_wired_v2.c` (checkpoint, 2026-08-31)
+
+Menjawab pertanyaan "Next steps (opsional)" lama: apakah pruning+wiring
+(`operand-position-search`) mengubah independensi antar-stream dibanding
+versi paper-exact asli? File baru `cross_correlation_ra_prng2.py` dan
+`interleave_practrand_ra_prng2.py` (Method A dan B, tidak mengedit
+`cross_correlation.py`/`interleave_practrand.py` in place -- reuse
+`analyze_group()`/`run_interleave_practrand()` dengan `binary=RA_PRNG2_BIN`
+di-repoint eksplisit, pola sama seperti
+`2026-8-30_addressable-init-research/tahap3_cross_correlation.py`), memakai
+`ensure_ra_prng2_cli()` yang sudah disiapkan di `common.py` untuk
+meng-compile `src/ra_prng2/c/ra_prng2.c` (read-only, tidak pernah diedit)
+ke binary lokal folder ini.
+
+| Method | Tier | Hasil |
+|---|---|---|
+| A (cross-correlation) | smoke (K=8, n=200k) | 0/28 flagged (adjacent & control) |
+| A (cross-correlation) | full (K=128, n=1M) | 0/8,128 flagged (adjacent & control) -- identik dengan hasil `winner_wired_v2` |
+| B (interleaved PractRand) | smoke (K=4, 64MB) | bersih, 142 test, no anomalies |
+| B (interleaved PractRand) | medium (K=8, 1GB) | bersih, 194 test, no anomalies |
+
+**Kesimpulan**: `ra_prng2.c` menunjukkan pola independensi yang SAMA dengan
+`winner_wired_v2.c` pada skala yang diuji (0 pasangan flagged, PractRand
+bersih) -- memperkuat klaim bahwa pruning+wiring `winner_wired_v2.c` tidak
+mengubah independensi antar-stream dibanding versi paper-exact. **Skala
+terbatas**: tidak dijalankan sampai full/xlarge/1TB untuk `ra_prng2.c`
+(di luar scope pertanyaan independence ini -- lihat catatan 1TB `winner_wired_v2`
+di atas soal kenapa skala besar perlu hati-hati sebelum diklaim "clean").
 
 ## 2. Probabilitas collision/overlap antar-stream (`collision_scan.py`)
 
@@ -272,10 +356,13 @@ tidak otomatis terwujud tanpa kerja tambahan signifikan pada bagian
 ## Next steps
 
 - ~~Kalau ingin validasi lebih dalam Q1: naikkan Method B ke 128GB/1TB~~ —
-  **128GB (tier `xlarge`) dikerjakan di Fase 2**, lihat tabel Method B di
-  atas. 1TB masih terbuka sebagai follow-up opsional berikutnya (ekstrapolasi
-  waktu ~8x dari 128GB, tidak feasible dalam satu sesi kerja tambahan tanpa
-  dijadwalkan terpisah).
+  **128GB (tier `xlarge`) dikerjakan di Fase 2, 1TB dikerjakan di checkpoint
+  follow-up 2026-08-31** — lihat tabel Method B "1TB" di atas. **Bukan hasil
+  bersih**: 3 test flagged (suspicious/very suspicious) di checkpoint akhir
+  1TB, belum dikonfirmasi ulang (1 run saja). Follow-up yang benar-benar
+  masih terbuka: jalankan ulang 2-3x independent run ke 1TB untuk
+  konfirmasi apakah flag ini persisten (real) atau kebisingan run tunggal,
+  sebelum menulis klaim "clean to 1TB" di paper.
 - ~~Kalau ingin validasi lebih dalam Q2: sampling seed acak dari seluruh
   ruang 2³²~~ — **dikerjakan di Fase 2** (prefix M=500.000, blocksweep
   M=25.000×V=250.000 dari `common.random_seeds()`), lihat sub-bagian
@@ -286,8 +373,13 @@ tidak otomatis terwujud tanpa kerja tambahan signifikan pada bagian
   `L[i]↔L[d]` via AVX-512 gather/scatter (`_mm512_i32gather_epi32`/
   `_mm512_i32scatter_epi32`) dan validasi ulang lewat PractRand — bagian
   yang belum disentuh di sesi ini karena time-box.
-- (Opsional, tidak dikerjakan) Perbandingan dengan `src/ra_prng2/c/ra_prng2.c`
-  (versi paper-exact) untuk melihat apakah pruning+wiring di
-  `winner_wired_v2.c` mengubah perilaku independensi antar-stream — helper
-  `ensure_ra_prng2_cli()` di `common.py` sudah disiapkan untuk ini kalau
-  dibutuhkan di sesi berikutnya.
+- ~~Perbandingan dengan `src/ra_prng2/c/ra_prng2.c` (versi paper-exact)~~ —
+  **dikerjakan di checkpoint 2026-08-31**, lihat sub-bagian "Pembanding:
+  `ra_prng2.c`..." di bagian Q1 di atas. Hasil: independensi setara
+  `winner_wired_v2.c` (0 flagged, PractRand bersih) sampai skala smoke/
+  medium/full (belum full/xlarge/1TB — di luar scope pertanyaan ini).
+- **BARU (checkpoint 2026-08-31)**: follow-up diagnostik untuk anomali 1TB
+  di atas (single-stream `winner_wired_v2` ke 1TB + re-run interleaved
+  dengan seed set berbeda) — lihat `HANDOVER_1TB_FOLLOWUP.md` untuk rencana
+  lengkap, TIDAK dikerjakan sesi ini atas permintaan user (~7-8 jam,
+  didelegasikan ke sesi berikutnya).

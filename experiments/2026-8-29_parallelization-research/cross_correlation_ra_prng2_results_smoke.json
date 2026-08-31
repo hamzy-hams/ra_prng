@@ -1,0 +1,20 @@
+{
+  "tier": "smoke",
+  "binary": "ra_prng2 (paper-exact)",
+  "adjacent": {
+    "k": 8,
+    "n": 200000,
+    "m_pairs": 28,
+    "z_crit": 3.5698814209232768,
+    "flagged_count": 0,
+    "flagged": []
+  },
+  "control": {
+    "k": 8,
+    "n": 200000,
+    "m_pairs": 28,
+    "z_crit": 3.5698814209232768,
+    "flagged_count": 0,
+    "flagged": []
+  }
+}

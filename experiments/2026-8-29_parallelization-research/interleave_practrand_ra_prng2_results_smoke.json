@@ -1,0 +1,10 @@
+{
+  "k": 4,
+  "total_bytes": 67108864,
+  "words_written": 16777216,
+  "passed": true,
+  "ran_real_test": true,
+  "io_error": false,
+  "stderr": "",
+  "stdout_tail": "RNG_test using PractRand version 0.95\nRNG = RNG_stdin32, seed = unknown\ntest set = core, folding = standard (32 bit)\n\nrng=RNG_stdin32, seed=unknown\nlength= 4 megabytes (2^22 bytes), time= 0.1 seconds\n  no anomalies in 99 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 8 megabytes (2^23 bytes), time= 2.1 seconds\n  no anomalies in 108 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 16 megabytes (2^24 bytes), time= 4.1 seconds\n  no anomalies in 120 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 32 megabytes (2^25 bytes), time= 6.5 seconds\n  no anomalies in 131 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 64 megabytes (2^26 bytes), time= 9.7 seconds\n  no anomalies in 142 test result(s)\n\n"
+}

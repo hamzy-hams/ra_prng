@@ -1,0 +1,224 @@
+
+==================== tahap5_bench ====================
+=== verify (tahap5_bench) ===
+KAT 0: PASS (got 6627e8d5 e169c58d bc57ac4c 9b00dbd8, expected 6627e8d5 e169c58d bc57ac4c 9b00dbd8)
+KAT 1: PASS (got 408f276d 41c83b0e a20bc7c6 6d5451fd, expected 408f276d 41c83b0e a20bc7c6 6d5451fd)
+KAT 2: PASS (got d16cfe09 94fdcceb 5001e420 24126ea1, expected d16cfe09 94fdcceb 5001e420 24126ea1)
+
+
+--- tahap5_bench:v0_baseline ---
+=== init-cost (tahap5_bench:v0_baseline) ===
+mode init-cost repeats 5000000 addr_ns_per_init 58.103 philox_ns_per_call 10.246 ratio 5.671 checksum 3890094033
+=== throughput (tahap5_bench:v0_baseline) ===
+N 1 addr_seconds 0.000000 addr_ns_per_word 58.993 philox_seconds 0.000000 philox_ns_per_word 28.987 trials 200 checksum 0
+N 2 addr_seconds 0.000000 addr_ns_per_word 30.996 philox_seconds 0.000000 philox_ns_per_word 14.988 trials 200 checksum 0
+N 4 addr_seconds 0.000000 addr_ns_per_word 16.749 philox_seconds 0.000000 philox_ns_per_word 7.494 trials 200 checksum 0
+N 8 addr_seconds 0.000000 addr_ns_per_word 9.375 philox_seconds 0.000000 philox_ns_per_word 4.875 trials 200 checksum 0
+N 16 addr_seconds 0.000000 addr_ns_per_word 5.562 philox_seconds 0.000000 philox_ns_per_word 3.936 trials 200 checksum 0
+N 24 addr_seconds 0.000000 addr_ns_per_word 4.333 philox_seconds 0.000000 philox_ns_per_word 3.500 trials 200 checksum 0
+N 32 addr_seconds 0.000000 addr_ns_per_word 3.906 philox_seconds 0.000000 philox_ns_per_word 3.343 trials 200 checksum 0
+N 48 addr_seconds 0.000000 addr_ns_per_word 3.271 philox_seconds 0.000000 philox_ns_per_word 3.229 trials 200 checksum 0
+N 64 addr_seconds 0.000000 addr_ns_per_word 2.953 philox_seconds 0.000000 philox_ns_per_word 3.140 trials 200 checksum 0
+N 80 addr_seconds 0.000000 addr_ns_per_word 2.762 philox_seconds 0.000000 philox_ns_per_word 3.075 trials 200 checksum 0
+N 96 addr_seconds 0.000000 addr_ns_per_word 2.656 philox_seconds 0.000000 philox_ns_per_word 3.042 trials 200 checksum 0
+N 128 addr_seconds 0.000000 addr_ns_per_word 2.445 philox_seconds 0.000000 philox_ns_per_word 3.000 trials 200 checksum 0
+N 192 addr_seconds 0.000000 addr_ns_per_word 2.354 philox_seconds 0.000001 philox_ns_per_word 2.958 trials 200 checksum 0
+N 256 addr_seconds 0.000001 addr_ns_per_word 2.297 philox_seconds 0.000001 philox_ns_per_word 2.937 trials 200 checksum 0
+N 512 addr_seconds 0.000001 addr_ns_per_word 2.295 philox_seconds 0.000001 philox_ns_per_word 2.904 trials 200 checksum 0
+N 1024 addr_seconds 0.000002 addr_ns_per_word 2.318 philox_seconds 0.000003 philox_ns_per_word 2.906 trials 30 checksum 0
+N 4096 addr_seconds 0.000009 addr_ns_per_word 2.314 philox_seconds 0.000012 philox_ns_per_word 2.897 trials 30 checksum 0
+N 65536 addr_seconds 0.000149 addr_ns_per_word 2.268 philox_seconds 0.000195 philox_ns_per_word 2.974 trials 30 checksum 0
+N 1000000 addr_seconds 0.002292 addr_ns_per_word 2.292 philox_seconds 0.002930 philox_ns_per_word 2.930 trials 5 checksum 1517915877
+N 10000000 addr_seconds 0.024002 addr_ns_per_word 2.400 philox_seconds 0.029765 philox_ns_per_word 2.977 trials 1 checksum 2678149191
+N 100000000 addr_seconds 0.244914 addr_ns_per_word 2.449 philox_seconds 0.307432 philox_ns_per_word 3.074 trials 1 checksum 1690636298
+
+N* (tahap5_bench:v0_baseline) ~= 50.5
+=== reinit-sweep (tahap5_bench:v0_baseline) ===
+K 1 cycles 200000 addr_ns_per_word_steadystate 57.251 philox_ns_per_word 12.017 ratio 4.764 checksum 3986491784
+K 2 cycles 200000 addr_ns_per_word_steadystate 29.346 philox_ns_per_word 6.223 ratio 4.716 checksum 0
+K 4 cycles 200000 addr_ns_per_word_steadystate 15.347 philox_ns_per_word 2.994 ratio 5.125 checksum 3986491784
+K 8 cycles 200000 addr_ns_per_word_steadystate 8.957 philox_ns_per_word 2.936 ratio 3.051 checksum 2333931090
+K 16 cycles 200000 addr_ns_per_word_steadystate 5.598 philox_ns_per_word 2.873 ratio 1.949 checksum 2091285653
+K 24 cycles 200000 addr_ns_per_word_steadystate 4.623 philox_ns_per_word 2.931 ratio 1.577 checksum 2432737907
+K 32 cycles 200000 addr_ns_per_word_steadystate 4.157 philox_ns_per_word 3.077 ratio 1.351 checksum 1270177137
+K 48 cycles 200000 addr_ns_per_word_steadystate 3.429 philox_ns_per_word 2.898 ratio 1.183 checksum 548796166
+K 64 cycles 200000 addr_ns_per_word_steadystate 3.180 philox_ns_per_word 2.889 ratio 1.101 checksum 3647379079
+K 80 cycles 200000 addr_ns_per_word_steadystate 3.060 philox_ns_per_word 2.871 ratio 1.066 checksum 3363219220
+K 96 cycles 200000 addr_ns_per_word_steadystate 2.813 philox_ns_per_word 2.904 ratio 0.969 checksum 3406786791
+K 128 cycles 156250 addr_ns_per_word_steadystate 2.761 philox_ns_per_word 2.948 ratio 0.937 checksum 3161046484
+K 192 cycles 104166 addr_ns_per_word_steadystate 2.556 philox_ns_per_word 2.832 ratio 0.902 checksum 1656596692
+K 256 cycles 78125 addr_ns_per_word_steadystate 2.469 philox_ns_per_word 2.978 ratio 0.829 checksum 786717793
+K 512 cycles 39062 addr_ns_per_word_steadystate 4.453 philox_ns_per_word 2.865 ratio 1.554 checksum 3988754393
+K 1024 cycles 19531 addr_ns_per_word_steadystate 2.457 philox_ns_per_word 2.894 ratio 0.849 checksum 1844131188
+K 4096 cycles 4882 addr_ns_per_word_steadystate 2.383 philox_ns_per_word 2.891 ratio 0.824 checksum 4081717117
+K 65536 cycles 305 addr_ns_per_word_steadystate 2.432 philox_ns_per_word 2.889 ratio 0.842 checksum 2776695734
+
+K* (tahap5_bench:v0_baseline) ~= 90.5
+
+--- tahap5_bench:v1_rolv ---
+=== init-cost (tahap5_bench:v1_rolv) ===
+mode init-cost repeats 5000000 addr_ns_per_init 35.383 philox_ns_per_call 10.296 ratio 3.437 checksum 3890094033
+=== throughput (tahap5_bench:v1_rolv) ===
+N 1 addr_seconds 0.000000 addr_ns_per_word 41.007 philox_seconds 0.000000 philox_ns_per_word 29.977 trials 200 checksum 0
+N 2 addr_seconds 0.000000 addr_ns_per_word 20.998 philox_seconds 0.000000 philox_ns_per_word 14.494 trials 200 checksum 0
+N 4 addr_seconds 0.000000 addr_ns_per_word 11.496 philox_seconds 0.000000 philox_ns_per_word 7.254 trials 200 checksum 0
+N 8 addr_seconds 0.000000 addr_ns_per_word 6.872 philox_seconds 0.000000 philox_ns_per_word 4.875 trials 200 checksum 0
+N 16 addr_seconds 0.000000 addr_ns_per_word 4.437 philox_seconds 0.000000 philox_ns_per_word 3.874 trials 200 checksum 0
+N 24 addr_seconds 0.000000 addr_ns_per_word 3.625 philox_seconds 0.000000 philox_ns_per_word 3.583 trials 200 checksum 0
+N 32 addr_seconds 0.000000 addr_ns_per_word 3.250 philox_seconds 0.000000 philox_ns_per_word 3.344 trials 200 checksum 0
+N 48 addr_seconds 0.000000 addr_ns_per_word 2.854 philox_seconds 0.000000 philox_ns_per_word 3.479 trials 200 checksum 0
+N 64 addr_seconds 0.000000 addr_ns_per_word 2.844 philox_seconds 0.000000 philox_ns_per_word 3.375 trials 200 checksum 0
+N 80 addr_seconds 0.000000 addr_ns_per_word 2.700 philox_seconds 0.000000 philox_ns_per_word 3.325 trials 200 checksum 0
+N 96 addr_seconds 0.000000 addr_ns_per_word 2.625 philox_seconds 0.000000 philox_ns_per_word 3.271 trials 200 checksum 0
+N 128 addr_seconds 0.000000 addr_ns_per_word 2.484 philox_seconds 0.000000 philox_ns_per_word 3.234 trials 200 checksum 0
+N 192 addr_seconds 0.000000 addr_ns_per_word 2.453 philox_seconds 0.000001 philox_ns_per_word 3.187 trials 200 checksum 0
+N 256 addr_seconds 0.000001 addr_ns_per_word 2.379 philox_seconds 0.000001 philox_ns_per_word 3.008 trials 200 checksum 0
+N 512 addr_seconds 0.000001 addr_ns_per_word 2.334 philox_seconds 0.000002 philox_ns_per_word 2.979 trials 200 checksum 0
+N 1024 addr_seconds 0.000002 addr_ns_per_word 2.357 philox_seconds 0.000003 philox_ns_per_word 2.983 trials 30 checksum 0
+N 4096 addr_seconds 0.000009 addr_ns_per_word 2.290 philox_seconds 0.000012 philox_ns_per_word 2.894 trials 30 checksum 0
+N 65536 addr_seconds 0.000150 addr_ns_per_word 2.290 philox_seconds 0.000190 philox_ns_per_word 2.902 trials 30 checksum 0
+N 1000000 addr_seconds 0.002472 addr_ns_per_word 2.472 philox_seconds 0.002983 philox_ns_per_word 2.983 trials 5 checksum 1517915877
+N 10000000 addr_seconds 0.036506 addr_ns_per_word 3.651 philox_seconds 0.029439 philox_ns_per_word 2.944 trials 1 checksum 2678149191
+N 100000000 addr_seconds 0.259548 addr_ns_per_word 2.595 philox_seconds 0.327647 philox_ns_per_word 3.276 trials 1 checksum 1690636298
+
+N* (tahap5_bench:v1_rolv) ~= 26.1
+=== reinit-sweep (tahap5_bench:v1_rolv) ===
+K 1 cycles 200000 addr_ns_per_word_steadystate 35.426 philox_ns_per_word 12.398 ratio 2.858 checksum 3986491784
+K 2 cycles 200000 addr_ns_per_word_steadystate 17.733 philox_ns_per_word 6.176 ratio 2.871 checksum 0
+K 4 cycles 200000 addr_ns_per_word_steadystate 10.812 philox_ns_per_word 3.016 ratio 3.585 checksum 3986491784
+K 8 cycles 200000 addr_ns_per_word_steadystate 6.438 philox_ns_per_word 2.947 ratio 2.185 checksum 2333931090
+K 16 cycles 200000 addr_ns_per_word_steadystate 4.134 philox_ns_per_word 2.880 ratio 1.435 checksum 2091285653
+K 24 cycles 200000 addr_ns_per_word_steadystate 3.574 philox_ns_per_word 2.889 ratio 1.237 checksum 2432737907
+K 32 cycles 200000 addr_ns_per_word_steadystate 3.444 philox_ns_per_word 2.865 ratio 1.202 checksum 1270177137
+K 48 cycles 200000 addr_ns_per_word_steadystate 3.013 philox_ns_per_word 2.888 ratio 1.043 checksum 548796166
+K 64 cycles 200000 addr_ns_per_word_steadystate 2.848 philox_ns_per_word 2.941 ratio 0.968 checksum 3647379079
+K 80 cycles 200000 addr_ns_per_word_steadystate 3.073 philox_ns_per_word 2.882 ratio 1.066 checksum 3363219220
+K 96 cycles 200000 addr_ns_per_word_steadystate 2.711 philox_ns_per_word 3.148 ratio 0.861 checksum 3406786791
+K 128 cycles 156250 addr_ns_per_word_steadystate 2.552 philox_ns_per_word 2.885 ratio 0.885 checksum 3161046484
+K 192 cycles 104166 addr_ns_per_word_steadystate 2.855 philox_ns_per_word 2.932 ratio 0.974 checksum 1656596692
+K 256 cycles 78125 addr_ns_per_word_steadystate 2.578 philox_ns_per_word 2.935 ratio 0.878 checksum 786717793
+K 512 cycles 39062 addr_ns_per_word_steadystate 2.588 philox_ns_per_word 2.952 ratio 0.877 checksum 3988754393
+K 1024 cycles 19531 addr_ns_per_word_steadystate 2.453 philox_ns_per_word 2.874 ratio 0.854 checksum 1844131188
+K 4096 cycles 4882 addr_ns_per_word_steadystate 2.574 philox_ns_per_word 2.900 ratio 0.887 checksum 4081717117
+K 65536 cycles 305 addr_ns_per_word_steadystate 2.438 philox_ns_per_word 2.989 ratio 0.816 checksum 2776695734
+
+K* (tahap5_bench:v1_rolv) ~= 56.7
+
+==================== tahap5_bench_zmm512 ====================
+=== verify (tahap5_bench_zmm512) ===
+KAT 0: PASS (got 6627e8d5 e169c58d bc57ac4c 9b00dbd8, expected 6627e8d5 e169c58d bc57ac4c 9b00dbd8)
+KAT 1: PASS (got 408f276d 41c83b0e a20bc7c6 6d5451fd, expected 408f276d 41c83b0e a20bc7c6 6d5451fd)
+KAT 2: PASS (got d16cfe09 94fdcceb 5001e420 24126ea1, expected d16cfe09 94fdcceb 5001e420 24126ea1)
+
+
+--- tahap5_bench_zmm512:v0_baseline ---
+=== init-cost (tahap5_bench_zmm512:v0_baseline) ===
+mode init-cost repeats 5000000 addr_ns_per_init 38.421 philox_ns_per_call 11.364 ratio 3.381 checksum 3890094033
+=== throughput (tahap5_bench_zmm512:v0_baseline) ===
+N 1 addr_seconds 0.000000 addr_ns_per_word 48.982 philox_seconds 0.000000 philox_ns_per_word 29.977 trials 200 checksum 0
+N 2 addr_seconds 0.000000 addr_ns_per_word 26.514 philox_seconds 0.000000 philox_ns_per_word 15.003 trials 200 checksum 0
+N 4 addr_seconds 0.000000 addr_ns_per_word 13.999 philox_seconds 0.000000 philox_ns_per_word 7.494 trials 200 checksum 0
+N 8 addr_seconds 0.000000 addr_ns_per_word 7.498 philox_seconds 0.000000 philox_ns_per_word 4.999 trials 200 checksum 0
+N 16 addr_seconds 0.000000 addr_ns_per_word 4.688 philox_seconds 0.000000 philox_ns_per_word 4.000 trials 200 checksum 0
+N 24 addr_seconds 0.000000 addr_ns_per_word 3.874 philox_seconds 0.000000 philox_ns_per_word 3.667 trials 200 checksum 0
+N 32 addr_seconds 0.000000 addr_ns_per_word 3.406 philox_seconds 0.000000 philox_ns_per_word 3.469 trials 200 checksum 0
+N 48 addr_seconds 0.000000 addr_ns_per_word 2.938 philox_seconds 0.000000 philox_ns_per_word 3.292 trials 200 checksum 0
+N 64 addr_seconds 0.000000 addr_ns_per_word 2.718 philox_seconds 0.000000 philox_ns_per_word 3.203 trials 200 checksum 0
+N 80 addr_seconds 0.000000 addr_ns_per_word 2.588 philox_seconds 0.000000 philox_ns_per_word 3.175 trials 200 checksum 0
+N 96 addr_seconds 0.000000 addr_ns_per_word 2.511 philox_seconds 0.000000 philox_ns_per_word 3.125 trials 200 checksum 0
+N 128 addr_seconds 0.000000 addr_ns_per_word 2.406 philox_seconds 0.000000 philox_ns_per_word 3.070 trials 200 checksum 0
+N 192 addr_seconds 0.000000 addr_ns_per_word 2.339 philox_seconds 0.000001 philox_ns_per_word 3.052 trials 200 checksum 0
+N 256 addr_seconds 0.000001 addr_ns_per_word 2.262 philox_seconds 0.000001 philox_ns_per_word 3.020 trials 200 checksum 0
+N 512 addr_seconds 0.000001 addr_ns_per_word 2.297 philox_seconds 0.000002 philox_ns_per_word 2.996 trials 200 checksum 0
+N 1024 addr_seconds 0.000002 addr_ns_per_word 2.309 philox_seconds 0.000003 philox_ns_per_word 2.978 trials 30 checksum 0
+N 4096 addr_seconds 0.000010 addr_ns_per_word 2.343 philox_seconds 0.000012 philox_ns_per_word 2.966 trials 30 checksum 0
+N 65536 addr_seconds 0.000151 addr_ns_per_word 2.307 philox_seconds 0.000190 philox_ns_per_word 2.901 trials 30 checksum 0
+N 1000000 addr_seconds 0.002340 addr_ns_per_word 2.340 philox_seconds 0.002926 philox_ns_per_word 2.926 trials 5 checksum 1517915877
+N 10000000 addr_seconds 0.025690 addr_ns_per_word 2.569 philox_seconds 0.031172 philox_ns_per_word 3.117 trials 1 checksum 2678149191
+N 100000000 addr_seconds 0.270520 addr_ns_per_word 2.705 philox_seconds 0.302196 philox_ns_per_word 3.022 trials 1 checksum 1690636298
+
+N* (tahap5_bench_zmm512:v0_baseline) ~= 29.8
+=== reinit-sweep (tahap5_bench_zmm512:v0_baseline) ===
+K 1 cycles 200000 addr_ns_per_word_steadystate 38.688 philox_ns_per_word 18.887 ratio 2.048 checksum 3986491784
+K 2 cycles 200000 addr_ns_per_word_steadystate 19.783 philox_ns_per_word 6.047 ratio 3.272 checksum 0
+K 4 cycles 200000 addr_ns_per_word_steadystate 10.189 philox_ns_per_word 3.030 ratio 3.363 checksum 3986491784
+K 8 cycles 200000 addr_ns_per_word_steadystate 5.951 philox_ns_per_word 2.928 ratio 2.033 checksum 2333931090
+K 16 cycles 200000 addr_ns_per_word_steadystate 4.336 philox_ns_per_word 2.922 ratio 1.484 checksum 2091285653
+K 24 cycles 200000 addr_ns_per_word_steadystate 3.755 philox_ns_per_word 2.842 ratio 1.321 checksum 2432737907
+K 32 cycles 200000 addr_ns_per_word_steadystate 3.489 philox_ns_per_word 2.923 ratio 1.194 checksum 1270177137
+K 48 cycles 200000 addr_ns_per_word_steadystate 3.184 philox_ns_per_word 3.142 ratio 1.013 checksum 548796166
+K 64 cycles 200000 addr_ns_per_word_steadystate 2.961 philox_ns_per_word 2.853 ratio 1.038 checksum 3647379079
+K 80 cycles 200000 addr_ns_per_word_steadystate 3.121 philox_ns_per_word 2.960 ratio 1.054 checksum 3363219220
+K 96 cycles 200000 addr_ns_per_word_steadystate 2.787 philox_ns_per_word 2.889 ratio 0.965 checksum 3406786791
+K 128 cycles 156250 addr_ns_per_word_steadystate 2.944 philox_ns_per_word 2.874 ratio 1.024 checksum 3161046484
+K 192 cycles 104166 addr_ns_per_word_steadystate 2.651 philox_ns_per_word 2.861 ratio 0.926 checksum 1656596692
+K 256 cycles 78125 addr_ns_per_word_steadystate 2.491 philox_ns_per_word 3.407 ratio 0.731 checksum 786717793
+K 512 cycles 39062 addr_ns_per_word_steadystate 2.875 philox_ns_per_word 2.926 ratio 0.983 checksum 3988754393
+K 1024 cycles 19531 addr_ns_per_word_steadystate 2.552 philox_ns_per_word 2.926 ratio 0.872 checksum 1844131188
+K 4096 cycles 4882 addr_ns_per_word_steadystate 2.524 philox_ns_per_word 2.943 ratio 0.858 checksum 4081717117
+K 65536 cycles 305 addr_ns_per_word_steadystate 2.860 philox_ns_per_word 2.998 ratio 0.954 checksum 2776695734
+
+K* (tahap5_bench_zmm512:v0_baseline) ~= 89.4
+
+==================== tahap5_bench_unroll ====================
+=== verify (tahap5_bench_unroll) ===
+KAT 0: PASS (got 6627e8d5 e169c58d bc57ac4c 9b00dbd8, expected 6627e8d5 e169c58d bc57ac4c 9b00dbd8)
+KAT 1: PASS (got 408f276d 41c83b0e a20bc7c6 6d5451fd, expected 408f276d 41c83b0e a20bc7c6 6d5451fd)
+KAT 2: PASS (got d16cfe09 94fdcceb 5001e420 24126ea1, expected d16cfe09 94fdcceb 5001e420 24126ea1)
+
+
+--- tahap5_bench_unroll:v0_baseline ---
+=== init-cost (tahap5_bench_unroll:v0_baseline) ===
+mode init-cost repeats 5000000 addr_ns_per_init 53.816 philox_ns_per_call 11.052 ratio 4.869 checksum 3890094033
+=== throughput (tahap5_bench_unroll:v0_baseline) ===
+N 1 addr_seconds 0.000000 addr_ns_per_word 58.004 philox_seconds 0.000000 philox_ns_per_word 27.998 trials 200 checksum 0
+N 2 addr_seconds 0.000000 addr_ns_per_word 29.991 philox_seconds 0.000000 philox_ns_per_word 13.999 trials 200 checksum 0
+N 4 addr_seconds 0.000000 addr_ns_per_word 15.498 philox_seconds 0.000000 philox_ns_per_word 6.999 trials 200 checksum 0
+N 8 addr_seconds 0.000000 addr_ns_per_word 8.626 philox_seconds 0.000000 philox_ns_per_word 4.751 trials 200 checksum 0
+N 16 addr_seconds 0.000000 addr_ns_per_word 5.188 philox_seconds 0.000000 philox_ns_per_word 3.874 trials 200 checksum 0
+N 24 addr_seconds 0.000000 addr_ns_per_word 4.083 philox_seconds 0.000000 philox_ns_per_word 3.500 trials 200 checksum 0
+N 32 addr_seconds 0.000000 addr_ns_per_word 3.531 philox_seconds 0.000000 philox_ns_per_word 3.281 trials 200 checksum 0
+N 48 addr_seconds 0.000000 addr_ns_per_word 2.958 philox_seconds 0.000000 philox_ns_per_word 3.166 trials 200 checksum 0
+N 64 addr_seconds 0.000000 addr_ns_per_word 2.688 philox_seconds 0.000000 philox_ns_per_word 3.094 trials 200 checksum 0
+N 80 addr_seconds 0.000000 addr_ns_per_word 2.475 philox_seconds 0.000000 philox_ns_per_word 3.038 trials 200 checksum 0
+N 96 addr_seconds 0.000000 addr_ns_per_word 2.365 philox_seconds 0.000000 philox_ns_per_word 3.000 trials 200 checksum 0
+N 128 addr_seconds 0.000000 addr_ns_per_word 2.234 philox_seconds 0.000000 philox_ns_per_word 2.977 trials 200 checksum 0
+N 192 addr_seconds 0.000000 addr_ns_per_word 2.203 philox_seconds 0.000001 philox_ns_per_word 2.943 trials 200 checksum 0
+N 256 addr_seconds 0.000001 addr_ns_per_word 2.144 philox_seconds 0.000001 philox_ns_per_word 3.070 trials 200 checksum 0
+N 512 addr_seconds 0.000001 addr_ns_per_word 2.225 philox_seconds 0.000002 philox_ns_per_word 3.043 trials 200 checksum 0
+N 1024 addr_seconds 0.000002 addr_ns_per_word 2.250 philox_seconds 0.000003 philox_ns_per_word 3.028 trials 30 checksum 0
+N 4096 addr_seconds 0.000009 addr_ns_per_word 2.195 philox_seconds 0.000012 philox_ns_per_word 2.955 trials 30 checksum 0
+N 65536 addr_seconds 0.000141 addr_ns_per_word 2.155 philox_seconds 0.000189 philox_ns_per_word 2.886 trials 30 checksum 0
+N 1000000 addr_seconds 0.002219 addr_ns_per_word 2.219 philox_seconds 0.002935 philox_ns_per_word 2.935 trials 5 checksum 1517915877
+N 10000000 addr_seconds 0.024875 addr_ns_per_word 2.488 philox_seconds 0.035653 philox_ns_per_word 3.565 trials 1 checksum 2678149191
+N 100000000 addr_seconds 0.269161 addr_ns_per_word 2.692 philox_seconds 0.346552 philox_ns_per_word 3.466 trials 1 checksum 1690636298
+
+N* (tahap5_bench_unroll:v0_baseline) ~= 39.8
+=== reinit-sweep (tahap5_bench_unroll:v0_baseline) ===
+K 1 cycles 200000 addr_ns_per_word_steadystate 50.908 philox_ns_per_word 15.722 ratio 3.238 checksum 3986491784
+K 2 cycles 200000 addr_ns_per_word_steadystate 27.092 philox_ns_per_word 6.047 ratio 4.480 checksum 0
+K 4 cycles 200000 addr_ns_per_word_steadystate 14.459 philox_ns_per_word 3.023 ratio 4.782 checksum 3986491784
+K 8 cycles 200000 addr_ns_per_word_steadystate 8.045 philox_ns_per_word 2.918 ratio 2.757 checksum 2333931090
+K 16 cycles 200000 addr_ns_per_word_steadystate 5.201 philox_ns_per_word 2.860 ratio 1.818 checksum 2091285653
+K 24 cycles 200000 addr_ns_per_word_steadystate 4.135 philox_ns_per_word 2.828 ratio 1.462 checksum 2432737907
+K 32 cycles 200000 addr_ns_per_word_steadystate 3.587 philox_ns_per_word 2.887 ratio 1.242 checksum 1270177137
+K 48 cycles 200000 addr_ns_per_word_steadystate 3.100 philox_ns_per_word 2.836 ratio 1.093 checksum 548796166
+K 64 cycles 200000 addr_ns_per_word_steadystate 3.041 philox_ns_per_word 2.952 ratio 1.030 checksum 3647379079
+K 80 cycles 200000 addr_ns_per_word_steadystate 2.833 philox_ns_per_word 2.895 ratio 0.979 checksum 3363219220
+K 96 cycles 200000 addr_ns_per_word_steadystate 2.737 philox_ns_per_word 2.912 ratio 0.940 checksum 3406786791
+K 128 cycles 156250 addr_ns_per_word_steadystate 2.524 philox_ns_per_word 3.192 ratio 0.791 checksum 3161046484
+K 192 cycles 104166 addr_ns_per_word_steadystate 2.459 philox_ns_per_word 2.850 ratio 0.863 checksum 1656596692
+K 256 cycles 78125 addr_ns_per_word_steadystate 2.359 philox_ns_per_word 2.927 ratio 0.806 checksum 786717793
+K 512 cycles 39062 addr_ns_per_word_steadystate 2.538 philox_ns_per_word 3.112 ratio 0.816 checksum 3988754393
+K 1024 cycles 19531 addr_ns_per_word_steadystate 2.383 philox_ns_per_word 2.924 ratio 0.815 checksum 1844131188
+K 4096 cycles 4882 addr_ns_per_word_steadystate 2.390 philox_ns_per_word 2.935 ratio 0.814 checksum 4081717117
+K 65536 cycles 305 addr_ns_per_word_steadystate 2.391 philox_ns_per_word 3.263 ratio 0.733 checksum 2776695734
+
+K* (tahap5_bench_unroll:v0_baseline) ~= 72.9
+
+==================== RINGKASAN ====================
+Baseline Tahap 4 (winner_wired_addressable, hardcoded init): init=49.87ns N*~=49.2 K*~=71
+tahap5_bench:v0_baseline                 init=  58.103ns  N*=  50.5  K*=  90.5
+tahap5_bench:v1_rolv                     init=  35.383ns  N*=  26.1  K*=  56.7
+tahap5_bench_zmm512:v0_baseline          init=  38.421ns  N*=  29.8  K*=  89.4
+tahap5_bench_unroll:v0_baseline          init=  53.816ns  N*=  39.8  K*=  72.9

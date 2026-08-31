@@ -1,0 +1,194 @@
+{
+  "rows": [
+    {
+      "N": 1,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 41.007,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 29.977,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 2,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 20.998,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 14.494,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 4,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 11.496,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 7.254,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 8,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 6.872,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 4.875,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 16,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 4.437,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 3.874,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 24,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 3.625,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 3.583,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 32,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 3.25,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 3.344,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 48,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 2.854,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 3.479,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 64,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 2.844,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 3.375,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 80,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 2.7,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 3.325,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 96,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 2.625,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 3.271,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 128,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 2.484,
+      "philox_seconds": 0.0,
+      "philox_ns_per_word": 3.234,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 192,
+      "addr_seconds": 0.0,
+      "addr_ns_per_word": 2.453,
+      "philox_seconds": 1e-06,
+      "philox_ns_per_word": 3.187,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 256,
+      "addr_seconds": 1e-06,
+      "addr_ns_per_word": 2.379,
+      "philox_seconds": 1e-06,
+      "philox_ns_per_word": 3.008,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 512,
+      "addr_seconds": 1e-06,
+      "addr_ns_per_word": 2.334,
+      "philox_seconds": 2e-06,
+      "philox_ns_per_word": 2.979,
+      "trials": 200,
+      "checksum": 0
+    },
+    {
+      "N": 1024,
+      "addr_seconds": 2e-06,
+      "addr_ns_per_word": 2.357,
+      "philox_seconds": 3e-06,
+      "philox_ns_per_word": 2.983,
+      "trials": 30,
+      "checksum": 0
+    },
+    {
+      "N": 4096,
+      "addr_seconds": 9e-06,
+      "addr_ns_per_word": 2.29,
+      "philox_seconds": 1.2e-05,
+      "philox_ns_per_word": 2.894,
+      "trials": 30,
+      "checksum": 0
+    },
+    {
+      "N": 65536,
+      "addr_seconds": 0.00015,
+      "addr_ns_per_word": 2.29,
+      "philox_seconds": 0.00019,
+      "philox_ns_per_word": 2.902,
+      "trials": 30,
+      "checksum": 0
+    },
+    {
+      "N": 1000000,
+      "addr_seconds": 0.002472,
+      "addr_ns_per_word": 2.472,
+      "philox_seconds": 0.002983,
+      "philox_ns_per_word": 2.983,
+      "trials": 5,
+      "checksum": 1517915877
+    },
+    {
+      "N": 10000000,
+      "addr_seconds": 0.036506,
+      "addr_ns_per_word": 3.651,
+      "philox_seconds": 0.029439,
+      "philox_ns_per_word": 2.944,
+      "trials": 1,
+      "checksum": 2678149191
+    },
+    {
+      "N": 100000000,
+      "addr_seconds": 0.259548,
+      "addr_ns_per_word": 2.595,
+      "philox_seconds": 0.327647,
+      "philox_ns_per_word": 3.276,
+      "trials": 1,
+      "checksum": 1690636298
+    }
+  ],
+  "n_star_estimate": 26.12034834468703
+}

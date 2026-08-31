@@ -1,0 +1,19 @@
+{
+  "tier": "full",
+  "adjacent": {
+    "k": 128,
+    "n": 1000000,
+    "m_pairs": 8128,
+    "z_crit": 4.85069196013568,
+    "flagged_count": 0,
+    "flagged": []
+  },
+  "control": {
+    "k": 128,
+    "n": 1000000,
+    "m_pairs": 8128,
+    "z_crit": 4.85069196013568,
+    "flagged_count": 0,
+    "flagged": []
+  }
+}

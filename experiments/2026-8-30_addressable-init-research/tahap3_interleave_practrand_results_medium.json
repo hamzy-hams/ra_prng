@@ -1,0 +1,10 @@
+{
+  "k": 8,
+  "total_bytes": 1073741824,
+  "words_written": 268435456,
+  "passed": true,
+  "ran_real_test": true,
+  "io_error": false,
+  "stderr": "",
+  "stdout_tail": "RNG_test using PractRand version 0.95\nRNG = RNG_stdin32, seed = unknown\ntest set = core, folding = standard (32 bit)\n\nrng=RNG_stdin32, seed=unknown\nlength= 64 megabytes (2^26 bytes), time= 0.8 seconds\n  no anomalies in 142 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 128 megabytes (2^27 bytes), time= 2.7 seconds\n  no anomalies in 156 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 256 megabytes (2^28 bytes), time= 5.7 seconds\n  no anomalies in 168 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 512 megabytes (2^29 bytes), time= 10.1 seconds\n  no anomalies in 180 test result(s)\n\nrng=RNG_stdin32, seed=unknown\nlength= 1 gigabyte (2^30 bytes), time= 17.9 seconds\n  Test Name                         Raw       Processed     Evaluation\n  Gap-16:A                          R=  -3.8  p =1-1.3e-3   unusual          \n  ...and 193 test result(s) without anomalies\n\n"
+}

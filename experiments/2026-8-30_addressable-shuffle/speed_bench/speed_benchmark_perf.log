@@ -1,0 +1,720 @@
+=== xoshiro256 ===
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+
+ Performance counter stats for './xoshiro256 -i tokens.txt -o out_xoshiro256.txt' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,539      page-faults:u                    #  28277.2 faults/sec  page_faults_per_second  ( +-  0.01% )
+             54.43 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  1.50% )
+            33,895      branch-misses:u                  #      0.0 %  branch_miss_rate         ( +- 10.56% )  (88.84%)
+        80,140,790      branches:u                       #   1472.5 M/sec  branch_frequency     ( +-  0.43% )  (88.86%)
+       176,206,738      cpu-cycles:u                     #      3.2 GHz  cycles_frequency       ( +-  1.43% )  (88.91%)
+       304,057,252      instructions:u                   #      1.7 instructions  insn_per_cycle  ( +-  0.19% )  (88.84%)
+                        TopdownL1                        #     38.5 %  tma_backend_bound      
+                                                         #     18.3 %  tma_bad_speculation      ( +-  5.95% )  (88.85%)
+                                                         #     10.1 %  tma_frontend_bound       ( +-  5.08% )  (77.97%)
+                                                         #     33.2 %  tma_retiring             ( +-  0.53% )  (89.08%)
+
+       0.055473434 +- 0.000936129 seconds time elapsed  ( +-  1.69% )
+
+
+=== xoshiro256_amortized ===
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.015 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.005 seconds
+
+ Performance counter stats for './xoshiro256_amortized -i tokens.txt -o out_xoshiro256_amortized.txt' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,540      page-faults:u                    #  27014.6 faults/sec  page_faults_per_second  ( +-  0.01% )
+             57.01 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  1.99% )
+            31,965      branch-misses:u                  #      0.0 %  branch_miss_rate         ( +-  0.45% )  (87.60%)
+        82,078,447      branches:u                       #   1439.8 M/sec  branch_frequency     ( +-  0.25% )  (88.08%)
+       186,473,837      cpu-cycles:u                     #      3.3 GHz  cycles_frequency       ( +-  2.01% )  (89.31%)
+       317,625,954      instructions:u                   #      1.7 instructions  insn_per_cycle  ( +-  0.29% )  (89.39%)
+                        TopdownL1                        #     39.3 %  tma_backend_bound      
+                                                         #     19.0 %  tma_bad_speculation      ( +-  1.07% )  (89.36%)
+                                                         #      9.7 %  tma_frontend_bound       ( +-  6.21% )  (77.60%)
+                                                         #     32.0 %  tma_retiring             ( +-  0.73% )  (88.24%)
+
+       0.057471880 +- 0.001136433 seconds time elapsed  ( +-  1.98% )
+
+
+=== pcg ===
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.004 seconds
+Shuffled 1000000 items in 0.004 seconds
+
+ Performance counter stats for './pcg tokens.txt -o out_pcg.txt' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,539      page-faults:u                    #  28984.9 faults/sec  page_faults_per_second  ( +-  0.01% )
+             53.10 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  2.06% )
+            29,821      branch-misses:u                  #      0.0 %  branch_miss_rate         ( +-  0.91% )  (87.57%)
+        79,493,825      branches:u                       #   1497.2 M/sec  branch_frequency     ( +-  0.35% )  (87.54%)
+       171,912,000      cpu-cycles:u                     #      3.2 GHz  cycles_frequency       ( +-  2.10% )  (88.85%)
+       297,472,617      instructions:u                   #      1.7 instructions  insn_per_cycle  ( +-  0.25% )  (89.63%)
+                        TopdownL1                        #     40.6 %  tma_backend_bound      
+                                                         #     16.8 %  tma_bad_speculation      ( +-  1.23% )  (89.62%)
+                                                         #      8.4 %  tma_frontend_bound       ( +-  6.56% )  (77.51%)
+                                                         #     34.2 %  tma_retiring             ( +-  0.63% )  (87.89%)
+
+       0.053510810 +- 0.001103567 seconds time elapsed  ( +-  2.06% )
+
+
+=== pcg_amortized ===
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.011 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.005 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.006 seconds
+
+ Performance counter stats for './pcg_amortized tokens.txt -o out_pcg_amortized.txt' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,538      page-faults:u                    #  27864.9 faults/sec  page_faults_per_second  ( +-  0.01% )
+             55.19 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  1.80% )
+            30,231      branch-misses:u                  #      0.0 %  branch_miss_rate         ( +-  0.77% )  (87.66%)
+        80,816,529      branches:u                       #   1464.2 M/sec  branch_frequency     ( +-  0.41% )  (87.69%)
+       178,623,026      cpu-cycles:u                     #      3.2 GHz  cycles_frequency       ( +-  1.75% )  (88.79%)
+       301,543,347      instructions:u                   #      1.7 instructions  insn_per_cycle  ( +-  0.23% )  (89.44%)
+                        TopdownL1                        #     40.9 %  tma_backend_bound      
+                                                         #     18.2 %  tma_bad_speculation      ( +-  1.69% )  (89.42%)
+                                                         #      8.0 %  tma_frontend_bound       ( +-  6.18% )  (78.15%)
+                                                         #     33.0 %  tma_retiring             ( +-  0.67% )  (88.73%)
+
+       0.055672463 +- 0.001008260 seconds time elapsed  ( +-  1.81% )
+
+
+=== philox ===
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.010 seconds
+Shuffled 1000000 items in 0.015 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.009 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.019 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.009 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.009 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.009 seconds
+Shuffled 1000000 items in 0.011 seconds
+Shuffled 1000000 items in 0.010 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.009 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.009 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.009 seconds
+
+ Performance counter stats for './philox -i tokens.txt -o out_philox.txt' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,538      page-faults:u                    #  25714.8 faults/sec  page_faults_per_second  ( +-  0.01% )
+             59.81 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  1.63% )
+            29,985      branch-misses:u                  #      0.0 %  branch_miss_rate         ( +-  0.46% )  (87.57%)
+        67,696,013      branches:u                       #   1131.9 M/sec  branch_frequency     ( +-  0.23% )  (87.71%)
+       198,283,084      cpu-cycles:u                     #      3.3 GHz  cycles_frequency       ( +-  1.59% )  (89.34%)
+       300,251,753      instructions:u                   #      1.5 instructions  insn_per_cycle  ( +-  0.19% )  (89.34%)
+                        TopdownL1                        #     41.5 %  tma_backend_bound      
+                                                         #     18.7 %  tma_bad_speculation      ( +-  1.92% )  (89.30%)
+                                                         #      8.7 %  tma_frontend_bound       ( +-  5.32% )  (78.12%)
+                                                         #     31.1 %  tma_retiring             ( +-  0.95% )  (88.83%)
+
+       0.060286527 +- 0.000980646 seconds time elapsed  ( +-  1.63% )
+
+
+=== philox_amortized ===
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.009 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.009 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.007 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.006 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.008 seconds
+Shuffled 1000000 items in 0.007 seconds
+
+ Performance counter stats for './philox_amortized -i tokens.txt -o out_philox_amortized.txt' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,537      page-faults:u                    #  27154.0 faults/sec  page_faults_per_second  ( +-  0.01% )
+             56.60 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  1.64% )
+            32,941      branch-misses:u                  #      0.0 %  branch_miss_rate         ( +-  1.03% )  (88.10%)
+        67,778,369      branches:u                       #   1197.4 M/sec  branch_frequency     ( +-  0.28% )  (88.15%)
+       186,350,208      cpu-cycles:u                     #      3.3 GHz  cycles_frequency       ( +-  1.72% )  (88.08%)
+       295,379,905      instructions:u                   #      1.6 instructions  insn_per_cycle  ( +-  0.18% )  (88.11%)
+                        TopdownL1                        #     40.4 %  tma_backend_bound      
+                                                         #     17.3 %  tma_bad_speculation      ( +-  2.27% )  (89.79%)
+                                                         #      8.0 %  tma_frontend_bound       ( +-  6.60% )  (78.36%)
+                                                         #     34.3 %  tma_retiring             ( +-  0.72% )  (88.54%)
+
+       0.057036144 +- 0.000947245 seconds time elapsed  ( +-  1.66% )
+
+
+=== chacha20 ===
+Shuffled 1000000 items in 0.152 seconds
+Shuffled 1000000 items in 0.149 seconds
+Shuffled 1000000 items in 0.156 seconds
+Shuffled 1000000 items in 0.150 seconds
+Shuffled 1000000 items in 0.155 seconds
+Shuffled 1000000 items in 0.153 seconds
+Shuffled 1000000 items in 0.145 seconds
+Shuffled 1000000 items in 0.142 seconds
+Shuffled 1000000 items in 0.161 seconds
+Shuffled 1000000 items in 0.152 seconds
+Shuffled 1000000 items in 0.154 seconds
+Shuffled 1000000 items in 0.156 seconds
+Shuffled 1000000 items in 0.139 seconds
+Shuffled 1000000 items in 0.146 seconds
+Shuffled 1000000 items in 0.152 seconds
+Shuffled 1000000 items in 0.151 seconds
+Shuffled 1000000 items in 0.152 seconds
+Shuffled 1000000 items in 0.141 seconds
+Shuffled 1000000 items in 0.158 seconds
+Shuffled 1000000 items in 0.166 seconds
+Shuffled 1000000 items in 0.160 seconds
+Shuffled 1000000 items in 0.156 seconds
+Shuffled 1000000 items in 0.155 seconds
+Shuffled 1000000 items in 0.145 seconds
+Shuffled 1000000 items in 0.157 seconds
+Shuffled 1000000 items in 0.156 seconds
+Shuffled 1000000 items in 0.150 seconds
+Shuffled 1000000 items in 0.154 seconds
+Shuffled 1000000 items in 0.153 seconds
+Shuffled 1000000 items in 0.163 seconds
+
+ Performance counter stats for './chacha20 -i tokens.txt -o out_chacha20.txt' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,537      page-faults:u                    #   7551.6 faults/sec  page_faults_per_second  ( +-  0.01% )
+            203.53 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  0.77% )
+            32,282      branch-misses:u                  #      0.0 %  branch_miss_rate         ( +-  2.32% )  (88.52%)
+        78,921,328      branches:u                       #    387.8 M/sec  branch_frequency     ( +-  0.29% )  (88.81%)
+       779,582,248      cpu-cycles:u                     #      3.8 GHz  cycles_frequency       ( +-  0.71% )  (89.04%)
+     1,415,044,294      instructions:u                   #      1.8 instructions  insn_per_cycle  ( +-  0.05% )  (88.99%)
+                        TopdownL1                        #     42.0 %  tma_backend_bound      
+                                                         #     27.5 %  tma_bad_speculation      ( +-  1.86% )  (88.97%)
+                                                         #      0.8 %  tma_frontend_bound       ( +-  7.82% )  (77.70%)
+                                                         #     29.7 %  tma_retiring             ( +-  0.55% )  (88.72%)
+
+       0.204062917 +- 0.001582740 seconds time elapsed  ( +-  0.78% )
+
+
+=== chacha20_amortized ===
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.014 seconds
+Shuffled 1000000 items in 0.021 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.015 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.011 seconds
+Shuffled 1000000 items in 0.011 seconds
+Shuffled 1000000 items in 0.012 seconds
+Shuffled 1000000 items in 0.014 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.013 seconds
+Shuffled 1000000 items in 0.015 seconds
+Shuffled 1000000 items in 0.012 seconds
+
+ Performance counter stats for './chacha20_amortized -i tokens.txt -o out_chacha20_amortized.txt' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,537      page-faults:u                    #  24281.9 faults/sec  page_faults_per_second  ( +-  0.01% )
+             63.30 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  1.21% )
+            29,870      branch-misses:u                  #      0.0 %  branch_miss_rate         ( +-  0.74% )  (88.87%)
+        68,182,303      branches:u                       #   1077.2 M/sec  branch_frequency     ( +-  0.22% )  (88.89%)
+       213,207,446      cpu-cycles:u                     #      3.4 GHz  cycles_frequency       ( +-  1.15% )  (88.89%)
+       343,148,684      instructions:u                   #      1.6 instructions  insn_per_cycle  ( +-  0.24% )  (88.87%)
+                        TopdownL1                        #     40.4 %  tma_backend_bound      
+                                                         #     19.8 %  tma_bad_speculation      ( +-  1.37% )  (88.88%)
+                                                         #      7.8 %  tma_frontend_bound       ( +-  8.62% )  (77.84%)
+                                                         #     32.1 %  tma_retiring             ( +-  0.64% )  (88.97%)
+
+       0.063786394 +- 0.000781613 seconds time elapsed  ( +-  1.23% )
+
+
+=== ra_prng2 ===
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.133 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.114 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.129 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.121 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.120 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.128 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.119 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.130 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.129 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.121 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.133 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.125 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.129 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.124 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.117 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.129 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.124 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.124 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.126 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.123 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.121 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.123 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.116 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.125 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.124 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.129 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.118 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.127 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.126 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_ra_prng2.txt'.
+Done in 0.134 seconds
+
+ Performance counter stats for './ra_prng2 --input tokens.txt --output out_ra_prng2.txt' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,573      page-faults:u                    #  12409.9 faults/sec  page_faults_per_second  ( +-  1.81% )
+            126.75 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  0.77% )
+           153,027      branch-misses:u                  #      0.1 %  branch_miss_rate         ( +-  0.46% )  (88.84%)
+       305,280,405      branches:u                       #   2408.4 M/sec  branch_frequency     ( +-  0.11% )  (88.97%)
+       417,594,161      cpu-cycles:u                     #      3.3 GHz  cycles_frequency       ( +-  0.64% )  (88.97%)
+     1,523,602,993      instructions:u                   #      3.6 instructions  insn_per_cycle  ( +-  0.09% )  (88.97%)
+                        TopdownL1                        #      6.9 %  tma_backend_bound      
+                                                         #     22.9 %  tma_bad_speculation      ( +-  0.35% )  (88.97%)
+                                                         #      5.7 %  tma_frontend_bound       ( +-  5.38% )  (77.34%)
+                                                         #     64.4 %  tma_retiring             ( +-  0.32% )  (88.37%)
+
+       0.127372540 +- 0.000993605 seconds time elapsed  ( +-  0.78% )
+
+
+=== scrambler_addressable ===
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.073 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.079 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.078 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.068 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.073 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.071 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.070 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.070 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.076 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.070 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.068 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.072 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.075 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.076 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.071 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.075 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.070 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.072 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.069 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.070 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.071 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.074 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.072 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.071 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.072 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.070 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.074 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.070 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.071 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_addressable.txt'.
+Done in 0.071 seconds
+
+ Performance counter stats for './scrambler_addressable --input tokens.txt --output out_scrambler_addressable.txt --key 1' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,736      page-faults:u                    #  23589.7 faults/sec  page_faults_per_second  ( +-  2.38% )
+             73.59 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  0.75% )
+           129,547      branch-misses:u                  #      0.1 %  branch_miss_rate         ( +-  0.61% )  (88.99%)
+       166,254,178      branches:u                       #   2259.2 M/sec  branch_frequency     ( +-  0.18% )  (88.99%)
+       252,056,591      cpu-cycles:u                     #      3.4 GHz  cycles_frequency       ( +-  0.64% )  (88.98%)
+       831,774,945      instructions:u                   #      3.3 instructions  insn_per_cycle  ( +-  0.20% )  (88.99%)
+                        TopdownL1                        #     11.9 %  tma_backend_bound      
+                                                         #     22.2 %  tma_bad_speculation      ( +-  0.47% )  (88.98%)
+                                                         #     10.7 %  tma_frontend_bound       ( +-  7.51% )  (77.07%)
+                                                         #     55.3 %  tma_retiring             ( +-  0.34% )  (88.09%)
+
+       0.074151276 +- 0.000561922 seconds time elapsed  ( +-  0.76% )
+
+
+=== scrambler_wired_addressable ===
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.064 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.072 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.067 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.106 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.070 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.067 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.066 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.083 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.069 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.067 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.075 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.070 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.069 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.069 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.068 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.062 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.064 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.061 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.064 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.066 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.065 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.065 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.064 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.071 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.071 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.062 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.065 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.067 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.066 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_scrambler_wired_addressable.txt'.
+Done in 0.065 seconds
+
+ Performance counter stats for './scrambler_wired_addressable --input tokens.txt --output out_scrambler_wired_addressable.txt --key 1' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,653      page-faults:u                    #  23612.4 faults/sec  page_faults_per_second  ( +-  1.90% )
+             70.01 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  2.22% )
+           124,818      branch-misses:u                  #      0.1 %  branch_miss_rate         ( +-  0.74% )  (87.93%)
+       166,786,567      branches:u                       #   2382.5 M/sec  branch_frequency     ( +-  0.21% )  (87.92%)
+       232,842,566      cpu-cycles:u                     #      3.3 GHz  cycles_frequency       ( +-  1.88% )  (87.94%)
+       784,240,872      instructions:u                   #      3.4 instructions  insn_per_cycle  ( +-  0.15% )  (89.38%)
+                        TopdownL1                        #      9.5 %  tma_backend_bound      
+                                                         #     21.2 %  tma_bad_speculation      ( +-  0.45% )  (89.43%)
+                                                         #     11.3 %  tma_frontend_bound       ( +- 18.49% )  (78.51%)
+                                                         #     58.0 %  tma_retiring             ( +-  0.40% )  (89.06%)
+
+       0.070541226 +- 0.001557911 seconds time elapsed  ( +-  2.21% )
+
+
+=== stream_driven_shuffle ===
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.072 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.075 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.072 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.073 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.075 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.074 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.073 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.072 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.083 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.079 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.079 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.079 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.076 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.079 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.076 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.079 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.079 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.077 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.078 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.077 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.079 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.070 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.074 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.075 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.077 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.078 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.078 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.076 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.077 seconds
+Proses shuffle selesai. Hasil disimpan di 'out_stream_driven_shuffle.txt'.
+Done in 0.077 seconds
+
+ Performance counter stats for './stream_driven_shuffle --input tokens.txt --output out_stream_driven_shuffle.txt --key 1' (30 runs):
+
+                 0      context-switches:u               #      0.0 cs/sec  cs_per_second     
+                 0      cpu-migrations:u                 #      0.0 migrations/sec  migrations_per_second
+             1,669      page-faults:u                    #  21460.3 faults/sec  page_faults_per_second  ( +-  1.70% )
+             77.77 msec task-clock:u                     #      1.0 CPUs  CPUs_utilized         ( +-  0.69% )
+           114,696      branch-misses:u                  #      0.1 %  branch_miss_rate         ( +-  0.23% )  (88.59%)
+       196,113,737      branches:u                       #   2521.7 M/sec  branch_frequency     ( +-  0.10% )  (88.58%)
+       253,983,447      cpu-cycles:u                     #      3.3 GHz  cycles_frequency       ( +-  0.41% )  (88.59%)
+       931,407,218      instructions:u                   #      3.7 instructions  insn_per_cycle  ( +-  0.17% )  (88.58%)
+                        TopdownL1                        #      4.5 %  tma_backend_bound      
+                                                         #     20.4 %  tma_bad_speculation      ( +-  0.34% )  (89.85%)
+                                                         #     10.1 %  tma_frontend_bound       ( +-  8.21% )  (78.54%)
+                                                         #     64.9 %  tma_retiring             ( +-  0.24% )  (88.67%)
+
+       0.078430460 +- 0.000553532 seconds time elapsed  ( +-  0.71% )
+
+

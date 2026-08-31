@@ -86,6 +86,8 @@ TIERS_Q1B = {  # interleave_practrand.py: (K streams, total interleaved bytes)
     "medium": (8, 1024 * 1024 * 1024),
     "full": (8, 16 * 1024 * 1024 * 1024),
     "xlarge": (8, 128 * 1024 * 1024 * 1024),  # Phase 2 raised validation
+    "1tb": (8, 1024 * 1024 * 1024 * 1024),  # Checkpoint follow-up (2026-08-31),
+    # only run after xlarge (128GB) PASSED clean -- see RESULTS.md Method B.
 }
 
 TIERS_Q2 = {  # collision_scan.py --seeds sequential: (M seeds, V values-per-seed for blocksweep)

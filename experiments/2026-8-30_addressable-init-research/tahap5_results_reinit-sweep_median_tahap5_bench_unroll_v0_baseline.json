@@ -1,0 +1,96 @@
+{
+  "rows": [
+    {
+      "K": 1,
+      "addr_ns_per_word_steadystate": 54.955,
+      "philox_ns_per_word": 12.203
+    },
+    {
+      "K": 2,
+      "addr_ns_per_word_steadystate": 30.069,
+      "philox_ns_per_word": 7.086
+    },
+    {
+      "K": 4,
+      "addr_ns_per_word_steadystate": 15.194,
+      "philox_ns_per_word": 3.212
+    },
+    {
+      "K": 8,
+      "addr_ns_per_word_steadystate": 9.225,
+      "philox_ns_per_word": 3.07
+    },
+    {
+      "K": 16,
+      "addr_ns_per_word_steadystate": 5.835,
+      "philox_ns_per_word": 3.131
+    },
+    {
+      "K": 24,
+      "addr_ns_per_word_steadystate": 5.075,
+      "philox_ns_per_word": 3.402
+    },
+    {
+      "K": 32,
+      "addr_ns_per_word_steadystate": 4.699,
+      "philox_ns_per_word": 3.042
+    },
+    {
+      "K": 48,
+      "addr_ns_per_word_steadystate": 3.482,
+      "philox_ns_per_word": 3.326
+    },
+    {
+      "K": 64,
+      "addr_ns_per_word_steadystate": 3.216,
+      "philox_ns_per_word": 3.066
+    },
+    {
+      "K": 80,
+      "addr_ns_per_word_steadystate": 2.986,
+      "philox_ns_per_word": 3.066
+    },
+    {
+      "K": 96,
+      "addr_ns_per_word_steadystate": 2.953,
+      "philox_ns_per_word": 3.827
+    },
+    {
+      "K": 128,
+      "addr_ns_per_word_steadystate": 2.876,
+      "philox_ns_per_word": 3.089
+    },
+    {
+      "K": 192,
+      "addr_ns_per_word_steadystate": 2.562,
+      "philox_ns_per_word": 4.193
+    },
+    {
+      "K": 256,
+      "addr_ns_per_word_steadystate": 3.272,
+      "philox_ns_per_word": 3.049
+    },
+    {
+      "K": 512,
+      "addr_ns_per_word_steadystate": 2.676,
+      "philox_ns_per_word": 3.18
+    },
+    {
+      "K": 1024,
+      "addr_ns_per_word_steadystate": 2.544,
+      "philox_ns_per_word": 3.088
+    },
+    {
+      "K": 4096,
+      "addr_ns_per_word_steadystate": 2.454,
+      "philox_ns_per_word": 3.04
+    },
+    {
+      "K": 65536,
+      "addr_ns_per_word_steadystate": 2.442,
+      "philox_ns_per_word": 3.124
+    }
+  ],
+  "k_star_estimate_median": 74.02563753587913,
+  "repeats": 3
+}
