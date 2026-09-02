@@ -1,0 +1,57 @@
+RNG_test using PractRand version 0.95
+RNG = RNG_stdin32, seed = unknown
+test set = core, folding = standard (32 bit)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 256 megabytes (2^28 bytes), time= 7.4 seconds
+  no anomalies in 168 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 512 megabytes (2^29 bytes), time= 18.2 seconds
+  no anomalies in 180 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 1 gigabyte (2^30 bytes), time= 34.1 seconds
+  no anomalies in 194 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 2 gigabytes (2^31 bytes), time= 65.7 seconds
+  no anomalies in 205 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 4 gigabytes (2^32 bytes), time= 123 seconds
+  no anomalies in 217 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 8 gigabytes (2^33 bytes), time= 244 seconds
+  Test Name                         Raw       Processed     Evaluation
+  Gap-16:B                          R=  +6.1  p =  3.8e-5   mildly suspicious
+  FPF-14+6/16:all                   R=  +5.4  p =  1.4e-4   unusual          
+  [Low1/32]BCFN(2+2,13-3,T)         R=  +8.6  p =  7.0e-4   unusual          
+  ...and 227 test result(s) without anomalies
+
+
+rng=RNG_stdin32, seed=unknown
+length= 16 gigabytes (2^34 bytes), time= 489 seconds
+  Test Name                         Raw       Processed     Evaluation
+  Gap-16:A                          R=  +6.4  p =  1.6e-4   unusual          
+  Gap-16:B                          R= +10.1  p =  1.4e-8   very suspicious  
+  FPF-14+6/16:(6,14-0)              R=  +8.4  p =  2.1e-7   mildly suspicious
+  FPF-14+6/16:(7,14-0)              R=  +7.8  p =  8.1e-7   mildly suspicious
+  FPF-14+6/16:all                   R=  +9.9  p =  9.8e-9   very suspicious  
+  [Low8/32]Gap-16:A                 R=  +7.8  p =  2.3e-5   mildly suspicious
+  [Low8/32]Gap-16:B                 R=  +8.6  p =  2.7e-7   very suspicious  
+  [Low8/32]TMFn(2+7):wl             R= +19.2  p~=   1e-5    unusual          
+  [Low1/32]BCFN(2+0,13-1,T)         R=  +8.6  p =  4.3e-4   unusual          
+  [Low1/32]BCFN(2+1,13-1,T)         R= +12.4  p =  3.9e-6   suspicious       
+  [Low1/32]BCFN(2+2,13-2,T)         R= +13.6  p =  1.4e-6   suspicious       
+  [Low1/32]TMFn(2+4):wl             R= +36.4  p~=   7e-15     FAIL           
+  ...and 228 test result(s) without anomalies
+
+

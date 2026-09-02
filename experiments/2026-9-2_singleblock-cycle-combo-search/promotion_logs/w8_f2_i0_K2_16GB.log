@@ -1,0 +1,45 @@
+RNG_test using PractRand version 0.95
+RNG = RNG_stdin32, seed = unknown
+test set = core, folding = standard (32 bit)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 256 megabytes (2^28 bytes), time= 5.8 seconds
+  no anomalies in 168 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 512 megabytes (2^29 bytes), time= 12.8 seconds
+  no anomalies in 180 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 1 gigabyte (2^30 bytes), time= 26.2 seconds
+  no anomalies in 194 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 2 gigabytes (2^31 bytes), time= 49.7 seconds
+  no anomalies in 205 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 4 gigabytes (2^32 bytes), time= 100 seconds
+  Test Name                         Raw       Processed     Evaluation
+  [Low8/32]FPF-14+6/16:(0,14-0)     R=  +7.3  p =  2.4e-6   unusual          
+  [Low8/32]FPF-14+6/16:all          R=  +4.8  p =  6.1e-4   unusual          
+  ...and 215 test result(s) without anomalies
+
+
+rng=RNG_stdin32, seed=unknown
+length= 8 gigabytes (2^33 bytes), time= 192 seconds
+  Test Name                         Raw       Processed     Evaluation
+  [Low8/32]FPF-14+6/16:(0,14-0)     R= +11.5  p =  2.9e-10  very suspicious  
+  [Low8/32]FPF-14+6/16:(1,14-0)     R=  +7.6  p =  1.1e-6   mildly suspicious
+  [Low8/32]FPF-14+6/16:all          R=  +9.2  p =  4.1e-8   very suspicious  
+  [Low8/32]FPF-14+6/16:cross        R=  +4.2  p =  6.8e-4   unusual          
+  ...and 226 test result(s) without anomalies
+
+
+
+[EARLY KILL after 8 gigabytes (2^33 bytes): hard FAIL detected]
