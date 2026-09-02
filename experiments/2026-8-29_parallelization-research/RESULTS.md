@@ -136,6 +136,114 @@ belum dikonfirmasi** -- bukan "PASSED bersih ke 1TB" (klaim lama di seksi
 dibutuhkan untuk paper, run konfirmasi ulang (idealnya 2-3x independent run)
 diperlukan sebelum ditulis sebagai hasil final.
 
+**Cross-reference (Langkah 3, 2026-08-31)**: uji interleaved 1TB yang sama
+dijalankan ulang terhadap `winner_wired_addressable` (varian "Orbit
+Addressing", berbagi core loop byte-for-byte dengan `winner_wired_v2`) untuk
+mengecek apakah anomali di atas berasal dari core loop bersama atau spesifik
+ke formula init `winner_wired_v2`. Hasil lengkap +tabel di
+`../2026-8-30_addressable-init-research/RESULTS.md` ("Q1 Method B, 1TB
+checkpoint follow-up") -- ringkas: dua test family yang sama (`BCFN(2+0,13-0,T)`,
+`FPF-14+6/16`) muncul lagi tapi lebih lemah (turun ke `unusual` untuk 3 dari 4
+flag), plus satu test baru (`DC6-9x1Bytes-1`) yang tidak flagged di v2.
+Sebagian mendukung hipotesis korelasi di core loop bersama, tapi belum
+konklusif -- Langkah 1 (single-stream `winner_wired_v2` 1TB) dan Langkah 2
+(re-run interleaved v2 dengan seed lain) di `HANDOVER_1TB_FOLLOWUP.md` masih
+belum dikerjakan, jadi sintesis Langkah 4 belum bisa final.
+
+### Langkah 1, 2, dan sintesis Langkah 4 (2026-09-01) -- SELESAI
+
+Dijalankan di VPS (lihat memory `reference_vps_long_running_jobs`), paralel
+dengan Track B (`ra_prng2.c`, subseksi baru di bawah) dan dieharder battery
+(`../2026-9-1_dieharder-battery/RESULTS.md`).
+
+**Langkah 1 -- single-stream `winner_wired_v2` ke 1TB** (`stdbuf -oL RNG_test
+stdin32 -tlmin 8GB -tlmax 1TB < ./winner_wired_v2 --stream 0 274877906944`,
+log `langkah1_practrand_winner_wired_v2_1TB_singlestream.log`). Bersih
+sampai 256GB, satu flag transien `[Low8/32]BCFN(2+6,13-1,T)` "unusual" di
+checkpoint 64GB yang hilang lagi di 128GB/256GB, lalu:
+
+| checkpoint | waktu (s) | hasil |
+|---|---:|---|
+| 512GB | 13,019 | `FPF-14+6/16:all` R=+5.7 p=7.1e-5 **unusual**, 294 lainnya bersih |
+| **1TB** | **26,878** | **4/304 flagged**, lihat di bawah |
+
+```
+BCFN(2+0,13-0,T)                  R=  +8.4  p =  5.1e-4   unusual
+FPF-14+6/16:(5,14-0)              R=  +7.3  p =  2.0e-6   unusual
+FPF-14+6/16:(8,14-0)              R=  +7.0  p =  4.6e-6   unusual
+FPF-14+6/16:all                   R=  +8.4  p =  2.1e-7   very suspicious
+...and 300 test result(s) without anomalies
+```
+
+**Langkah 2 -- interleaved `winner_wired_v2` 1TB, seed set berbeda**
+(`interleave_practrand_1tb_confirm_live.py`, seeds `range(1000, 1008)`
+menggantikan default `range(8)`, log
+`interleave_practrand_1tb_confirm_live.log`). Bersih sampai 512GB, lalu:
+
+```
+length= 1 terabyte (2^40 bytes), time= 30140 seconds
+FPF-14+6/16:(5,14-0)              R=  +9.2  p =  3.8e-8   suspicious
+FPF-14+6/16:all                   R=  +7.1  p =  3.7e-6   suspicious
+...and 302 test result(s) without anomalies
+```
+
+`BCFN(2+0,13-0,T)` **tidak muncul lagi** dengan seed set ini -- berbeda dari
+ketiga run 1TB lainnya (interleaved v2 seeds 0-7, addressable Langkah 3,
+single-stream Langkah 1) yang semuanya memflag test itu.
+
+**Matriks lengkap (4 konfigurasi 1TB, semua checkpoint sebelumnya bersih)**:
+
+| konfigurasi | BCFN(2+0,13-0,T) | FPF-14+6/16 family |
+|---|---|---|
+| Interleaved v2, seed 0-7 (2026-08-31) | very suspicious (p=3.0e-7) | suspicious x2 (p=3.7e-8, 7.0e-7) |
+| Interleaved addressable, seed 0-7 (Langkah 3) | unusual (p=4.2e-4) | unusual x1 + suspicious x1 (p=9.2e-6, 3.9e-6) |
+| Single-stream v2, seed 0 (Langkah 1) | unusual (p=5.1e-4) | unusual x2 + very suspicious x1 (p=2.0e-6, 4.6e-6, 2.1e-7) |
+| Interleaved v2, seed 1000-1007 (Langkah 2) | **tidak flagged** | suspicious x2 (p=3.8e-8, 3.7e-6) |
+
+**Sintesis Langkah 4** (per hipotesis a/a'/b/c, `HANDOVER_1TB_FOLLOWUP.md` §3):
+
+- **(a) spesifik ke formula init `winner_wired_v2`, harus bersih di
+  single-stream dan di addressable**: **DITOLAK** -- single-stream v2
+  (Langkah 1) justru flagged dengan severity tertinggi dari seluruh run
+  (`very suspicious`, p=2.1e-7), dan addressable (Langkah 3) juga tidak
+  bersih.
+- **(a') di core loop bersama, harus bersih di single-stream**:
+  **DITOLAK dalam bentuk murni** -- syarat "bersih di single-stream" tidak
+  terpenuhi.
+- **(b) kelemahan level single-stream, state-init tidak relevan**:
+  **PALING DIDUKUNG** untuk keluarga `FPF-14+6/16`. Test family ini muncul
+  di SEMUA EMPAT konfigurasi yang diuji -- interleaved v2 (2 seed set
+  berbeda), interleaved addressable (init formula berbeda), DAN
+  single-stream murni (tanpa interleaving sama sekali) -- dengan magnitude
+  serupa (p berkisar 3.7e-8 sampai 4.6e-6, R=+6.6 sampai +9.2). Ini pola
+  yang konsisten dengan kelemahan statistik di `ra_permutation_cycle`/
+  `ra_reseed`/`ra_core` (core loop yang dipakai bersama v2 dan
+  addressable) yang muncul di skala 1TB terlepas dari cross-stream mixing
+  ATAU formula init -- **BUKAN** sesuatu yang diperbaiki lewat perbaikan
+  state-init/avalanche seperti dugaan awal user di §2 handover.
+- **(c) noise run tunggal**: **DITOLAK untuk `FPF-14+6/16`** (reproduksi 4x
+  independen di atas terlalu konsisten untuk kebisingan multiple-testing
+  murni), tapi **cocok untuk `BCFN(2+0,13-0,T)`** secara terpisah -- test
+  ini muncul di 3 dari 4 run tapi hilang total di Langkah 2 (seed set
+  berbeda, run paling baru), pola yang lebih konsisten dengan artefak
+  marjinal/sensitif-seed daripada sinyal struktural yang solid seperti
+  `FPF-14+6/16`.
+
+**Kesimpulan praktis**: `FPF-14+6/16` adalah sinyal statistik nyata dan
+reproducible di skala 1TB pada core loop bersama `winner_wired_v2`/
+`winner_wired_addressable` -- bukan bug harness, bukan noise, dan bukan
+spesifik ke satu formula init. Tapi juga bukan kegagalan fatal: dari 4 run
+independen tidak ada satupun "FAIL", cuma `unusual`/`suspicious`/`very
+suspicious` (PractRand's tier di bawah FAIL), dan seluruh checkpoint sampai
+512GB gabungan tetap bersih di semua konfigurasi. Kalau paper butuh klaim
+soal independensi/kualitas antar-stream, laporkan apa adanya: "cross-stream
+independence dan kualitas single-stream tervalidasi bersih sampai 512GB
+gabungan; checkpoint 1TB menunjukkan sinyal `FPF-14+6/16` yang reproducible
+di core loop bersama (bukan spesifik cross-stream atau spesifik init),
+dengan severity di bawah ambang FAIL." Perbaikan (kalau dianggap perlu)
+berada di scope `ra_core`/`ra_permutation_cycle`, bukan di `ra_init_state*`
+-- di luar cakupan riset addressable-init yang sudah selesai (Tahap 0-6).
+
 **Catatan implementasi (lesson learned, Fase 2)**: percobaan pertama ke
 128GB gagal dua kali secara berurutan sebelum berhasil, murni karena bug di
 *harness*-nya (bukan di generator, yang tidak pernah diubah):
@@ -187,6 +295,54 @@ mengubah independensi antar-stream dibanding versi paper-exact. **Skala
 terbatas**: tidak dijalankan sampai full/xlarge/1TB untuk `ra_prng2.c`
 (di luar scope pertanyaan independence ini -- lihat catatan 1TB `winner_wired_v2`
 di atas soal kenapa skala besar perlu hati-hati sebelum diklaim "clean").
+
+### Validasi kualitas skala besar single-stream `ra_prng2.c` (2026-09-01) -- SELESAI, bersih total
+
+Pertanyaan independence di atas sengaja dibatasi skala kecil (smoke/medium).
+`ra_prng2.c` -- algoritma paper-exact asli, bukan `winner_wired_v2`/
+`winner_wired_addressable` yang sedang dalam investigasi anomali 1TB (lihat
+subseksi "Langkah 1, 2, dan sintesis Langkah 4" di atas) -- **belum pernah
+diuji PractRand single-stream sama sekali di skala berapapun** sebelum sesi
+ini. Dijalankan di VPS, paralel dengan Track A/Langkah 1/2 (idle-capacity
+use), staged satu invocation `-tlmin 8GB -tlmax 1TB` (pola sama seperti
+Langkah 1 `winner_wired_v2`):
+
+```bash
+stdbuf -oL ~/Documents/research/PractRand/RNG_test stdin32 -tlmin 8GB -tlmax 1TB \
+  < <(./ra_prng2_cli --stream 0 274877906944) \
+  > trackB_practrand_ra_prng2_1TB_singlestream.log 2>&1
+```
+
+| checkpoint | waktu (s) | hasil |
+|---|---:|---|
+| 8GB   | 234    | no anomalies in 230 test result(s) |
+| 16GB  | 482    | no anomalies in 240 test result(s) |
+| 32GB  | 969    | no anomalies in 251 test result(s) |
+| 64GB  | 1,929  | no anomalies in 263 test result(s) |
+| 128GB | 3,835  | no anomalies in 273 test result(s) |
+| 256GB | 7,678  | no anomalies in 284 test result(s) |
+| 512GB | 15,412 | no anomalies in 295 test result(s) |
+| **1TB** | **30,782** | **no anomalies in 304 test result(s)** |
+
+**Bersih total di semua 8 checkpoint, tidak ada satupun flag** (bukan cuma
+di bawah ambang FAIL seperti `winner_wired_v2`/`winner_wired_addressable`
+-- benar-benar nol anomali). Ini validasi kualitas skala besar PERTAMA
+untuk `ra_prng2.c`, terpisah dari pertanyaan independence di atas yang
+sudah settled sebelumnya (skala kecil).
+
+**Catatan interpretasi**: hasil ini TIDAK secara langsung menyimpulkan
+bahwa pruning+wiring `winner_wired_v2.c` "merusak" kualitas dibanding
+`ra_prng2.c` -- baru satu run non-repeated per generator di skala 1TB,
+dan `FPF-14+6/16` yang muncul di `winner_wired_v2`/`addressable` levelnya
+`unusual`/`suspicious`, bukan `FAIL`, jadi masih dalam batas yang PractRand
+sendiri anggap bisa jadi kebisingan multiple-testing pada satu run.
+Menariknya, kontras ini konsisten dengan kemungkinan bahwa proses
+pruning+wiring (`operand-position-search`) sedikit menggeser statistik
+di skala sangat besar meski identik di skala kecil-menengah dan identik
+soal independensi antar-stream -- **worth flagging as a paper caveat**,
+tapi butuh run terulang (repeated, seed berbeda) di kedua generator untuk
+klaim kausal yang solid, bukan hanya satu run masing-masing seperti di
+sini. Raw log lengkap: `trackB_practrand_ra_prng2_1TB_singlestream.log`.
 
 ## 2. Probabilitas collision/overlap antar-stream (`collision_scan.py`)
 

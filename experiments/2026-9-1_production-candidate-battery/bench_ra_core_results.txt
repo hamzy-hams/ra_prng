@@ -1,0 +1,18 @@
+=== throughput orbit ===
+N 1000 addr_seconds 0.000005 addr_ns_per_word 5.050 philox_seconds 0.000007 philox_ns_per_word 7.014 trials 30 checksum 0
+N 100000 addr_seconds 0.000438 addr_ns_per_word 4.377 philox_seconds 0.000458 philox_ns_per_word 4.577 trials 5 checksum 3765178554
+N 10000000 addr_seconds 0.021389 addr_ns_per_word 2.139 philox_seconds 0.029721 philox_ns_per_word 2.972 trials 1 checksum 3248607996
+N 100000000 addr_seconds 0.223599 addr_ns_per_word 2.236 philox_seconds 0.299544 philox_ns_per_word 2.995 trials 1 checksum 2265396847
+=== throughput singleblock ===
+N 100 addr_seconds 0.000000 addr_ns_per_word 0.840 philox_seconds 0.000000 philox_ns_per_word 3.120 trials 200 checksum 0
+N 255 addr_seconds 0.000000 addr_ns_per_word 0.533 philox_seconds 0.000001 philox_ns_per_word 2.953 trials 200 checksum 0
+=== reinit-sweep orbit ===
+K 1 cycles 200000 addr_ns_per_word_steadystate 55.368 philox_ns_per_word 12.009 ratio 4.611 checksum 3986491784
+K 10 cycles 200000 addr_ns_per_word_steadystate 7.477 philox_ns_per_word 3.445 ratio 2.171 checksum 3335603665
+K 100 cycles 20000 addr_ns_per_word_steadystate 2.656 philox_ns_per_word 3.187 ratio 0.833 checksum 3358492716
+K 255 cycles 7843 addr_ns_per_word_steadystate 2.171 philox_ns_per_word 2.810 ratio 0.773 checksum 1651810055
+=== reinit-sweep singleblock ===
+K 1 cycles 200000 addr_ns_per_word_steadystate 38.780 philox_ns_per_word 12.498 ratio 3.103 checksum 3986491784
+K 10 cycles 200000 addr_ns_per_word_steadystate 4.271 philox_ns_per_word 3.619 ratio 1.180 checksum 3335603665
+K 100 cycles 20000 addr_ns_per_word_steadystate 1.230 philox_ns_per_word 2.825 ratio 0.435 checksum 3358492716
+K 255 cycles 7843 addr_ns_per_word_steadystate 0.488 philox_ns_per_word 2.810 ratio 0.174 checksum 1651810055

@@ -1,0 +1,23 @@
+{
+  "seed_mode": "sequential",
+  "tier": "full",
+  "binary": "diag_orbit_regression (ra_init_orbit)",
+  "prefix": {
+    "mode": "prefix",
+    "m_seeds": 10000,
+    "n_words": 64,
+    "fingerprints": 10000,
+    "collisions_found": 0,
+    "collisions": [],
+    "digest_collision_prob_estimate": 2.7102343806706397e-12
+  },
+  "blocksweep": {
+    "mode": "blocksweep",
+    "m_seeds": 10000,
+    "v_words": 250000,
+    "total_blocks": 9800000,
+    "collisions_found": 0,
+    "collisions": [],
+    "digest_collision_prob_estimate": 2.603169150508164e-06
+  }
+}

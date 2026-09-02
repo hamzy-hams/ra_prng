@@ -1,15 +1,15 @@
 {
   "experiments/2026-8-30_addressable-init-research/HANDOVER.md": {
-    "mtime": 1788101437.439984,
-    "seen": 1788104016.8925266,
-    "ast_hash": "e59daeb4cfdbda1b3d19465dce1c268b",
-    "semantic_hash": "e59daeb4cfdbda1b3d19465dce1c268b"
+    "mtime": 1788179348.0511012,
+    "seen": 1788179370.7773197,
+    "ast_hash": "05f3ce57589c0a91325813f1bc5dc0c4",
+    "semantic_hash": ""
   },
   "experiments/2026-8-30_addressable-init-research/RESULTS.md": {
-    "mtime": 1788090906.0816689,
-    "seen": 1788104016.8925295,
-    "ast_hash": "1f0566c713830873692af36b00181916",
-    "semantic_hash": "1f0566c713830873692af36b00181916"
+    "mtime": 1788179348.0521011,
+    "seen": 1788179370.7773292,
+    "ast_hash": "26db8e4ebb66511a01b4d2244911a924",
+    "semantic_hash": ""
   },
   ".agents/rules/graphify.md": {
     "mtime": 1787811012.3107908,
@@ -1302,8 +1302,8 @@
     "semantic_hash": "8386c36eacd40ace7432e9b3a8f8d19b"
   },
   "experiments/2026-8-29_parallelization-research/common.py": {
-    "mtime": 1788111924.858952,
-    "seen": 1788131724.9504812,
+    "mtime": 1788143726.0831692,
+    "seen": 1788179370.7765465,
     "ast_hash": "de2d815f6f1e9e5a4b61adbd47d11cac",
     "semantic_hash": "de2d815f6f1e9e5a4b61adbd47d11cac"
   },
@@ -1908,10 +1908,10 @@
     "semantic_hash": "da51010545d1729097481eb3d034807e"
   },
   "experiments/2026-8-29_parallelization-research/HANDOVER_1TB_FOLLOWUP.md": {
-    "mtime": 1788132614.2779593,
-    "seen": 1788132889.596895,
-    "ast_hash": "a7b7ad84283e41aa46efb7967de4129e",
-    "semantic_hash": "a7b7ad84283e41aa46efb7967de4129e"
+    "mtime": 1788162739.4951842,
+    "seen": 1788179370.7773135,
+    "ast_hash": "5e1fc626a495972b212af426eda19a03",
+    "semantic_hash": ""
   },
   "experiments/2026-8-30_addressable-shuffle/scc_test_wired.py": {
     "mtime": 1788139415.1488023,
@@ -1948,5 +1948,95 @@
     "seen": 1788140126.088325,
     "ast_hash": "a3a3c34fd1a98a87801788ed283a2a11",
     "semantic_hash": "a3a3c34fd1a98a87801788ed283a2a11"
+  },
+  "experiments/2026-8-30_addressable-init-research/tahap3_interleave_practrand_1tb_live.py": {
+    "mtime": 1788160852.3338392,
+    "seen": 1788179370.776721,
+    "ast_hash": "612688ab12f6694306fe997a35f0eb84",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-30_addressable-init-research/tahap6_bench.c": {
+    "mtime": 1788179348.0521011,
+    "seen": 1788179370.776853,
+    "ast_hash": "357965473d0fd7186ed706f449d6a0ae",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-30_addressable-init-research/tahap6_benchmark.py": {
+    "mtime": 1788179348.0521011,
+    "seen": 1788179370.7768576,
+    "ast_hash": "ce738f799985d586116645e1a1785be2",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-30_addressable-init-research/tahap6_results_init-cost_baseline.json": {
+    "mtime": 1788179348.0521011,
+    "seen": 1788179370.7768614,
+    "ast_hash": "b50fb643c15616375eeb08f2edbfaeaf",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-30_addressable-init-research/tahap6_results_init-cost_singleblock.json": {
+    "mtime": 1788179348.0521011,
+    "seen": 1788179370.776866,
+    "ast_hash": "c804961663295201a79eab4d34fa89ad",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-30_addressable-init-research/tahap6_results_reinit-sweep_baseline.json": {
+    "mtime": 1788179348.0521011,
+    "seen": 1788179370.7768703,
+    "ast_hash": "0a93afd990245d7afc6773a021d9fe19",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-30_addressable-init-research/tahap6_results_reinit-sweep_singleblock.json": {
+    "mtime": 1788179348.0521011,
+    "seen": 1788179370.7768745,
+    "ast_hash": "3c3ecc0224973e7b46a72991b23fc9c1",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-30_addressable-init-research/tahap6_results_throughput_baseline.json": {
+    "mtime": 1788179348.0531013,
+    "seen": 1788179370.776879,
+    "ast_hash": "fb84ed68578daea45e723baca3fedf27",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-30_addressable-init-research/tahap6_results_throughput_singleblock.json": {
+    "mtime": 1788179348.0531013,
+    "seen": 1788179370.776884,
+    "ast_hash": "795013709dd36b436503af06e1fe1041",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-31_prng-family-benchmark/benchmark_all.c": {
+    "mtime": 1788179348.0541012,
+    "seen": 1788179370.7769613,
+    "ast_hash": "eae85fd7e11ad2a9576b1cff64e404d9",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-31_prng-family-benchmark/benchmark_all_results.json": {
+    "mtime": 1788179348.0541012,
+    "seen": 1788179370.7769666,
+    "ast_hash": "725a9580bda13849eae2a3090df1425a",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-31_prng-family-benchmark/benchmark_all_run.py": {
+    "mtime": 1788179348.0541012,
+    "seen": 1788179370.7769713,
+    "ast_hash": "00a21244f9e5021f93b863f3ff42a6a9",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-30_addressable-init-research/HANDOVER_TAHAP6.md": {
+    "mtime": 1788179348.0511012,
+    "seen": 1788179370.777326,
+    "ast_hash": "5b94443e03e1c71128e047f76891c6df",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-31_prng-family-benchmark/HANDOVER.md": {
+    "mtime": 1788179348.0531013,
+    "seen": 1788179370.7775128,
+    "ast_hash": "f6cf9ce1734a0fafd5fc09b513d755ca",
+    "semantic_hash": ""
+  },
+  "experiments/2026-8-31_prng-family-benchmark/RESULTS.md": {
+    "mtime": 1788179348.0537937,
+    "seen": 1788179370.7775164,
+    "ast_hash": "fe2d018146255a433a69de4618ede9dc",
+    "semantic_hash": ""
   }
 }

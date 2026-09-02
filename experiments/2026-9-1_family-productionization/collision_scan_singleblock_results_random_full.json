@@ -1,0 +1,13 @@
+{
+  "seed_mode": "random",
+  "tier": "full",
+  "fullblock": {
+    "mode": "fullblock",
+    "m_keys": 50000,
+    "block_words": 255,
+    "fingerprints": 50000,
+    "collisions_found": 0,
+    "collisions": [],
+    "digest_collision_prob_estimate": 6.776128052762842e-11
+  }
+}

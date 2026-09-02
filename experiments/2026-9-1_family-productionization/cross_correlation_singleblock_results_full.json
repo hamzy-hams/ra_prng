@@ -1,0 +1,21 @@
+{
+  "tier": "full",
+  "binary": "ra_core_singleblock",
+  "n_words": 255,
+  "adjacent": {
+    "k": 512,
+    "n": 255,
+    "m_pairs": 130816,
+    "z_crit": 5.375328344516302,
+    "flagged_count": 0,
+    "flagged": []
+  },
+  "control": {
+    "k": 512,
+    "n": 255,
+    "m_pairs": 130816,
+    "z_crit": 5.375328344516302,
+    "flagged_count": 0,
+    "flagged": []
+  }
+}
