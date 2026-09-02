@@ -1,0 +1,40 @@
+RNG_test using PractRand version 0.95
+RNG = RNG_stdin32, seed = unknown
+test set = core, folding = standard (32 bit)
+
+rng=RNG_stdin32, seed=unknown
+length= 256 megabytes (2^28 bytes), time= 6.0 seconds
+  no anomalies in 168 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 512 megabytes (2^29 bytes), time= 13.4 seconds
+  no anomalies in 180 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 1 gigabyte (2^30 bytes), time= 26.5 seconds
+  no anomalies in 194 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 2 gigabytes (2^31 bytes), time= 50.8 seconds
+  no anomalies in 205 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 4 gigabytes (2^32 bytes), time= 98.2 seconds
+  Test Name                         Raw       Processed     Evaluation
+  [Low1/32]mod3n(5):(0,9-6)         R= +11.5  p =  9.0e-5   unusual          
+  ...and 216 test result(s) without anomalies
+
+rng=RNG_stdin32, seed=unknown
+length= 8 gigabytes (2^33 bytes), time= 191 seconds
+  Test Name                         Raw       Processed     Evaluation
+  BCFN(2+0,13-0,T)                  R= +12.6  p =  2.8e-6   suspicious       
+  ...and 229 test result(s) without anomalies
+
+rng=RNG_stdin32, seed=unknown
+length= 16 gigabytes (2^34 bytes), time= 380 seconds
+  Test Name                         Raw       Processed     Evaluation
+  BCFN(2+0,13-0,T)                  R= +25.3  p =  4.4e-13    FAIL           
+  DC6-9x1Bytes-1                    R=  +6.5  p =  8.9e-4   unusual          
+  FPF-14+6/16:cross                 R=  +7.0  p =  2.7e-6   suspicious       
+  ...and 237 test result(s) without anomalies
+

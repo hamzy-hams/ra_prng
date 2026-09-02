@@ -1,0 +1,19 @@
+[start] N=1 Wed Sep  2 07:56:12 WIB 2026
+[done] N=1 Wed Sep  2 07:57:29 WIB 2026
+[start] N=2 Wed Sep  2 07:57:29 WIB 2026
+[done] N=2 Wed Sep  2 07:58:49 WIB 2026
+[start] N=4 Wed Sep  2 07:58:49 WIB 2026
+[done] N=4 Wed Sep  2 08:00:21 WIB 2026
+[start] N=8 Wed Sep  2 08:00:21 WIB 2026
+[done] N=8 Wed Sep  2 08:02:16 WIB 2026
+[start] N=16 Wed Sep  2 08:02:16 WIB 2026
+[done] N=16 Wed Sep  2 08:04:39 WIB 2026
+[start] N=24 Wed Sep  2 08:04:39 WIB 2026
+[done] N=24 Wed Sep  2 08:07:38 WIB 2026
+[start] N=32 Wed Sep  2 08:07:38 WIB 2026
+[done] N=32 Wed Sep  2 08:11:08 WIB 2026
+[start] N=48 Wed Sep  2 08:11:08 WIB 2026
+[done] N=48 Wed Sep  2 08:15:56 WIB 2026
+[start] N=64 Wed Sep  2 08:15:56 WIB 2026
+[done] N=64 Wed Sep  2 08:21:57 WIB 2026
+[ALL_DONE] Wed Sep  2 08:21:57 WIB 2026

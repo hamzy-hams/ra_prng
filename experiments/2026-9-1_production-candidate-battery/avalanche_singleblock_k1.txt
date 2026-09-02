@@ -1,0 +1,4 @@
+=== avalanche gate: singleblock K=1 (fresh build) ===
+  overall_mean_hamming_fraction: 0.502930 (band [0.3,0.7])
+  min_bit_fraction: 0.281250 (floor 0.2)
+  PASSED: True

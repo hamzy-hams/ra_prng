@@ -1,0 +1,11 @@
+/usr/lib/python3.14/site-packages/numpy/lib/_function_base_impl.py:3023: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[:, None]
+/usr/lib/python3.14/site-packages/numpy/lib/_function_base_impl.py:3024: RuntimeWarning: invalid value encountered in divide
+  c /= stddev[None, :]
+=== cross_correlation_ra_core_singleblock tier=full: K=512 n=255 ===
+[adjacent] K=512 n=255 m_pairs=130816 z_crit=5.375 flagged=0 (0.000%)
+[control] K=512 n=255 m_pairs=130816 z_crit=5.375 flagged=0 (0.000%)
+
+Wrote /home/zep/Documents/research/ra_prng/experiments/2026-9-1_family-productionization/cross_correlation_singleblock_results_full.json
+
+adjacent flagged rate=0.0000 vs control flagged rate=0.0000 (expected under H0: ~0.0100 family-wise, so per-test rate near 0)

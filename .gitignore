@@ -39,7 +39,10 @@ Thumbs.db
 # === Credentials ===
 .env
 *.key
+*.pem
 secrets.toml
+# detail akses VPS (IP/user) -- repo ini publik, jangan pernah commit
+VPS_ACCESS.md
 
 # === Graphify knowledge graph outputs (regenerable) ===
 graphify-out/graph.html

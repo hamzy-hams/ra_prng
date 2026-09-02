@@ -1,0 +1,32 @@
+RNG_test using PractRand version 0.95
+RNG = RNG_stdin32, seed = unknown
+test set = core, folding = standard (32 bit)
+
+rng=RNG_stdin32, seed=unknown
+length= 1 gigabyte (2^30 bytes), time= 10.5 seconds
+  Test Name                         Raw       Processed     Evaluation
+  BCFN(2+0,13-1,T)                  R=+255.1  p =  8.2e-137   FAIL !!!!!     
+  BCFN(2+1,13-1,T)                  R= +55.3  p =  3.2e-29    FAIL !!!       
+  BCFN(2+2,13-1,T)                  R=  +9.9  p =  8.9e-5   mildly suspicious
+  DC6-9x1Bytes-1                    R= +87.3  p =  2.5e-45    FAIL !!!       
+  FPF-14+6/16:(5,14-0)              R=+122.7  p =  3.5e-113   FAIL !!!!!     
+  FPF-14+6/16:(6,14-1)              R= +88.8  p =  1.8e-78    FAIL !!!!      
+  FPF-14+6/16:(7,14-2)              R= +61.9  p =  6.2e-54    FAIL !!!!      
+  FPF-14+6/16:(8,14-2)              R= +33.9  p =  2.0e-29    FAIL !!        
+  FPF-14+6/16:(9,14-3)              R= +25.0  p =  1.0e-21    FAIL !!        
+  FPF-14+6/16:(10,14-4)             R= +20.7  p =  8.1e-17    FAIL !         
+  FPF-14+6/16:(11,14-5)             R= +11.7  p =  1.5e-9   very suspicious  
+  FPF-14+6/16:(12,14-5)             R=  +8.5  p =  6.0e-7   mildly suspicious
+  FPF-14+6/16:(14,14-7)             R=  +8.1  p =  2.6e-6   unusual          
+  FPF-14+6/16:all                   R= +93.2  p =  5.6e-87    FAIL !!!!      
+  BRank(12):1K(2)                   R= +20.8  p~=  2.6e-7   suspicious       
+  BRank(12):2K(2)                   R= +6000  p~=  2e-1807    FAIL !!!!!!!!  
+  BRank(12):3K(1)                   R=+217.3  p~=  1.8e-66    FAIL !!!!      
+  [Low8/32]Gap-16:A                 R=  +8.2  p =  2.8e-6   suspicious       
+  [Low1/32]BCFN(2+0,13-4,T)         R= +18.4  p =  5.4e-8   very suspicious  
+  [Low1/32]BCFN(2+1,13-4,T)         R= +28.1  p =  3.2e-12    FAIL           
+  [Low1/32]BCFN(2+2,13-5,T)         R= +41.8  p =  1.5e-16    FAIL !         
+  [Low1/32]BCFN(2+3,13-5,T)         R= +13.1  p =  2.5e-5   mildly suspicious
+  [Low1/32]Gap-16:A                 R= +21.0  p =  9.0e-17    FAIL !         
+  ...and 171 test result(s) without anomalies
+

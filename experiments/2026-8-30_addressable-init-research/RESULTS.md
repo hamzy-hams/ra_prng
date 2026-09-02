@@ -237,6 +237,86 @@ and full/xlarge tiers, in both sequential and random key sampling where
 applicable. **Kandidat 5's addressable-init variant is now validated to the
 same depth as the `winner_wired_v2` baseline it was derived from.**
 
+### Q1 Method B, 1TB checkpoint follow-up (2026-08-31, Langkah 3 of `HANDOVER_1TB_FOLLOWUP.md`)
+
+Context: `winner_wired_v2`'s own interleaved-PractRand run (see
+`../2026-8-29_parallelization-research/RESULTS.md`, "1TB (checkpoint
+follow-up, 2026-08-31)") flagged 3/304 tests at the 1TB checkpoint after
+being clean through 512GB: `BCFN(2+0,13-0,T)` R=+14.4 p=3.0e-7 **very
+suspicious**; `FPF-14+6/16:(5,14-0)` R=+9.2 p=3.7e-8 **suspicious**;
+`FPF-14+6/16:all` R=+7.9 p=7.0e-7 **suspicious**. `winner_wired_addressable`
+shares the core generation loop (`ra_permutation_cycle`/`ra_reseed`/
+`ra_core`) byte-for-byte with `winner_wired_v2` -- only `ra_init_state`/
+`ra_init_state_addressable` differ. Langkah 3 re-runs the identical
+interleaved 1TB test (K=8, same tier definition, `TIERS_Q1B["1tb"]` in
+`../2026-8-29_parallelization-research/common.py`) against
+`winner_wired_addressable` to check whether the same anomaly recurs.
+
+Run: `tahap3_interleave_practrand_1tb_live.py 1tb` (live-streaming variant,
+see that file's docstring for why -- two earlier unattended attempts were
+interrupted before completion with no data loss risk in this variant).
+Completed cleanly this session, `words_written=274877906944` (exact 1TB/4
+byte target, not truncated). Checkpoints:
+
+| checkpoint | time (s) | result |
+|---|---:|---|
+| 64GB  | 836   | no anomalies in 263 test result(s) |
+| 128GB | 1,705 | no anomalies in 273 test result(s) |
+| 256GB | 3,500 | no anomalies in 284 test result(s) |
+| 512GB | 7,057 | no anomalies in 295 test result(s) |
+| **1TB** | **13,878** | **4/304 flagged** (raw stdout, see below) |
+
+1TB checkpoint raw flagged results:
+```
+BCFN(2+0,13-0,T)                  R=  +8.5  p =  4.2e-4   unusual
+DC6-9x1Bytes-1                    R=  +6.9  p =  2.9e-3   unusual
+FPF-14+6/16:(5,14-0)              R=  +6.6  p =  9.2e-6   unusual
+FPF-14+6/16:all                   R=  +7.1  p =  3.9e-6   suspicious
+...and 300 test result(s) without anomalies
+```
+
+**Reported as-is, not forced toward a conclusion**: the same two test
+families flagged in `winner_wired_v2` (`BCFN(2+0,13-0,T)` and both
+`FPF-14+6/16` variants) recur here in `winner_wired_addressable`, but at
+consistently *lower* severity -- `very suspicious`/`suspicious` in v2
+downgrades to `unusual` for 3 of the 4 flags here, and only
+`FPF-14+6/16:all` still reaches `suspicious` (R=+7.1 vs v2's R=+7.9, same
+order of magnitude). One test not flagged in v2 at all,
+`DC6-9x1Bytes-1`, appears here at `unusual`.
+
+This partially supports hypothesis **(a')** from
+`HANDOVER_1TB_FOLLOWUP.md` §3/§4 (correlation tied to the shared core
+loop, not `winner_wired_v2`'s init formula specifically) -- if the
+anomaly were purely specific to v2's init, addressable should have come
+back fully clean, and it did not recur in the same test families by
+coincidence. But the severity is not identical (weaker across the
+board), and one flagged test doesn't match between the two runs, so this
+is **not a clean confirmation of (a')** either -- it's equally consistent
+with a shared-core-loop effect that v2's init formula happens to amplify,
+or with multiple-testing noise that partially overlaps by chance (304
+tests x several checkpoints across two separate 1TB runs gives
+substantial room for incidental overlap). **Langkah 1 (single-stream
+`winner_wired_v2` to 1TB) and Langkah 2 (interleaved v2 re-run with a
+different seed set) from the handover are still not done** -- those are
+required before Langkah 4's full synthesis matrix can distinguish (a) vs
+(a') vs (b) vs (c) with confidence. Per the handover's explicit
+instruction for this step, `graphify update .` and the memory update are
+deferred until that full synthesis is complete.
+
+**Update 2026-09-01 -- Langkah 1, 2, dan sintesis Langkah 4 selesai.** Full
+matrix and final verdict are in
+`../2026-8-29_parallelization-research/RESULTS.md` ("Langkah 1, 2, dan
+sintesis Langkah 4"). Short version: `FPF-14+6/16` recurred in ALL FOUR
+1TB configurations tested (this addressable interleaved run included, plus
+single-stream `winner_wired_v2`, plus interleaved v2 with two different
+seed sets) -- best-supported hypothesis is **(b)**, a single-stream-level
+statistical signature in the shared `ra_core`/`ra_permutation_cycle`
+generation loop, not a cross-stream artifact and not specific to either
+`ra_init_state` or `ra_init_state_addressable`. `BCFN(2+0,13-0,T)` (flagged
+here too, at `unusual`) is less consistently reproduced across the four
+runs and looks closer to seed-dependent noise. No "FAIL" in any of the four
+runs, and every configuration stayed clean through 512GB.
+
 ## Tahap 4: Speed Benchmark vs Philox
 
 New self-contained harness `tahap4_bench.c` (does not modify
@@ -696,3 +776,17 @@ optimizing the `d = c & 0xFFu` byte-mask itself now that it no longer must
 double as an array index; a `>255`-capable variant that keeps the no-L
 saving for the initial block and only reintroduces `L`/reseed machinery
 once continuation is actually requested.
+
+## Dieharder battery (2026-09-01, cross-reference)
+
+`winner_wired_addressable` (the standing baseline, not `_v2.c`) has now
+also been run through the full dieharder "Good" battery, on the VPS,
+alongside `winner_wired_v2` -- only PractRand had been run against it
+before. Result: 25/27 PASSED, 1 WEAK sub-result (`diehard_rank_6x8`,
+p=0.99530, high-tail -- expected statistical noise, not a defect), 0
+FAILED. Full method and raw output in
+`experiments/2026-9-1_dieharder-battery/RESULTS.md`. `ra_core_singleblock`
+(Tahap 6, this file) was not included in this battery -- its `--stream`
+CLI mode is a bit-identical check only, not built for bulk generation; see
+that RESULTS.md's Context section for why it's deferred instead of given
+a one-off harness.

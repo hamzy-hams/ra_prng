@@ -456,7 +456,10 @@ narrows roughly a third of the gap between `baseline_local` and
 - **`baseline.c`/`pruned_winner` is still unpatched** -- same as the
   original section above; `winner_wired_v2.c` is a sibling candidate, not
   a modification of the pruning experiment's artifact.
-- **Dieharder was not re-run** for `winner_wired_v2.c` either.
+- **Dieharder was not re-run** for `winner_wired_v2.c` either. *(Update
+  2026-09-01: now run -- see `experiments/2026-9-1_dieharder-battery/RESULTS.md`.
+  Full "Good" battery, 0 FAILED, 2 WEAK sub-results treated as expected
+  statistical noise, same pattern as `pruned_winner`'s own dieharder pass.)*
 - **No second pruning round attempted** on top of `winner_wired_v2.c`
   (same open follow-up as the original section, now against a different
   starting wiring).
