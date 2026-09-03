@@ -1,0 +1,26 @@
+{"event": "start", "n_candidates": 12, "k": 96, "stage1_mb": 256, "stage2_mb": 2048, "base_key": 111222, "ts": 1788425581.8417757}
+{"event": "stage1", "id": "w8_f10_i1", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 35.33130145072937, "ts": 1788425617.1793468}
+{"event": "stage2", "id": "w8_f10_i1", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 81.08118009567261, "ts": 1788425698.2606943}
+{"event": "stage1", "id": "w8_f10_i2", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 6.513908863067627, "ts": 1788425704.7748744}
+{"event": "stage2", "id": "w8_f10_i2", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 33.49618315696716, "ts": 1788425738.271169}
+{"event": "stage1", "id": "w8_f10_i3", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 5.36366605758667, "ts": 1788425743.6349595}
+{"event": "stage2", "id": "w8_f10_i3", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 27.76405382156372, "ts": 1788425771.399129}
+{"event": "stage1", "id": "w8_f10_i4", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 5.460644721984863, "ts": 1788425776.8599122}
+{"event": "stage2", "id": "w8_f10_i4", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 1, "soft_anomaly_kinds": ["unusual"], "elapsed_s": 36.08924174308777, "ts": 1788425812.9493148}
+{"event": "stage1", "id": "w8_f10_i5", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 6.568920373916626, "ts": 1788425819.5183833}
+{"event": "stage2", "id": "w8_f10_i5", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 1, "soft_anomaly_kinds": ["unusual"], "elapsed_s": 40.16311430931091, "ts": 1788425859.6815922}
+{"event": "stage1", "id": "w8_f10_i6", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 7.8338706493377686, "ts": 1788425867.515644}
+{"event": "stage2", "id": "w8_f10_i6", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 1, "soft_anomaly_kinds": ["unusual"], "elapsed_s": 34.537357568740845, "ts": 1788425902.0531068}
+{"event": "stage1", "id": "w8_f28_i1", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 8.62716269493103, "ts": 1788425910.6804056}
+{"event": "stage2", "id": "w8_f28_i1", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 32.63545346260071, "ts": 1788425943.3159802}
+{"event": "stage1", "id": "w8_f28_i2", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 1, "soft_anomaly_kinds": ["unusual"], "elapsed_s": 6.0646421909332275, "ts": 1788425949.3807425}
+{"event": "stage2", "id": "w8_f28_i2", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 32.19422197341919, "ts": 1788425981.575086}
+{"event": "stage1", "id": "w8_f28_i3", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 6.084734201431274, "ts": 1788425987.6599386}
+{"event": "stage2", "id": "w8_f28_i3", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 31.946547985076904, "ts": 1788426019.6066065}
+{"event": "stage1", "id": "w8_f28_i4", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 5.986771583557129, "ts": 1788426025.5935163}
+{"event": "stage2", "id": "w8_f28_i4", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 31.633251190185547, "ts": 1788426057.2268915}
+{"event": "stage1", "id": "w8_f28_i5", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 6.024554967880249, "ts": 1788426063.2515888}
+{"event": "stage2", "id": "w8_f28_i5", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 30.960976600646973, "ts": 1788426094.2126884}
+{"event": "stage1", "id": "w8_f28_i6", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 4.860036373138428, "ts": 1788426099.0728514}
+{"event": "stage2", "id": "w8_f28_i6", "k": 96, "passed": true, "hard_fail": false, "soft_anomaly_count": 0, "soft_anomaly_kinds": [], "elapsed_s": 24.3642258644104, "ts": 1788426123.437182}
+{"event": "done", "n_total": 12, "n_survivors": 12, "survivor_ids": ["w8_f10_i1", "w8_f10_i2", "w8_f10_i3", "w8_f10_i4", "w8_f10_i5", "w8_f10_i6", "w8_f28_i1", "w8_f28_i2", "w8_f28_i3", "w8_f28_i4", "w8_f28_i5", "w8_f28_i6"], "ts": 1788426123.4374928}
