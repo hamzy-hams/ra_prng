@@ -3132,9 +3132,93 @@
     "semantic_hash": "3c5acc3c991958be35f788954cbc943b"
   },
   "experiments/2026-9-2_singleblock-cycle-combo-search/RESULTS.md": {
-    "mtime": 1788389520.654662,
-    "seen": 1788389889.704185,
-    "ast_hash": "9b31630acad1553ac25d5e940fba09c6",
-    "semantic_hash": "9b31630acad1553ac25d5e940fba09c6"
+    "mtime": 1788391174.7690513,
+    "seen": 1788393082.413382,
+    "ast_hash": "4acfd14dcf8f5263c27d9aaa1529060e",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_winners_k255.py": {
+    "mtime": 1788391451.665527,
+    "seen": 1788393082.4130917,
+    "ast_hash": "99ec794d7e1227f1a3f6773316fcc22c",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-3_combo-winner-pareto-selection/HANDOVER.md": {
+    "mtime": 1788393059.0950148,
+    "seen": 1788393082.413388,
+    "ast_hash": "a3ac6f43235ed7ea068514ca15d037a7",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_w8_f10_i0_k255.png": {
+    "mtime": 1788391825.1844885,
+    "seen": 1788393082.4134097,
+    "ast_hash": "d765195d41afb3ce50896fd7aaaf6500",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_w8_f22_i0_k255.png": {
+    "mtime": 1788391825.4354897,
+    "seen": 1788393082.4134111,
+    "ast_hash": "ab03dcb7e14a70549e7c0ce742bcd060",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_w8_f24_i0_k255.png": {
+    "mtime": 1788391825.6934912,
+    "seen": 1788393082.413412,
+    "ast_hash": "c9a323a4d1a014ac64788d9a5a6e68bb",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_w8_f25_i0_k255.png": {
+    "mtime": 1788391825.9304924,
+    "seen": 1788393082.413413,
+    "ast_hash": "11f12db9ac9c61497fdea905cbae1755",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_w8_f26_i0_k255.png": {
+    "mtime": 1788391826.1694937,
+    "seen": 1788393082.4134142,
+    "ast_hash": "cbe6d75db53ed37182518196d23bd5d0",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_w8_f27_i0_k255.png": {
+    "mtime": 1788391826.4164948,
+    "seen": 1788393082.4134152,
+    "ast_hash": "63c826389a064d46930e95e8d8f81204",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_w8_f28_i0_k255.png": {
+    "mtime": 1788391826.6684961,
+    "seen": 1788393082.413416,
+    "ast_hash": "7176076dbaa4c3251c623fc4e7365452",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_w8_f29_i0_k255.png": {
+    "mtime": 1788391826.9074974,
+    "seen": 1788393082.4134166,
+    "ast_hash": "7264fe7f2fa6870c9d4598555ae7ff7b",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_w8_f33_i0_k255.png": {
+    "mtime": 1788391827.1534986,
+    "seen": 1788393082.4134178,
+    "ast_hash": "f0a310dd191609cd14f5a7c60bb5aae9",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_w8_f8_i0_k255.png": {
+    "mtime": 1788391824.706486,
+    "seen": 1788393082.4134185,
+    "ast_hash": "14f2f0ddc624798de7f7125b8b9a97cc",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_w8_f9_i0_k255.png": {
+    "mtime": 1788391824.9464872,
+    "seen": 1788393082.4134195,
+    "ast_hash": "69a0cfc3b2c2146e9071b7d175788291",
+    "semantic_hash": ""
+  },
+  "experiments/2026-9-2_singleblock-cycle-combo-search/avalanche_heatmap_winners_k255.png": {
+    "mtime": 1788391828.725507,
+    "seen": 1788393082.4134204,
+    "ast_hash": "b133bd2f6fcec5fa612333ff85c94d9b",
+    "semantic_hash": ""
   }
 }
