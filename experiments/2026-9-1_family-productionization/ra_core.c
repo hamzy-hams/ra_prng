@@ -38,11 +38,23 @@
 //     non-degenerate, PractRand multikey K=255 bersih 32GB (tidak
 //     meregresi fix BCFN), ./ra_core validate tetap 9945/9945 pasca
 //     diterapkan. Detail lengkap + bukti di folder itu.
-//   - ra_permutation_cycle_singleblock, ra_core_singleblock: byte-for-byte
-//     sama dengan tahap6_bench.c's ra_permutation_cycle_full/
-//     ra_core_singleblock (dead-code proof L[] untuk rng<=255 ada di
-//     HANDOVER_TAHAP6.md) -- cycle tidak pernah jadi bagian dari defect,
-//     tidak berubah oleh fix ini.
+//   - ra_permutation_cycle_singleblock (K-small structural defect fix,
+//     2026-09-03, ../2026-9-3_dieharder-inject-crossing/RESULTS.md +
+//     ../2026-9-2_singleblock-cycle-combo-search/RESULTS.md +
+//     ../2026-9-3_combo-winner-pareto-selection/RESULTS.md): the narrow
+//     2-tap `o` (M[i+6]<<6 ^ M[i+7]<<7, tahap6_bench.c's original) had a
+//     BCFN-style PractRand defect at small K, safe only from K>=96
+//     (../2026-9-2_singleblock-k-threshold-characterization/RESULTS.md).
+//     Fixed by widening the tap to all 8 M[] slots and adding a single
+//     XORSHIFT(17) finalizer stage on `c` (candidate id `w8_f10_i0` from a
+//     756-combo cycle-operation DSL search) -- the fastest of 2 co-frontier
+//     Pareto candidates, user-selected 2026-09-03 for promotion over
+//     `w8_f28_i0` (best avalanche margin, <1ns slower). Verified clean:
+//     PractRand 16GB across K in {1,2,4,8,16,32,64,96}, dieharder 0 FAILED
+//     (K=1/K=96), 11/12 extra-inject variants stay clean when crossed
+//     (inject itself stays OFF/unused in production). `ra_init_state_singleblock`
+//     and `ra_core_singleblock` themselves are UNCHANGED -- only the
+//     per-round transform in the cycle function was in scope for this fix.
 //
 // Keputusan penamaan/scope (dikonfirmasi user, sesi family-productionization
 // 2026-09-01 -- lihat HANDOVER.md, sebelumnya PAUSED menunggu ini):
@@ -218,11 +230,18 @@ static void ra_permutation_cycle_singleblock(uint32_t cons, size_t it,
     uint32_t a = cons, b = (uint32_t)it, c = 0, d = 0;
 
     for (uint32_t i = 255; i > 0; --i) {
-        uint32_t o = (M[(uint8_t)(i + 6)] << 6) ^ (M[(uint8_t)(i + 7)] << 7);
+        // Wide 8-tap `o` (was 2-tap M[i+6]/M[i+7]) + XORSHIFT(17) finalizer
+        // on `c`: K-small defect fix, candidate w8_f10_i0 -- see header
+        // comment provenance block above.
+        uint32_t o = (M[(uint8_t)(i + 0)] << 0) ^ (M[(uint8_t)(i + 1)] << 1) ^
+                     (M[(uint8_t)(i + 2)] << 2) ^ (M[(uint8_t)(i + 3)] << 3) ^
+                     (M[(uint8_t)(i + 4)] << 4) ^ (M[(uint8_t)(i + 5)] << 5) ^
+                     (M[(uint8_t)(i + 6)] << 6) ^ (M[(uint8_t)(i + 7)] << 7);
 
         a = (d ^ o) ^ (cons + a);
         b = (cons + a) ^ (o + d);
         c = rot32((a >> 13) ^ a, b);
+        c ^= c >> 17u;
 
         if (raw_stream) fwrite(&c, sizeof(uint32_t), 1, raw_stream);
 
@@ -281,14 +300,27 @@ static const core_entry_t *find_core(const char *name) {
 }
 
 // ----------------------------------------------------------------------
-// validate: exhaustive bit-identical check, ra_core_singleblock vs
-// ra_core_orbit, for every key in {0, 0xFFFFFFFF, 5 fixed keys, 0..31} x
-// every rng in 1..255. In-process via fmemopen (no subprocess/cmp needed
-// at this scale). Precedent: tahap6_bench.c's run_validate_singleblock.
+// validate: known-answer-test (KAT) checksum check for ra_core_singleblock,
+// for every key in {0, 0xFFFFFFFF, 5 fixed keys, 0..31} x every rng in
+// 1..255. In-process via fmemopen (no subprocess/cmp needed at this scale).
+//
+// UPDATED 2026-09-03 (K-small structural defect fix, see the provenance
+// comment near ra_permutation_cycle_singleblock above): this used to compare
+// ra_core_singleblock against ra_core_orbit directly (precedent:
+// tahap6_bench.c's run_validate_singleblock, valid back when the two cores
+// were bit-identical for rng<=255 by design). That equivalence is now
+// PERMANENTLY GONE ON PURPOSE -- the whole point of the fix is that
+// singleblock's cycle transform diverges from orbit's at small K. Comparing
+// against orbit here would therefore always report "FAIL" even though the
+// formula is correct and independently validated (16GB PractRand, dieharder,
+// inject-crossing -- see the header provenance comment). Replaced with a
+// fixed KAT checksum table (SINGLEBLOCK_KAT_CHECKSUMS below) captured from
+// that validated formula, so this check now only catches a future silent
+// change to ra_permutation_cycle_singleblock's output, not
+// singleblock-vs-orbit equivalence.
 // ----------------------------------------------------------------------
 
-static int run_validate_singleblock(void) {
-    uint32_t keys[2 + 5 + 32];
+static void validate_keys(uint32_t *keys, int *nkeys_out) {
     int nkeys = 0;
     keys[nkeys++] = 0u;
     keys[nkeys++] = 0xFFFFFFFFu;
@@ -297,37 +329,74 @@ static int run_validate_singleblock(void) {
     };
     for (int i = 0; i < 5; ++i) keys[nkeys++] = extra_keys[i];
     for (uint32_t k = 0; k < 32; ++k) keys[nkeys++] = k;
+    *nkeys_out = nkeys;
+}
 
-    long total = 0, mismatches = 0;
-    uint32_t buf_orbit[255], buf_sb[255];
+/* Folds ra_core_singleblock's output stream for n=1..255 into one checksum
+ * per key -- used both to print the golden table (dev-only "checksum-gen"
+ * subcommand) and to check against it (below). Rotate+add avalanches any
+ * single-word change into the whole checksum, so this is sensitive to the
+ * same 9945 (key,n) combinations the old orbit-vs-singleblock check covered. */
+static uint32_t checksum_key(uint32_t key) {
+    uint32_t chk = 0;
+    uint32_t buf[255];
+    for (size_t n = 1; n <= 255; ++n) {
+        FILE *fs = fmemopen(buf, n * sizeof(uint32_t), "wb");
+        ra_core_singleblock(key, n, fs);
+        fclose(fs);
+        for (size_t j = 0; j < n; ++j) {
+            chk = rot32(chk ^ buf[j], 7) + 0x9E3779B9u;
+        }
+    }
+    return chk;
+}
 
+/* Golden checksums for validate_keys()'s 39 keys, in the same order,
+ * computed from the validated w8_f10_i0 fix (8-tap `o` + XORSHIFT(17)
+ * finalizer) applied to ra_permutation_cycle_singleblock -- see
+ * experiments/2026-9-3_dieharder-inject-crossing/RESULTS.md and
+ * experiments/2026-9-3_combo-winner-pareto-selection/RESULTS.md for the
+ * validation this formula carries (16GB PractRand across K in
+ * {1,2,4,8,16,32,64,96}, dieharder 0 FAILED at K=1/K=96). This is a
+ * regression KAT, not a proof of quality by itself -- it only catches
+ * ra_permutation_cycle_singleblock silently changing after this point.
+ * ra_core_singleblock and ra_core_orbit are now INTENTIONALLY different
+ * formulas (that divergence is the fix), so this no longer compares
+ * against ra_core_orbit the way the old validate() did. */
+static const uint32_t SINGLEBLOCK_KAT_CHECKSUMS[39] = {
+    0xebe5f2fbu, 0x4e7d812eu, 0xfbe61d7bu, 0xafa08364u, 0x228a759eu, 0x73f022c8u,
+    0xd4aca109u, 0xebe5f2fbu, 0x48cc8d23u, 0x481b166fu, 0x575bc0afu, 0x9fdd8975u,
+    0x74634f81u, 0x16c81beau, 0x60925eb8u, 0x0ca46c23u, 0x0983ac9cu, 0x7e3d4260u,
+    0x810553b3u, 0xcf1aa0d2u, 0x83c6822cu, 0xf8df68f1u, 0x46084521u, 0xf46c15f8u,
+    0x46785c2du, 0xd4a4ac74u, 0xb5b70001u, 0xcaaf53abu, 0x54255247u, 0x6fefadbfu,
+    0x57a6feb3u, 0x0147ca46u, 0xb1ea525du, 0x4b34ca45u, 0x2b05bf9bu, 0xdf0ff251u,
+    0x72a874ddu, 0xb0acd1d4u, 0xe3cd35b2u,
+};
+
+static int run_validate_singleblock(void) {
+    uint32_t keys[2 + 5 + 32];
+    int nkeys = 0;
+    validate_keys(keys, &nkeys);
+
+    long mismatches = 0;
     for (int ki = 0; ki < nkeys; ++ki) {
-        uint32_t key = keys[ki];
-        for (size_t n = 1; n <= 255; ++n) {
-            FILE *fo = fmemopen(buf_orbit, n * sizeof(uint32_t), "wb");
-            ra_core_orbit(key, n, fo);
-            fclose(fo);
-
-            FILE *fs = fmemopen(buf_sb, n * sizeof(uint32_t), "wb");
-            ra_core_singleblock(key, n, fs);
-            fclose(fs);
-
-            ++total;
-            if (memcmp(buf_orbit, buf_sb, n * sizeof(uint32_t)) != 0) {
-                ++mismatches;
-                fprintf(stderr, "MISMATCH key=%u n=%zu\n", key, n);
-            }
+        uint32_t got = checksum_key(keys[ki]);
+        uint32_t want = SINGLEBLOCK_KAT_CHECKSUMS[ki];
+        if (got != want) {
+            ++mismatches;
+            fprintf(stderr, "MISMATCH key=%u checksum=0x%08x want=0x%08x\n",
+                    keys[ki], got, want);
         }
     }
 
-    printf("validate: %ld combinations checked (%d keys x 255 lengths), %ld mismatches\n",
-           total, nkeys, mismatches);
+    printf("validate: %d keys checked (255 lengths each, %d combinations), %ld checksum mismatches\n",
+           nkeys, nkeys * 255, mismatches);
     if (mismatches == 0) {
-        printf("validate: PASS -- ra_core_singleblock is bit-identical to "
-               "ra_core_orbit for all rng in [1,255] across all tested keys.\n");
+        printf("validate: PASS -- ra_core_singleblock matches its known-answer "
+               "checksums (w8_f10_i0 fix formula).\n");
     } else {
-        printf("validate: FAIL -- do not trust ra_core_singleblock; treat it "
-               "as a new, unvalidated formula.\n");
+        printf("validate: FAIL -- ra_permutation_cycle_singleblock's output "
+               "changed since the KAT checksums were captured.\n");
     }
     return mismatches == 0 ? 0 : 1;
 }

@@ -23,7 +23,7 @@ dari versi lama, perbandingan vs Philox/Xoshiro) dan setelah commit `d2f1675`
 | mode | PractRand | dieharder | cross-corr/collision-scan | weak-key (key=0) | status |
 |---|---|---|---|---|---|
 | `ra_core_orbit` | 128GB clean | 0 FAILED | PASS | fixed (GUARD_L/GUARD_M) | **tidak ada blocker diketahui** |
-| `ra_core_singleblock` | **defect K-kecil, BELUM di-fix (formula produksi saat ini)** | 0 FAILED untuk kandidat fix `w8_f10_i0`/`w8_f28_i0` (2026-09-03) | PASS (formula saat ini) | fixed (GUARD_M) | **BLOCKER UTAMA — lihat §2, action item 1&2 kini CLEAR, tinggal keputusan promosi §3 poin 3** |
+| `ra_core_singleblock` | **FIXED 2026-09-03 — `w8_f10_i0` dipromosikan ke `ra_core.c`** | 0 FAILED (`w8_f10_i0`, K=1/K=96) | PASS (formula lama, belum di-re-run utk formula baru) | fixed (GUARD_M) | **defect K-kecil CLOSED — lihat §2, item 3 DONE. Sisa: §3 poin 4 (re-buka battery gate), belum diminta user** |
 
 ---
 
@@ -70,10 +70,26 @@ non-dominated:
 
 (threshold avalanche margin: 0.2 — keduanya jauh di atas ambang)
 
-**Belum ada yang dipromosikan ke `ra_core.c`** — `git diff --stat -- ra_core.c`
-kosong sepanjang sesi combo-winner-pareto-selection maupun sesi ini. Promosi
-butuh konfirmasi eksplisit user terpisah (per `HANDOVER.md` §8 folder
-combo-winner-pareto-selection).
+**DIPROMOSIKAN 2026-09-03**: user memilih `w8_f10_i0` (tercepat) secara
+eksplisit ("tidak perlu, langsung saja aku pilih yang tercepat w8_f10_i0"),
+tanpa menunggu speed/avalanche test tambahan untuk 11 varian inject baru
+(sudah cukup dari dieharder+inject-crossing di atas). Diterapkan ke
+`ra_permutation_cycle_singleblock` di `ra_core.c`: `o` diperlebar dari 2-tap
+jadi 8-tap penuh (`M[i+0..7]`), ditambah finalizer `c ^= c >> 17u;` persis
+formula `w8_f10_i0`. `ra_init_state_singleblock`, `ra_core_singleblock`,
+dan seluruh jalur `ra_core_orbit` TIDAK disentuh. Diverifikasi: compile
+bersih (`gcc -O3 -march=native -std=gnu17 -include stdalign.h ra_core.c -o
+ra_core -Wall -Wextra`), cross-check 70 vektor (10 key x 7 panjang) vs
+binary `w8_f10_i0` tervalidasi (`../2026-9-2_singleblock-cycle-combo-search/
+candidates/w8_f10_i0`) — 0 mismatch.
+
+**Efek samping penting**: `./ra_core validate` yang tadinya membuktikan
+`ra_core_singleblock` bit-identik dengan `ra_core_orbit` (bukti L[] dead-code,
+Tahap 1) SEKARANG SENGAJA TIDAK LAGI BERLAKU — fix ini justru membuat kedua
+core berbeda formula per-round di K kecil. `run_validate_singleblock()` di
+`ra_core.c` diganti jadi known-answer-test (checksum tetap terhadap formula
+`w8_f10_i0` yang sudah tervalidasi), bukan lagi perbandingan vs orbit —
+lihat komentar di `ra_core.c` dekat `SINGLEBLOCK_KAT_CHECKSUMS`.
 
 ### Validasi dieharder + inject-crossing (2026-09-03, `../2026-9-3_dieharder-inject-crossing/RESULTS.md`)
 
@@ -113,12 +129,12 @@ bukan action item):
    di atas.
 
 Setelah 1 & 2 bersih:
-3. **Keputusan user** (BELUM diminta/diberikan): kandidat mana yang
-   dipromosikan ke `ra_core.c` (atau tetap dua-duanya sebagai opsi
-   konfigurasi) — konfirmasi eksplisit diperlukan sebelum `ra_core.c`
-   disentuh. Ini satu-satunya blocker yang tersisa sekarang.
+3. ~~**Keputusan user**: kandidat mana yang dipromosikan ke `ra_core.c`~~ —
+   **DONE 2026-09-03**, `w8_f10_i0` dipilih user dan diterapkan, lihat §2.
 4. Re-verifikasi battery gate (`experiments/2026-9-1_production-candidate-battery/`)
-   resmi dibuka lagi setelah promosi.
+   resmi dibuka lagi setelah promosi — **belum diminta user**, jangan mulai
+   tanpa konfirmasi (per `feedback_plan_scope_creep_reruns`: approval umum
+   sebelumnya tidak otomatis mencakup re-run battery baru ini).
 
 ---
 
@@ -208,9 +224,11 @@ punya file sama sekali di repo ini (baru rencana).
 
 ## 8. Ringkasan satu-baris untuk sesi berikutnya
 
-**Gate produksi PAUSED, satu blocker tersisa: dieharder + inject-crossing
-untuk `w8_f10_i0`/`w8_f28_i0` sudah CLEAR (2026-09-03, 0 FAILED dieharder,
-11/12 FULLY CLEAN inject-crossing) — tinggal keputusan eksplisit user
-kandidat mana yang dipromosikan ke `ra_core.c` (§3 poin 3), lalu buka lagi
-battery gate (§3 poin 4). Kecepatan bukan masalah — desain sudah kompetitif
-vs Philox/Xoshiro di regime pemakaian aslinya (K besar).**
+**Defect K-kecil CLOSED (2026-09-03): `w8_f10_i0` dipromosikan ke `ra_core.c`
+(§2, `ra_permutation_cycle_singleblock` diganti ke 8-tap `o` + XORSHIFT(17)
+finalizer), diverifikasi compile-clean + 70-vektor cross-check 0 mismatch.
+`./ra_core validate` sekarang KAT-checksum, bukan lagi vs-orbit (lihat §2).
+Sisa satu-satunya item terbuka: §3 poin 4, buka lagi battery gate produksi —
+BELUM diminta user, jangan mulai tanpa konfirmasi. Kecepatan bukan masalah —
+desain sudah kompetitif vs Philox/Xoshiro di regime pemakaian aslinya
+(K besar).**
