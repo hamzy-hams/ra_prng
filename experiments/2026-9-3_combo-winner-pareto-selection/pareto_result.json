@@ -1,0 +1,147 @@
+{
+  "eligible": [
+    {
+      "candidate": "w8_f10_i0",
+      "k1_ns_per_word": 36.692,
+      "k255_ns_per_word": 0.1395,
+      "stream_mb_per_s": 134.0543242792731,
+      "min_bit_fraction_worst": 0.4810049019607843,
+      "failed_axis_b_hard": false,
+      "axis_b_reasons": []
+    },
+    {
+      "candidate": "w8_f25_i0",
+      "k1_ns_per_word": 38.576,
+      "k255_ns_per_word": 0.181,
+      "stream_mb_per_s": 125.44501422870559,
+      "min_bit_fraction_worst": 0.4825980392156863,
+      "failed_axis_b_hard": false,
+      "axis_b_reasons": []
+    },
+    {
+      "candidate": "w8_f28_i0",
+      "k1_ns_per_word": 37.405,
+      "k255_ns_per_word": 0.226,
+      "stream_mb_per_s": 128.00478058785217,
+      "min_bit_fraction_worst": 0.4827205882352941,
+      "failed_axis_b_hard": false,
+      "axis_b_reasons": []
+    }
+  ],
+  "excluded": [
+    {
+      "candidate": "w8_f8_i0",
+      "k1_ns_per_word": 37.014,
+      "k255_ns_per_word": 0.1625,
+      "stream_mb_per_s": 127.41817726507529,
+      "min_bit_fraction_worst": 0.4776960784313726,
+      "failed_axis_b_hard": true,
+      "axis_b_reasons": [
+        "crit1_normality: shapiro p(min)=0.004262 p(max)=0.2211 (need both >0.05)"
+      ]
+    },
+    {
+      "candidate": "w8_f9_i0",
+      "k1_ns_per_word": 38.765,
+      "k255_ns_per_word": 0.18,
+      "stream_mb_per_s": 124.67549153816267,
+      "min_bit_fraction_worst": 0.48112745098039217,
+      "failed_axis_b_hard": true,
+      "axis_b_reasons": [
+        "crit1_normality: shapiro p(min)=0.05235 p(max)=0.04802 (need both >0.05)"
+      ]
+    },
+    {
+      "candidate": "w8_f22_i0",
+      "k1_ns_per_word": 38.675,
+      "k255_ns_per_word": 0.187,
+      "stream_mb_per_s": 124.39324642148816,
+      "min_bit_fraction_worst": 0.48223039215686275,
+      "failed_axis_b_hard": true,
+      "axis_b_reasons": [
+        "crit1_normality: shapiro p(min)=0.2037 p(max)=0.02208 (need both >0.05)"
+      ]
+    },
+    {
+      "candidate": "w8_f24_i0",
+      "k1_ns_per_word": 46.025,
+      "k255_ns_per_word": 0.1485,
+      "stream_mb_per_s": 127.55494455316796,
+      "min_bit_fraction_worst": 0.4817401960784314,
+      "failed_axis_b_hard": true,
+      "axis_b_reasons": [
+        "crit1_normality: shapiro p(min)=0.09614 p(max)=0.0008839 (need both >0.05)"
+      ]
+    },
+    {
+      "candidate": "w8_f26_i0",
+      "k1_ns_per_word": 38.746,
+      "k255_ns_per_word": 0.1855,
+      "stream_mb_per_s": 123.91562422395691,
+      "min_bit_fraction_worst": 0.47843137254901963,
+      "failed_axis_b_hard": true,
+      "axis_b_reasons": [
+        "crit1_normality: shapiro p(min)=0.002112 p(max)=0.1691 (need both >0.05)"
+      ]
+    },
+    {
+      "candidate": "w8_f27_i0",
+      "k1_ns_per_word": 38.742,
+      "k255_ns_per_word": 0.16949999999999998,
+      "stream_mb_per_s": 121.10590528283431,
+      "min_bit_fraction_worst": 0.478921568627451,
+      "failed_axis_b_hard": true,
+      "axis_b_reasons": [
+        "crit1_normality: shapiro p(min)=0.0005277 p(max)=0.4092 (need both >0.05)"
+      ]
+    },
+    {
+      "candidate": "w8_f29_i0",
+      "k1_ns_per_word": 40.691,
+      "k255_ns_per_word": 0.225,
+      "stream_mb_per_s": 123.10949270995509,
+      "min_bit_fraction_worst": 0.4768382352941177,
+      "failed_axis_b_hard": true,
+      "axis_b_reasons": [
+        "crit1_normality: shapiro p(min)=0.0005056 p(max)=0.04252 (need both >0.05)"
+      ]
+    },
+    {
+      "candidate": "w8_f33_i0",
+      "k1_ns_per_word": 41.798,
+      "k255_ns_per_word": 0.1525,
+      "stream_mb_per_s": 121.71246523665074,
+      "min_bit_fraction_worst": 0.4769607843137255,
+      "failed_axis_b_hard": true,
+      "axis_b_reasons": [
+        "crit1_normality: shapiro p(min)=0.0001663 p(max)=0.02521 (need both >0.05)"
+      ]
+    }
+  ],
+  "frontier": [
+    {
+      "candidate": "w8_f10_i0",
+      "k1_ns_per_word": 36.692,
+      "k255_ns_per_word": 0.1395,
+      "stream_mb_per_s": 134.0543242792731,
+      "min_bit_fraction_worst": 0.4810049019607843,
+      "failed_axis_b_hard": false,
+      "axis_b_reasons": []
+    },
+    {
+      "candidate": "w8_f28_i0",
+      "k1_ns_per_word": 37.405,
+      "k255_ns_per_word": 0.226,
+      "stream_mb_per_s": 128.00478058785217,
+      "min_bit_fraction_worst": 0.4827205882352941,
+      "failed_axis_b_hard": false,
+      "axis_b_reasons": []
+    }
+  ],
+  "baseline": {
+    "core": "singleblock",
+    "k1_ns_per_word_min_of_7": 39.063,
+    "k255_ns_per_word_avg2": 0.1915,
+    "stream_mb_per_s_avg2": 154.7985698236231
+  }
+}
