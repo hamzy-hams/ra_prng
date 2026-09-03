@@ -1,0 +1,48 @@
+RNG_test using PractRand version 0.95
+RNG = RNG_stdin32, seed = unknown
+test set = core, folding = standard (32 bit)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 256 megabytes (2^28 bytes), time= 7.4 seconds
+  Test Name                         Raw       Processed     Evaluation
+  [Low1/32]Gap-16:A                 R=  +5.1  p =  1.0e-3   unusual          
+  ...and 167 test result(s) without anomalies
+
+
+rng=RNG_stdin32, seed=unknown
+length= 512 megabytes (2^29 bytes), time= 16.5 seconds
+  no anomalies in 180 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 1 gigabyte (2^30 bytes), time= 34.8 seconds
+  no anomalies in 194 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 2 gigabytes (2^31 bytes), time= 67.4 seconds
+  Test Name                         Raw       Processed     Evaluation
+  FPF-14+6/16:(13,14-5)             R= +13.2  p =  8.0e-11   VERY SUSPICIOUS 
+  FPF-14+6/16:(14,14-6)             R=  +8.5  p =  1.6e-6   unusual          
+  FPF-14+6/16:(15,14-7)             R=  +7.8  p =  5.0e-6   unusual          
+  ...and 202 test result(s) without anomalies
+
+
+rng=RNG_stdin32, seed=unknown
+length= 4 gigabytes (2^32 bytes), time= 127 seconds
+  Test Name                         Raw       Processed     Evaluation
+  FPF-14+6/16:(10,14-2)             R= +64.0  p =  9.2e-56    FAIL !!!!      
+  FPF-14+6/16:(11,14-3)             R= +45.9  p =  5.8e-40    FAIL !!!       
+  FPF-14+6/16:(12,14-4)             R= +29.7  p =  3.6e-24    FAIL !!        
+  FPF-14+6/16:(13,14-5)             R= +24.9  p =  1.8e-20    FAIL !         
+  FPF-14+6/16:(14,14-5)             R= +16.7  p =  9.9e-14    FAIL           
+  FPF-14+6/16:(15,14-6)             R= +15.3  p =  9.1e-12   VERY SUSPICIOUS 
+  FPF-14+6/16:(16,14-7)             R=  +7.8  p =  5.2e-6   unusual          
+  FPF-14+6/16:all                   R= +26.2  p =  4.2e-24    FAIL !!        
+  [Low1/32]Gap-16:A                 R=  +7.6  p =  5.8e-6   suspicious       
+  ...and 208 test result(s) without anomalies
+
+
+
+[EARLY KILL after 4 gigabytes (2^32 bytes): hard FAIL detected]
