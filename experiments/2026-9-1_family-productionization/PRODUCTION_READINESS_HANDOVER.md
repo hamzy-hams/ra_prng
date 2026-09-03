@@ -23,7 +23,7 @@ dari versi lama, perbandingan vs Philox/Xoshiro) dan setelah commit `d2f1675`
 | mode | PractRand | dieharder | cross-corr/collision-scan | weak-key (key=0) | status |
 |---|---|---|---|---|---|
 | `ra_core_orbit` | 128GB clean | 0 FAILED | PASS | fixed (GUARD_L/GUARD_M) | **tidak ada blocker diketahui** |
-| `ra_core_singleblock` | **FIXED 2026-09-03 — `w8_f10_i0` dipromosikan ke `ra_core.c`** | 0 FAILED (`w8_f10_i0`, K=1/K=96) | PASS (formula lama, belum di-re-run utk formula baru) | fixed (GUARD_M) | **defect K-kecil CLOSED — lihat §2, item 3 DONE. Sisa: §3 poin 4 (re-buka battery gate), belum diminta user** |
+| `ra_core_singleblock` | **FIXED 2026-09-03 — `w8_f10_i0` dipromosikan ke `ra_core.c`, battery gate Step 0-8 CLOSED** | 0 FAILED (K=1/K=96 standalone, K=1/K=255 battery gate) | PASS (K=1/K=255, battery gate Step 4) | fixed (GUARD_M) | **TIDAK ADA BLOCKER TERSISA — production-candidate-battery gate PASS, lihat `../2026-9-1_production-candidate-battery/ADDENDUM_POST_FIX_STATUS.md`** |
 
 ---
 
@@ -91,6 +91,37 @@ core berbeda formula per-round di K kecil. `run_validate_singleblock()` di
 `w8_f10_i0` yang sudah tervalidasi), bukan lagi perbandingan vs orbit —
 lihat komentar di `ra_core.c` dekat `SINGLEBLOCK_KAT_CHECKSUMS`.
 
+### Battery gate Step 4-8 dibuka lagi dan CLOSED (2026-09-03)
+
+Setelah promosi, `../2026-9-1_production-candidate-battery/` (yang berhenti
+di Step 3 karena defect K-kecil) dilanjutkan penuh Step 4-8 — detail lengkap
+di `ADDENDUM_POST_FIX_STATUS.md` folder itu. Ringkas: collision-scan K=1
+PASS (0/50.000 collision, sesuai ekspektasi ~0,29 di ruang 32-bit),
+dieharder K=1/K=255 PASS (0 FAILED), PractRand 16GB K=1/K=255 di VPS PASS
+(bersih total, "no anomalies" di setiap checkpoint).
+
+**Bug ditemukan+diperbaiki di tengah jalan (bukan defect RNG)**:
+`scrambler_ra_core_singleblock.c` (Step 7) awalnya melaporkan K=1
+katastropik (rotasi trivial, runs-test z=-3528) — ternyata bug `fmemopen()`
+glibc: kalau buffer PAS ukuran tulisan, NUL-terminator menimpa byte
+terakhir (byte teratas word ter-nol-kan tiap panggilan). Diperbaiki
+(buffer +1 byte) di file itu DAN di `checksum_key()` `ra_core.c` (bug sama,
+tapi tautologis-aman karena golden checksum & verifikasi sama-sama pakai
+fungsi yang sama — checksum sudah di-regenerate). Semua `fmemopen` lain di
+repo membandingkan 2 buffer yang sama-sama kena bug ini secara identik,
+jadi hasil PASS historis lain TIDAK perlu diragukan.
+
+Setelah fix: K=255 bersih total, K=1 masih ada bias kecil-tapi-nyata di
+runs-test (z=+9,25 vs K=255's -0,35; per-repetisi mean z=0,242 vs 0,155,
+beda ~2,8 sigma) — kemungkinan sebagian artefak rumus runs-test untuk data
+permutasi (bukan i.i.d. kontinu), tapi K=1 punya lebih banyak dari itu.
+**User memutuskan: PASS dengan catatan** — bias ini jauh lebih kecil dari
+defect pra-fix, tidak terlihat di PractRand 16GB, dicatat sebagai limitasi
+diketahui untuk use-case ekstraksi-bit-rendah (mis. Fisher-Yates) di K=1,
+BUKAN alasan membatalkan promosi `w8_f10_i0`.
+
+**Verdict gate: PASS keseluruhan. Tidak ada blocker tersisa.**
+
 ### Validasi dieharder + inject-crossing (2026-09-03, `../2026-9-3_dieharder-inject-crossing/RESULTS.md`)
 
 Action item 1 & 2 (lihat §3) sekarang **CLEAR**:
@@ -131,10 +162,12 @@ bukan action item):
 Setelah 1 & 2 bersih:
 3. ~~**Keputusan user**: kandidat mana yang dipromosikan ke `ra_core.c`~~ —
    **DONE 2026-09-03**, `w8_f10_i0` dipilih user dan diterapkan, lihat §2.
-4. Re-verifikasi battery gate (`experiments/2026-9-1_production-candidate-battery/`)
-   resmi dibuka lagi setelah promosi — **belum diminta user**, jangan mulai
-   tanpa konfirmasi (per `feedback_plan_scope_creep_reruns`: approval umum
-   sebelumnya tidak otomatis mencakup re-run battery baru ini).
+4. ~~Re-verifikasi battery gate~~ — **DONE 2026-09-03**, Step 4-8
+   (`../2026-9-1_production-candidate-battery/ADDENDUM_POST_FIX_STATUS.md`):
+   collision-scan K=1 PASS, dieharder K=1/K=255 PASS (0 FAILED), PractRand
+   16GB K=1/K=255 PASS (bersih total di VPS), shuffle-implementation PASS
+   dengan catatan (lihat §2). **Gate ini sekarang CLOSED — tidak ada action
+   item tersisa.**
 
 ---
 
@@ -224,11 +257,13 @@ punya file sama sekali di repo ini (baru rencana).
 
 ## 8. Ringkasan satu-baris untuk sesi berikutnya
 
-**Defect K-kecil CLOSED (2026-09-03): `w8_f10_i0` dipromosikan ke `ra_core.c`
+**GATE PRODUKSI CLOSED (2026-09-03): `w8_f10_i0` dipromosikan ke `ra_core.c`
 (§2, `ra_permutation_cycle_singleblock` diganti ke 8-tap `o` + XORSHIFT(17)
-finalizer), diverifikasi compile-clean + 70-vektor cross-check 0 mismatch.
-`./ra_core validate` sekarang KAT-checksum, bukan lagi vs-orbit (lihat §2).
-Sisa satu-satunya item terbuka: §3 poin 4, buka lagi battery gate produksi —
-BELUM diminta user, jangan mulai tanpa konfirmasi. Kecepatan bukan masalah —
-desain sudah kompetitif vs Philox/Xoshiro di regime pemakaian aslinya
-(K besar).**
+finalizer) DAN production-candidate-battery Step 0-8 semua PASS (§2,
+`../2026-9-1_production-candidate-battery/ADDENDUM_POST_FIX_STATUS.md`).
+`./ra_core validate` sekarang KAT-checksum, bukan lagi vs-orbit. Satu bug
+harness (`fmemopen` glibc, bukan defect RNG) ditemukan+diperbaiki di jalan
+Step 7; hasil akhirnya PASS-dengan-catatan (bias kecil di K=1 runs-test,
+diterima user, tidak menghalangi apapun). **Tidak ada blocker tersisa** —
+kecepatan juga bukan masalah, desain sudah kompetitif vs Philox/Xoshiro di
+regime pemakaian aslinya (K besar).**

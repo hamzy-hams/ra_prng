@@ -1,0 +1,15 @@
+{
+  "seed_mode": "sequential",
+  "tier": "smoke",
+  "k1_raw32": {
+    "mode": "k1_raw32",
+    "m_keys": 5000,
+    "block_words": 1,
+    "fingerprints": 5000,
+    "collisions_found": 0,
+    "collisions": [],
+    "expected_collisions_32bit_space": 0.0029098009690642357,
+    "poisson_z": -0.05394257102756816,
+    "pass": true
+  }
+}

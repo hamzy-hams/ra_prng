@@ -1,0 +1,15 @@
+{
+  "seed_mode": "random",
+  "tier": "full",
+  "k1_raw32": {
+    "mode": "k1_raw32",
+    "m_keys": 50000,
+    "block_words": 1,
+    "fingerprints": 50000,
+    "collisions_found": 0,
+    "collisions": [],
+    "expected_collisions_32bit_space": 0.2910324838012457,
+    "poisson_z": -0.53947426611586,
+    "pass": true
+  }
+}
