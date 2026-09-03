@@ -34,18 +34,30 @@
 
 extern uint32_t ra_core_singleblock(uint32_t key, size_t rng, FILE *raw_stream);
 
+/* glibc's fmemopen("wb") writes a trailing NUL after the last byte written;
+ * if the buffer is exactly write-sized, that NUL overwrites the last byte
+ * instead of landing past it (no room) -- on little-endian this clobbers
+ * the MSB of the last uint32_t written. Fix: give the buffer one spare
+ * byte so the NUL lands there instead of inside real data. Found 2026-09-03
+ * debugging Step 7's catastrophic (and spurious) K=1 shuffle result -- see
+ * PRODUCTION_READINESS_HANDOVER.md. */
 static uint32_t pull_one(uint32_t key) {
     uint32_t word;
-    FILE *f = fmemopen(&word, sizeof(word), "wb");
+    unsigned char buf[sizeof(word) + 1];
+    FILE *f = fmemopen(buf, sizeof(buf), "wb");
     ra_core_singleblock(key, 1, f);
     fclose(f);
+    memcpy(&word, buf, sizeof(word));
     return word;
 }
 
 static void pull_n(uint32_t key, size_t n, uint32_t *out) {
-    FILE *f = fmemopen(out, n * sizeof(uint32_t), "wb");
+    unsigned char *buf = malloc(n * sizeof(uint32_t) + 1);
+    FILE *f = fmemopen(buf, n * sizeof(uint32_t) + 1, "wb");
     ra_core_singleblock(key, n, f);
     fclose(f);
+    memcpy(out, buf, n * sizeof(uint32_t));
+    free(buf);
 }
 
 // One Fisher-Yates pass, mode k1: a fresh ra_core_singleblock(key,1,...)

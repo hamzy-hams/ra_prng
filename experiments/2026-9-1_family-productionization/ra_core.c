@@ -336,12 +336,20 @@ static void validate_keys(uint32_t *keys, int *nkeys_out) {
  * per key -- used both to print the golden table (dev-only "checksum-gen"
  * subcommand) and to check against it (below). Rotate+add avalanches any
  * single-word change into the whole checksum, so this is sensitive to the
- * same 9945 (key,n) combinations the old orbit-vs-singleblock check covered. */
+ * same 9945 (key,n) combinations the old orbit-vs-singleblock check covered.
+ *
+ * `buf` is deliberately 1 word larger than the max write (255 words):
+ * glibc's fmemopen("wb") writes a trailing NUL right after the last byte
+ * written, and if the buffer is exactly write-sized that NUL overwrites the
+ * last byte instead of landing past it -- on little-endian this would
+ * clobber the MSB of the last uint32_t written every time. The spare word
+ * gives that NUL somewhere harmless to land (found 2026-09-03 debugging
+ * production-candidate-battery's Step 7, see PRODUCTION_READINESS_HANDOVER.md). */
 static uint32_t checksum_key(uint32_t key) {
     uint32_t chk = 0;
-    uint32_t buf[255];
+    uint32_t buf[256];
     for (size_t n = 1; n <= 255; ++n) {
-        FILE *fs = fmemopen(buf, n * sizeof(uint32_t), "wb");
+        FILE *fs = fmemopen(buf, n * sizeof(uint32_t) + 1, "wb");
         ra_core_singleblock(key, n, fs);
         fclose(fs);
         for (size_t j = 0; j < n; ++j) {
@@ -364,13 +372,13 @@ static uint32_t checksum_key(uint32_t key) {
  * formulas (that divergence is the fix), so this no longer compares
  * against ra_core_orbit the way the old validate() did. */
 static const uint32_t SINGLEBLOCK_KAT_CHECKSUMS[39] = {
-    0xebe5f2fbu, 0x4e7d812eu, 0xfbe61d7bu, 0xafa08364u, 0x228a759eu, 0x73f022c8u,
-    0xd4aca109u, 0xebe5f2fbu, 0x48cc8d23u, 0x481b166fu, 0x575bc0afu, 0x9fdd8975u,
-    0x74634f81u, 0x16c81beau, 0x60925eb8u, 0x0ca46c23u, 0x0983ac9cu, 0x7e3d4260u,
-    0x810553b3u, 0xcf1aa0d2u, 0x83c6822cu, 0xf8df68f1u, 0x46084521u, 0xf46c15f8u,
-    0x46785c2du, 0xd4a4ac74u, 0xb5b70001u, 0xcaaf53abu, 0x54255247u, 0x6fefadbfu,
-    0x57a6feb3u, 0x0147ca46u, 0xb1ea525du, 0x4b34ca45u, 0x2b05bf9bu, 0xdf0ff251u,
-    0x72a874ddu, 0xb0acd1d4u, 0xe3cd35b2u,
+    0xee5a0763u, 0x299f7345u, 0x165b620au, 0x41b9b933u, 0xf6613981u, 0x6a03bbf6u,
+    0xf8975230u, 0xee5a0763u, 0x1a78795cu, 0x89b5301cu, 0x787bd47cu, 0x31b981d8u,
+    0x0ca2c44au, 0xedc2a549u, 0x509112dau, 0xa1f89116u, 0x274c5a70u, 0x0ba07d7bu,
+    0x280d1cb1u, 0xfb4a5ec1u, 0xf7e58e11u, 0x291396c2u, 0x1d380914u, 0x8f21fc57u,
+    0xd10f68c3u, 0x0c51c5b0u, 0xb734e7eeu, 0x0f2dbf47u, 0xd8abf450u, 0xbb9422e4u,
+    0x795fb18fu, 0xc1bced6eu, 0x34b16a2du, 0x7906dcfbu, 0x5a0c615cu, 0x06dfab09u,
+    0xa0cfe6c2u, 0x90cf2a0cu, 0x3cb34dfau,
 };
 
 static int run_validate_singleblock(void) {
