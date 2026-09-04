@@ -3634,5 +3634,11 @@
     "seen": 1788495648.1786308,
     "ast_hash": "59d06dd599a91a31094f2843e0a0b392",
     "semantic_hash": ""
+  },
+  "experiments/2026-9-4_orbit-reseed-postboundary-bcfn/HANDOVER.md": {
+    "mtime": 1788503809.3310223,
+    "seen": 1788504016.2252517,
+    "ast_hash": "",
+    "semantic_hash": "81cff8f8696fc0258afb2f4bd18b4c01"
   }
 }
