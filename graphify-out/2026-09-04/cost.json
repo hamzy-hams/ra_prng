@@ -209,8 +209,33 @@
       "input_tokens": 0,
       "output_tokens": 95503,
       "files": 3
+    },
+    {
+      "date": "2026-09-03T15:54:52.847196+00:00",
+      "input_tokens": 87113,
+      "output_tokens": 0,
+      "files": 41
+    },
+    {
+      "date": "2026-09-04T00:04:49.453791+00:00",
+      "input_tokens": 64227,
+      "output_tokens": 0,
+      "files": 2
+    },
+    {
+      "date": "2026-09-04T01:08:29.735733+00:00",
+      "input_tokens": 0,
+      "output_tokens": 118239,
+      "files": 3
+    },
+    {
+      "date": "2026-09-04T01:34:29.166940+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "files": 6,
+      "note": "surgical single-chunk patch (session continuation, subagent tokens tracked separately)"
     }
   ],
-  "total_input_tokens": 2195983,
-  "total_output_tokens": 714442
+  "total_input_tokens": 2347323,
+  "total_output_tokens": 832681
 }
