@@ -1,3 +1,14 @@
+// ra_core_baseline.c
+// ============================================================================
+// REFERENSI BEKU -- JANGAN DIEDIT LANGSUNG. Salinan bit-identik dari
+// ../2026-9-1_family-productionization/ra_core.c per 2026-09-03, setelah
+// promosi w8_f10_i0 (commit 89ffc95) dan production-candidate-battery gate
+// Step 0-8 CLOSED/PASS (commit e7628c1, 2bbdce9). Lihat HANDOVER.md di
+// folder ini untuk konteks lengkap dan arah kerja refinement selanjutnya.
+// Untuk mulai refine: copy file ini ke nama baru (mis. ra_core_v2.c),
+// edit salinannya, biarkan file ini tetap sebagai titik pembanding.
+// ============================================================================
+//
 // ra_core.c
 // Tahap 1 (HANDOVER.md): unifikasi ra_prng-family. Satu file, dua entry
 // point publik, satu core recurrence bersama. Precedent read-only repo ini
@@ -55,52 +66,6 @@
 //     (inject itself stays OFF/unused in production). `ra_init_state_singleblock`
 //     and `ra_core_singleblock` themselves are UNCHANGED -- only the
 //     per-round transform in the cycle function was in scope for this fix.
-//   - ra_permutation_cycle_orbit K-small defect fix (2026-09-04,
-//     ../2026-9-4_orbit-fix-and-wideo-rolling-optimization/HANDOVER.md +
-//     ../2026-9-4_orbit-kmin-battery/RESULTS.md): `ra_permutation_cycle_orbit`
-//     still had the narrow 2-tap `o` with no finalizer -- byte-identical to
-//     the PRE-fix singleblock formula above, and because `ra_init_state_orbit`'s
-//     M[] path is byte-identical to singleblock's and L[] never influences
-//     output for rng<=255 in one call, `ra_core_orbit(key, rng<=255, ...)`
-//     reproduced that exact defective formula for anyone using orbit in a
-//     "multistream" pattern (many short calls, fresh key each time) instead
-//     of its intended long continuous stream. Ported the same `w8_f10_i0`
-//     fix (wide 8-tap `o` + `c ^= c >> 17u` finalizer) to
-//     `ra_permutation_cycle_orbit`. Statistically re-validated in the
-//     multistream pattern specifically (the gap this closes): dieharder 0
-//     FAILED (K=1/K=255), PractRand 16GB no anomalies (K=1/K=255),
-//     avalanche PASS, collision-scan PASS -- see
-//     ../2026-9-4_orbit-kmin-battery/RESULTS.md. `ra_init_state_orbit`
-//     itself is UNCHANGED.
-//   - Rolling-register computation of wide-`o` (2026-09-04, same HANDOVER.md
-//     as above), applied to BOTH ra_permutation_cycle_singleblock AND
-//     ra_permutation_cycle_orbit: `o` was recomputed from all 8 M[] taps
-//     from scratch every iteration, even though consecutive iterations'
-//     8-element windows share 7 elements. Because XOR and constant
-//     left-shift are linear over GF(2), `o(i-1)` is derivable from `o(i)`
-//     by an exact algebraic identity (XOR out the term leaving the window,
-//     shift left by 1, XOR in the new term), not an approximation. ~30-34%
-//     speedup at K=255/long streams, no regression at K=1 (structurally
-//     inert there -- only one cycle iteration runs). Bit-exact: `validate`
-//     below reproduces the SAME checksums as the naive formula for both
-//     cores, 0 mismatches -- this needed no separate statistical
-//     re-validation of its own, only the KAT-match proof.
-//   - Variable-length M[] init for ra_init_state_singleblock (2026-09-04,
-//     RESULTS.md's "Variable-length M[] init" section): ra_permutation_cycle_singleblock
-//     indexes M[] only via the loop variable `i` (never via `d`, unlike
-//     orbit's data-dependent L[i]<->L[d] swap), so for `rng` rounds the
-//     cycle only ever touches a wrapped, K-predictable index range of size
-//     min(rng+7,256) -- entries outside it are provably dead and no longer
-//     initialized. Bit-exact: `validate` below still matches
-//     SINGLEBLOCK_KAT_CHECKSUMS, 0 mismatches. First attempt (single masked
-//     `(start+j)&0xFF` loop) measured a real REGRESSION at rng>=~96 (defeats
-//     auto-vectorization vs. the old plain 0..255 loop) -- fixed by splitting
-//     into up to 2 non-wrapping ascending-index sub-loops instead; see
-//     RESULTS.md for the full before/after benchmark table. `ra_core_orbit`
-//     is NOT touched by this (its L[]<->L[d] swap makes the equivalent trick
-//     unsafe for rng>=2; orbit's K=1 case shares the same dead-window
-//     property but was left as a documented, unimplemented backlog item,
-//     not applied here).
 //
 // Keputusan penamaan/scope (dikonfirmasi user, sesi family-productionization
 // 2026-09-01 -- lihat HANDOVER.md, sebelumnya PAUSED menunggu ini):
@@ -208,28 +173,17 @@ static void ra_init_state_orbit(uint32_t *L, uint32_t *M, uint32_t key) {
 
 // One full 255-step permutation cycle, orbit mode (includes the L[i]<->L[d]
 // swap that feeds ra_reseed on the next cycle).
-//
-// Wide 8-tap `o` + XORSHIFT(17) finalizer on `c`: K-small defect fix
-// ported from ra_permutation_cycle_singleblock, candidate w8_f10_i0.
-// `o` itself computed via rolling register (o_term7 tracks the term
-// leaving the window) instead of recomputing all 8 taps from scratch each
-// iteration -- bit-exact identity. See header comment provenance block.
 static void ra_permutation_cycle_orbit(uint32_t cons, size_t it,
                                         const uint32_t *M, uint32_t *L,
                                         uint64_t *count, FILE *raw_stream) {
     uint32_t a = cons, b = (uint32_t)it, c = 0, d = 0;
 
-    uint32_t o = (M[(uint8_t)(255 + 0)] << 0) ^ (M[(uint8_t)(255 + 1)] << 1) ^
-                 (M[(uint8_t)(255 + 2)] << 2) ^ (M[(uint8_t)(255 + 3)] << 3) ^
-                 (M[(uint8_t)(255 + 4)] << 4) ^ (M[(uint8_t)(255 + 5)] << 5) ^
-                 (M[(uint8_t)(255 + 6)] << 6) ^ (M[(uint8_t)(255 + 7)] << 7);
-    uint32_t o_term7 = M[(uint8_t)(255 + 7)] << 7;
-
     for (uint32_t i = 255; i > 0; --i) {
+        uint32_t o = (M[(uint8_t)(i + 6)] << 6) ^ (M[(uint8_t)(i + 7)] << 7);
+
         a = (d ^ o) ^ (cons + a);
         b = (cons + a) ^ (o + d);
         c = rot32((a >> 13) ^ a, b);
-        c ^= c >> 17u;
 
         if (raw_stream) fwrite(&c, sizeof(uint32_t), 1, raw_stream);
 
@@ -241,13 +195,6 @@ static void ra_permutation_cycle_orbit(uint32_t cons, size_t it,
         uint32_t tmp = L[i];
         L[i] = L[d];
         L[d] = tmp;
-
-        if (i > 1) {
-            uint32_t new_term = M[(uint8_t)(i - 1)];
-            uint32_t o_next = new_term ^ ((o ^ o_term7) << 1);
-            o_term7 = M[(uint8_t)(i + 6)] << 7;
-            o = o_next;
-        }
     }
 }
 
@@ -278,62 +225,30 @@ uint32_t ra_core_orbit(uint32_t key, size_t rng, FILE *raw_stream) {
 // ----------------------------------------------------------------------
 
 // M-only analog of ra_init_state_orbit's fix, for the no-L singleblock mode.
-//
-// Variable-length init (2026-09-04): ra_permutation_cycle_singleblock below
-// indexes M[] ONLY via the loop variable `i` (the rolling-o window), NEVER
-// via `d` (the output-derived byte) -- unlike ra_core_orbit's L[i]<->L[d]
-// swap, M[] access here is fully static/predictable from `rng` alone. For
-// `rng` rounds the cycle only ever touches the wrapped index range
-// [(256-rng)&0xFF .. 6] (size min(rng+7,256)), so entries outside that range
-// are provably never read and are safely left uninitialized. IMPORTANT: if
-// ra_permutation_cycle_singleblock is ever changed to read M[] via a
-// data-dependent index (e.g. M[d]), this function MUST be revisited -- the
-// partial-init range below would then be unsafe.
-// Split into up to 2 non-wrapping ascending-index sub-loops rather than one
-// masked `(start+j)&0xFF` loop: a per-iteration wrap mask defeats
-// auto-vectorization at larger `rng` (measured regression vs. the old
-// full-256 loop at rng>=~96 before this split -- see "Variable-length M[]
-// init" section in RESULTS.md), while each plain ascending-index sub-loop
-// here vectorizes the same way the original 256-iteration loop did.
-static void ra_init_state_singleblock(uint32_t *M, uint32_t key, size_t rng) {
+static void ra_init_state_singleblock(uint32_t *M, uint32_t key) {
     uint32_t keyterm_m = fmix32(GUARD_M ^ (0x06a0dd9bu * key));
-    int len = (rng + 7 > 256) ? 256 : (int)(rng + 7);
-    int start = (256 - (int)rng) & 0xFF;
-    int end = start + len; // may exceed 256 (wraps past index 255)
-
-    int first_end = (end <= 256) ? end : 256;
-    for (int i = start; i < first_end; ++i) {
+    for (int i = 0; i < 256; ++i) {
         uint32_t r = key ^ (uint32_t)i;
         uint32_t m_val = (uint32_t)(i * 0x06a0dd9bu) * keyterm_m;
         M[i] = rot32(m_val, r);
     }
-    if (end > 256) {
-        for (int i = 0; i < end - 256; ++i) {
-            uint32_t r = key ^ (uint32_t)i;
-            uint32_t m_val = (uint32_t)(i * 0x06a0dd9bu) * keyterm_m;
-            M[i] = rot32(m_val, r);
-        }
-    }
 }
 
-// Wide 8-tap `o` (was 2-tap M[i+6]/M[i+7]) + XORSHIFT(17) finalizer on `c`:
-// K-small defect fix, candidate w8_f10_i0 -- see header comment provenance
-// block above. `o` computed via rolling register (o_term7 tracks the term
-// leaving the window) instead of recomputing all 8 taps from scratch each
-// iteration -- bit-exact identity, see header comment.
 static void ra_permutation_cycle_singleblock(uint32_t cons, size_t it,
                                               const uint32_t *M,
                                               uint64_t *count,
                                               FILE *raw_stream) {
     uint32_t a = cons, b = (uint32_t)it, c = 0, d = 0;
 
-    uint32_t o = (M[(uint8_t)(255 + 0)] << 0) ^ (M[(uint8_t)(255 + 1)] << 1) ^
-                 (M[(uint8_t)(255 + 2)] << 2) ^ (M[(uint8_t)(255 + 3)] << 3) ^
-                 (M[(uint8_t)(255 + 4)] << 4) ^ (M[(uint8_t)(255 + 5)] << 5) ^
-                 (M[(uint8_t)(255 + 6)] << 6) ^ (M[(uint8_t)(255 + 7)] << 7);
-    uint32_t o_term7 = M[(uint8_t)(255 + 7)] << 7;
-
     for (uint32_t i = 255; i > 0; --i) {
+        // Wide 8-tap `o` (was 2-tap M[i+6]/M[i+7]) + XORSHIFT(17) finalizer
+        // on `c`: K-small defect fix, candidate w8_f10_i0 -- see header
+        // comment provenance block above.
+        uint32_t o = (M[(uint8_t)(i + 0)] << 0) ^ (M[(uint8_t)(i + 1)] << 1) ^
+                     (M[(uint8_t)(i + 2)] << 2) ^ (M[(uint8_t)(i + 3)] << 3) ^
+                     (M[(uint8_t)(i + 4)] << 4) ^ (M[(uint8_t)(i + 5)] << 5) ^
+                     (M[(uint8_t)(i + 6)] << 6) ^ (M[(uint8_t)(i + 7)] << 7);
+
         a = (d ^ o) ^ (cons + a);
         b = (cons + a) ^ (o + d);
         c = rot32((a >> 13) ^ a, b);
@@ -347,13 +262,6 @@ static void ra_permutation_cycle_singleblock(uint32_t cons, size_t it,
         --(*count);
         // No L[] swap here -- L's only functional reader (ra_reseed) is
         // unreachable for rng<=255, see ra_core_singleblock's guard below.
-
-        if (i > 1) {
-            uint32_t new_term = M[(uint8_t)(i - 1)];
-            uint32_t o_next = new_term ^ ((o ^ o_term7) << 1);
-            o_term7 = M[(uint8_t)(i + 6)] << 7;
-            o = o_next;
-        }
     }
 }
 
@@ -371,7 +279,7 @@ uint32_t ra_core_singleblock(uint32_t key, size_t rng, FILE *raw_stream) {
     uint64_t count = rng;
     uint32_t cons = key;
 
-    ra_init_state_singleblock(M, key, rng);
+    ra_init_state_singleblock(M, key);
     ra_permutation_cycle_singleblock(cons, /*it=*/0, M, &count, raw_stream);
     return cons; // == key always for rng<=255 (cons is never reassigned
                  // without ra_reseed).
@@ -403,7 +311,7 @@ static const core_entry_t *find_core(const char *name) {
 }
 
 // ----------------------------------------------------------------------
-// validate: known-answer-test (KAT) checksum check, now for BOTH cores,
+// validate: known-answer-test (KAT) checksum check for ra_core_singleblock,
 // for every key in {0, 0xFFFFFFFF, 5 fixed keys, 0..31} x every rng in
 // 1..255. In-process via fmemopen (no subprocess/cmp needed at this scale).
 //
@@ -411,17 +319,16 @@ static const core_entry_t *find_core(const char *name) {
 // comment near ra_permutation_cycle_singleblock above): this used to compare
 // ra_core_singleblock against ra_core_orbit directly (precedent:
 // tahap6_bench.c's run_validate_singleblock, valid back when the two cores
-// were bit-identical for rng<=255 by design). That equivalence broke once
-// singleblock got its K-small fix first (2026-09-03) while orbit hadn't yet
-// -- comparing against orbit then would have reported a false "FAIL".
-// Replaced with fixed KAT checksum tables (SINGLEBLOCK_KAT_CHECKSUMS /
-// ORBIT_KAT_CHECKSUMS below), so this only catches a future silent change to
-// either cycle function's output, not cross-core equivalence.
-//
-// UPDATED 2026-09-04 (orbit K-small fix + rolling-o promoted, see header
-// provenance block): now that BOTH cores share the same fixed cycle
-// transform again for the K<=255 pre-reseed window, their KAT tables are
-// (expectedly) identical -- see ORBIT_KAT_CHECKSUMS's comment.
+// were bit-identical for rng<=255 by design). That equivalence is now
+// PERMANENTLY GONE ON PURPOSE -- the whole point of the fix is that
+// singleblock's cycle transform diverges from orbit's at small K. Comparing
+// against orbit here would therefore always report "FAIL" even though the
+// formula is correct and independently validated (16GB PractRand, dieharder,
+// inject-crossing -- see the header provenance comment). Replaced with a
+// fixed KAT checksum table (SINGLEBLOCK_KAT_CHECKSUMS below) captured from
+// that validated formula, so this check now only catches a future silent
+// change to ra_permutation_cycle_singleblock's output, not
+// singleblock-vs-orbit equivalence.
 // ----------------------------------------------------------------------
 
 static void validate_keys(uint32_t *keys, int *nkeys_out) {
@@ -436,11 +343,11 @@ static void validate_keys(uint32_t *keys, int *nkeys_out) {
     *nkeys_out = nkeys;
 }
 
-/* Folds a core's output stream for n=1..255 into one checksum per key.
- * Generalized (2026-09-04) to take any core_fn_t, so the same KAT machinery
- * covers both singleblock and orbit (the K<=255 pre-reseed window, so this
- * exercises the same per-round transform for both). Rotate+add avalanches
- * any single-word change into the whole checksum.
+/* Folds ra_core_singleblock's output stream for n=1..255 into one checksum
+ * per key -- used both to print the golden table (dev-only "checksum-gen"
+ * subcommand) and to check against it (below). Rotate+add avalanches any
+ * single-word change into the whole checksum, so this is sensitive to the
+ * same 9945 (key,n) combinations the old orbit-vs-singleblock check covered.
  *
  * `buf` is deliberately 1 word larger than the max write (255 words):
  * glibc's fmemopen("wb") writes a trailing NUL right after the last byte
@@ -449,12 +356,12 @@ static void validate_keys(uint32_t *keys, int *nkeys_out) {
  * clobber the MSB of the last uint32_t written every time. The spare word
  * gives that NUL somewhere harmless to land (found 2026-09-03 debugging
  * production-candidate-battery's Step 7, see PRODUCTION_READINESS_HANDOVER.md). */
-static uint32_t checksum_key_core(core_fn_t fn, uint32_t key) {
+static uint32_t checksum_key(uint32_t key) {
     uint32_t chk = 0;
     uint32_t buf[256];
     for (size_t n = 1; n <= 255; ++n) {
         FILE *fs = fmemopen(buf, n * sizeof(uint32_t) + 1, "wb");
-        fn(key, n, fs);
+        ra_core_singleblock(key, n, fs);
         fclose(fs);
         for (size_t j = 0; j < n; ++j) {
             chk = rot32(chk ^ buf[j], 7) + 0x9E3779B9u;
@@ -472,8 +379,9 @@ static uint32_t checksum_key_core(core_fn_t fn, uint32_t key) {
  * {1,2,4,8,16,32,64,96}, dieharder 0 FAILED at K=1/K=96). This is a
  * regression KAT, not a proof of quality by itself -- it only catches
  * ra_permutation_cycle_singleblock silently changing after this point.
- * UNCHANGED by the 2026-09-04 rolling-o change -- that table match is the
- * bit-exactness proof, see header comment. */
+ * ra_core_singleblock and ra_core_orbit are now INTENTIONALLY different
+ * formulas (that divergence is the fix), so this no longer compares
+ * against ra_core_orbit the way the old validate() did. */
 static const uint32_t SINGLEBLOCK_KAT_CHECKSUMS[39] = {
     0xee5a0763u, 0x299f7345u, 0x165b620au, 0x41b9b933u, 0xf6613981u, 0x6a03bbf6u,
     0xf8975230u, 0xee5a0763u, 0x1a78795cu, 0x89b5301cu, 0x787bd47cu, 0x31b981d8u,
@@ -484,69 +392,32 @@ static const uint32_t SINGLEBLOCK_KAT_CHECKSUMS[39] = {
     0xa0cfe6c2u, 0x90cf2a0cu, 0x3cb34dfau,
 };
 
-/* Golden checksums for orbit, K<=255 pre-reseed window, same 39 keys and
- * same order as SINGLEBLOCK_KAT_CHECKSUMS. Captured from
- * ../2026-9-4_orbit-fix-and-wideo-rolling-optimization/ra_core_v2.c's
- * `checksum-gen orbit` and independently cross-checked there against a
- * standalone non-rolling reference build -- 0 mismatches across 39 keys.
- * Statistically re-validated in the multistream K=1/K=255 pattern by
- * ../2026-9-4_orbit-kmin-battery/RESULTS.md (dieharder 0 FAILED, PractRand
- * 16GB no anomalies, avalanche + collision-scan PASS) before promotion here.
- *
- * These values are IDENTICAL to SINGLEBLOCK_KAT_CHECKSUMS above. This is
- * expected, not a copy-paste bug: orbit's K<=255 window uses the same
- * M[]-init path, the same `cons=key`/`it=0` start state, and (after the
- * K-small fix) the same per-round cycle transform as singleblock -- L[]
- * never influences output before the first reseed. */
-static const uint32_t ORBIT_KAT_CHECKSUMS[39] = {
-    0xee5a0763u, 0x299f7345u, 0x165b620au, 0x41b9b933u, 0xf6613981u, 0x6a03bbf6u,
-    0xf8975230u, 0xee5a0763u, 0x1a78795cu, 0x89b5301cu, 0x787bd47cu, 0x31b981d8u,
-    0x0ca2c44au, 0xedc2a549u, 0x509112dau, 0xa1f89116u, 0x274c5a70u, 0x0ba07d7bu,
-    0x280d1cb1u, 0xfb4a5ec1u, 0xf7e58e11u, 0x291396c2u, 0x1d380914u, 0x8f21fc57u,
-    0xd10f68c3u, 0x0c51c5b0u, 0xb734e7eeu, 0x0f2dbf47u, 0xd8abf450u, 0xbb9422e4u,
-    0x795fb18fu, 0xc1bced6eu, 0x34b16a2du, 0x7906dcfbu, 0x5a0c615cu, 0x06dfab09u,
-    0xa0cfe6c2u, 0x90cf2a0cu, 0x3cb34dfau,
-};
-
-static int run_validate(void) {
+static int run_validate_singleblock(void) {
     uint32_t keys[2 + 5 + 32];
     int nkeys = 0;
     validate_keys(keys, &nkeys);
 
-    long sb_mismatches = 0;
+    long mismatches = 0;
     for (int ki = 0; ki < nkeys; ++ki) {
-        uint32_t got = checksum_key_core(ra_core_singleblock, keys[ki]);
+        uint32_t got = checksum_key(keys[ki]);
         uint32_t want = SINGLEBLOCK_KAT_CHECKSUMS[ki];
         if (got != want) {
-            ++sb_mismatches;
-            fprintf(stderr, "SINGLEBLOCK MISMATCH key=%u checksum=0x%08x want=0x%08x\n",
+            ++mismatches;
+            fprintf(stderr, "MISMATCH key=%u checksum=0x%08x want=0x%08x\n",
                     keys[ki], got, want);
         }
     }
-    printf("validate(singleblock): %d keys checked, %ld checksum mismatches\n",
-           nkeys, sb_mismatches);
 
-    long orbit_mismatches = 0;
-    for (int ki = 0; ki < nkeys; ++ki) {
-        uint32_t got = checksum_key_core(ra_core_orbit, keys[ki]);
-        uint32_t want = ORBIT_KAT_CHECKSUMS[ki];
-        if (got != want) {
-            ++orbit_mismatches;
-            fprintf(stderr, "ORBIT MISMATCH key=%u checksum=0x%08x want=0x%08x\n",
-                    keys[ki], got, want);
-        }
-    }
-    printf("validate(orbit, K<=255 window): %d keys checked, %ld checksum mismatches\n",
-           nkeys, orbit_mismatches);
-
-    long total = sb_mismatches + orbit_mismatches;
-    if (total == 0) {
-        printf("validate: PASS -- singleblock and orbit both match their "
-               "known-answer checksums (w8_f10_i0 fix formula, both cores).\n");
+    printf("validate: %d keys checked (255 lengths each, %d combinations), %ld checksum mismatches\n",
+           nkeys, nkeys * 255, mismatches);
+    if (mismatches == 0) {
+        printf("validate: PASS -- ra_core_singleblock matches its known-answer "
+               "checksums (w8_f10_i0 fix formula).\n");
     } else {
-        printf("validate: FAIL -- %ld total checksum mismatches (see above).\n", total);
+        printf("validate: FAIL -- ra_permutation_cycle_singleblock's output "
+               "changed since the KAT checksums were captured.\n");
     }
-    return total == 0 ? 0 : 1;
+    return mismatches == 0 ? 0 : 1;
 }
 
 int main(int argc, char **argv) {
@@ -554,30 +425,14 @@ int main(int argc, char **argv) {
         fprintf(stderr,
             "Usage:\n"
             "  %s validate\n"
-            "  %s checksum-gen <core>\n"
             "  %s --stream <core> <key> <n>\n"
             "Cores: orbit singleblock (singleblock valid only for rng in [1,255])\n",
-            argv[0], argv[0], argv[0]);
+            argv[0], argv[0]);
         return 1;
     }
 
     if (strcmp(argv[1], "validate") == 0) {
-        return run_validate();
-    }
-
-    if (strcmp(argv[1], "checksum-gen") == 0 && argc >= 3) {
-        const core_entry_t *core = find_core(argv[2]);
-        uint32_t keys[2 + 5 + 32];
-        int nkeys = 0;
-        validate_keys(keys, &nkeys);
-        printf("static const uint32_t %s_KAT_CHECKSUMS[%d] = {\n",
-               strcmp(core->name, "orbit") == 0 ? "ORBIT" : "SINGLEBLOCK", nkeys);
-        for (int ki = 0; ki < nkeys; ++ki) {
-            uint32_t chk = checksum_key_core(core->fn, keys[ki]);
-            printf("    0x%08xu,%s", chk, (ki % 6 == 5) ? "\n" : " ");
-        }
-        printf("\n};\n");
-        return 0;
+        return run_validate_singleblock();
     }
 
     if (strcmp(argv[1], "--stream") == 0 && argc >= 5) {

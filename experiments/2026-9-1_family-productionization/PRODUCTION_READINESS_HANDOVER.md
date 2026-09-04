@@ -22,7 +22,7 @@ dari versi lama, perbandingan vs Philox/Xoshiro) dan setelah commit `d2f1675`
 
 | mode | PractRand | dieharder | cross-corr/collision-scan | weak-key (key=0) | status |
 |---|---|---|---|---|---|
-| `ra_core_orbit` | 128GB clean | 0 FAILED | PASS | fixed (GUARD_L/GUARD_M) | **tidak ada blocker diketahui** |
+| `ra_core_orbit` | 128GB clean (pola stream-panjang-kontinu) + 16GB clean K=1/K=255 (pola multistream, 2026-09-04, lihat §2b) | 0 FAILED (semua pola) | PASS | fixed (GUARD_L/GUARD_M) | **TIDAK ADA BLOCKER TERSISA — lihat §2b, fix K-kecil + rolling-`o` sudah dipromosikan ke `ra_core.c`** |
 | `ra_core_singleblock` | **FIXED 2026-09-03 — `w8_f10_i0` dipromosikan ke `ra_core.c`, battery gate Step 0-8 CLOSED** | 0 FAILED (K=1/K=96 standalone, K=1/K=255 battery gate) | PASS (K=1/K=255, battery gate Step 4) | fixed (GUARD_M) | **TIDAK ADA BLOCKER TERSISA — production-candidate-battery gate PASS, lihat `../2026-9-1_production-candidate-battery/ADDENDUM_POST_FIX_STATUS.md`** |
 
 ---
@@ -146,6 +146,41 @@ divalidasi ulang independen.
 
 ---
 
+## 2b. Orbit K-small multistream defect (ditemukan & diperbaiki 2026-09-04)
+
+Klaim "128GB clean" untuk `ra_core_orbit` di §1 di atas hanya mewarisi
+validasi pola **stream-panjang-kontinu** (`winner_wired_addressable.c`,
+satu key, jutaan kata berturut-turut) — tidak pernah diuji ulang di pola
+**multistream** (banyak panggilan pendek, key baru tiap panggilan, K
+kecil) pasca-fix singleblock 2026-09-03.
+
+Investigasi dipicu pertanyaan user: "apa yang terjadi kalau ada orang
+mengambil orbit K=1 sebagai input?" — dan menemukan celah nyata:
+`ra_permutation_cycle_orbit` masih pakai formula `o` 2-tap sempit tanpa
+finalizer, byte-identik dengan formula singleblock versi PRA-fix yang
+terbukti gagal PractRand (BCFN-style) di bawah K=96. Karena
+`ra_init_state_orbit`'s M[] byte-identik dengan singleblock dan L[] tak
+berpengaruh sebelum reseed, `ra_core_orbit(key, rng<=255, ...)`
+mereplikasi persis defek itu di pola multistream.
+
+Fix: port formula `w8_f10_i0` yang sama (8-tap `o` + XORSHIFT(17)
+finalizer) ke `ra_permutation_cycle_orbit`, plus optimasi rolling-register
+untuk `o` (identitas aljabar bit-exact, diterapkan ke KEDUA core, ~30-34%
+speedup di K=255/stream, tidak ada regresi K=1). Detail derivasi:
+`../2026-9-4_orbit-fix-and-wideo-rolling-optimization/HANDOVER.md`.
+
+Statistik re-validasi (battery yang tadinya di-defer): dieharder K=1/K=255
+0 FAILED, PractRand 16GB K=1/K=255 no anomalies, avalanche + collision-scan
+PASS — `../2026-9-4_orbit-kmin-battery/RESULTS.md`. **PASS**, dipromosikan
+ke `ra_core.c` kanonik 2026-09-04 (`ra_permutation_cycle_orbit` +
+`ORBIT_KAT_CHECKSUMS` baru, `./ra_core validate` 0 mismatch kedua core).
+
+`ra_reseed`/`ra_hash` orbit (defek BCFN pra-reseed yang berbeda, lihat §5
+research backlog di `2026-9-4_orbit-fix-and-wideo-rolling-optimization/HANDOVER.md`
+§6) TIDAK termasuk fix ini — masih terbuka, track terpisah.
+
+---
+
 ## 3. Action item yang belum dikerjakan (blocking promosi)
 
 Dibawa verbatim dari `experiments/2026-9-3_combo-winner-pareto-selection/RESULTS.md`
@@ -255,15 +290,41 @@ punya file sama sekali di repo ini (baru rencana).
 
 ---
 
+## 7b. Benchmark rilis resmi (2026-09-04, `bench_release.c`)
+
+Angka kecepatan di §4 (perbandingan vs Philox/Xoshiro) sudah basi sejak
+promosi rolling-`o` + variable-length M[] init (§2b) — diukur ulang resmi
+untuk README, hasil lengkap + metodologi di `RESULTS.md`'s "Release
+benchmark" section (folder ini). Ringkas: singleblock K=255 sekarang 6.1x
+lebih cepat dari Philox (dulu 4.2x), 2.27x dari Xoshiro (dulu 1.5x); K=1
+singleblock kini malah lebih cepat dari Philox (1.19x, dulu kalah) berkat
+variable-length init, meski masih kalah dari Xoshiro di K=1. orbit K=255/
+stream mendekati impas dengan Philox (bukan lagi jelas menang seperti
+klaim §4 yang kurang terkontrol), tetap kalah dari Xoshiro. **Caveat
+penting yang belum pernah ditulis eksplisit sebelumnya**: seluruh
+keunggulan ini murni throughput CPU single-core dalam regime K yang
+didesain — belum ada implementasi GPU/SIMD, dan validasi statistik yang
+ada mencakup kualitas output single-key, bukan independensi cross-stream
+skala besar untuk pola addressable/multikey. Jangan menyiratkan lebih dari
+itu di dokumentasi/README.
+
 ## 8. Ringkasan satu-baris untuk sesi berikutnya
 
-**GATE PRODUKSI CLOSED (2026-09-03): `w8_f10_i0` dipromosikan ke `ra_core.c`
-(§2, `ra_permutation_cycle_singleblock` diganti ke 8-tap `o` + XORSHIFT(17)
-finalizer) DAN production-candidate-battery Step 0-8 semua PASS (§2,
-`../2026-9-1_production-candidate-battery/ADDENDUM_POST_FIX_STATUS.md`).
-`./ra_core validate` sekarang KAT-checksum, bukan lagi vs-orbit. Satu bug
+**GATE PRODUKSI CLOSED (2026-09-03, diperluas 2026-09-04): `w8_f10_i0`
+dipromosikan ke `ra_core.c` untuk KEDUA core** (§2 — singleblock,
+2026-09-03; §2b — orbit + rolling-`o` kedua core, 2026-09-04) **DAN semua
+battery relevan PASS**: production-candidate-battery Step 0-8 (singleblock,
+`../2026-9-1_production-candidate-battery/ADDENDUM_POST_FIX_STATUS.md`) +
+orbit-kmin-battery (orbit multistream K=1/K=255,
+`../2026-9-4_orbit-kmin-battery/RESULTS.md`). `./ra_core validate` sekarang
+KAT-checksum untuk kedua core (bukan lagi vs-orbit cross-check). Satu bug
 harness (`fmemopen` glibc, bukan defect RNG) ditemukan+diperbaiki di jalan
-Step 7; hasil akhirnya PASS-dengan-catatan (bias kecil di K=1 runs-test,
-diterima user, tidak menghalangi apapun). **Tidak ada blocker tersisa** —
-kecepatan juga bukan masalah, desain sudah kompetitif vs Philox/Xoshiro di
-regime pemakaian aslinya (K besar).**
+Step 7 (2026-09-03); hasil akhirnya PASS-dengan-catatan (bias kecil di K=1
+runs-test, diterima user, tidak menghalangi apapun). **Tidak ada blocker
+korektnes/statistik tersisa** untuk `ra_core.c` — kecepatan juga bukan
+masalah, desain sudah kompetitif vs Philox/Xoshiro di regime pemakaian
+aslinya (K besar). Item yang MASIH terbuka (bukan blocker gate ini, lihat
+§2b/§5/§6 dan `2026-9-4_orbit-fix-and-wideo-rolling-optimization/HANDOVER.md`
+§6): `ra_reseed`/`ra_hash` orbit BCFN pra-reseed, eksperimen end-diffusion
+singleblock, dan — di luar `ra_core.c` sepenuhnya — keputusan promosi
+`ra_core.c` kanonik ini sendiri ke `src/` resmi (belum pernah di-scope).**
