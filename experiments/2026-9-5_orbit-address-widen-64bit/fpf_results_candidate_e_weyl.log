@@ -1,0 +1,37 @@
+  progress: 3.36% (28.3s elapsed, proyeksi total 843.6s)
+  progress: 6.71% (60.5s elapsed, proyeksi total 901.7s)
+  progress: 10.07% (93.3s elapsed, proyeksi total 926.6s)
+  progress: 13.42% (122.7s elapsed, proyeksi total 914.2s)
+  progress: 16.78% (152.9s elapsed, proyeksi total 911.5s)
+  progress: 20.13% (184.6s elapsed, proyeksi total 917.1s)
+  progress: 23.49% (220.6s elapsed, proyeksi total 939.2s)
+  progress: 26.84% (248.6s elapsed, proyeksi total 926.0s)
+  progress: 30.20% (286.7s elapsed, proyeksi total 949.3s)
+  progress: 33.55% (323.5s elapsed, proyeksi total 964.0s)
+  progress: 36.91% (353.7s elapsed, proyeksi total 958.1s)
+  progress: 40.27% (390.4s elapsed, proyeksi total 969.5s)
+  progress: 43.62% (431.4s elapsed, proyeksi total 988.9s)
+  progress: 46.98% (472.4s elapsed, proyeksi total 1005.6s)
+  progress: 50.33% (506.1s elapsed, proyeksi total 1005.6s)
+  progress: 53.69% (538.2s elapsed, proyeksi total 1002.6s)
+  progress: 57.04% (568.8s elapsed, proyeksi total 997.2s)
+  progress: 60.40% (600.5s elapsed, proyeksi total 994.3s)
+  progress: 63.75% (632.2s elapsed, proyeksi total 991.6s)
+  progress: 67.11% (663.9s elapsed, proyeksi total 989.3s)
+  progress: 70.46% (695.8s elapsed, proyeksi total 987.4s)
+  progress: 73.82% (726.7s elapsed, proyeksi total 984.4s)
+  progress: 77.18% (756.8s elapsed, proyeksi total 980.6s)
+  progress: 80.53% (790.6s elapsed, proyeksi total 981.8s)
+  progress: 83.89% (821.4s elapsed, proyeksi total 979.2s)
+  progress: 87.24% (853.5s elapsed, proyeksi total 978.3s)
+  progress: 90.60% (885.4s elapsed, proyeksi total 977.3s)
+  progress: 93.95% (917.6s elapsed, proyeksi total 976.6s)
+  progress: 97.31% (952.1s elapsed, proyeksi total 978.4s)
+order=weyl n=500000000 waktu=978.0s (1955.9 ns/sample)
+=== FPF-14+6/16 (total_samples=999999998) ===
+  e= 0 observed=   500018022 expected=  499999999.00 z=  +0.806
+  e= 1 observed=   249985190 expected=  249999999.50 z=  -0.937
+  e= 2 observed=   124984519 expected=  124999999.75 z=  -1.385
+  e=36 observed=           1 expected=          0.01 z= +11.638  <-- ANOMALI
+  agg_chi2=180555.1 agg_df=180213 agg_z=+0.570
+VERDICT: CLEAN (|agg_z|=0.570, threshold 6.0 -- konvensi Analisis 4)

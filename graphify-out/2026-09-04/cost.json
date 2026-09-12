@@ -234,8 +234,20 @@
       "output_tokens": 0,
       "files": 6,
       "note": "surgical single-chunk patch (session continuation, subagent tokens tracked separately)"
+    },
+    {
+      "date": "2026-09-04T09:06:14.726596+00:00",
+      "input_tokens": 109789,
+      "output_tokens": 0,
+      "files": 3
+    },
+    {
+      "date": "2026-09-04T12:48:26.351485+00:00",
+      "input_tokens": 0,
+      "output_tokens": 112420,
+      "files": 662
     }
   ],
-  "total_input_tokens": 2347323,
-  "total_output_tokens": 832681
+  "total_input_tokens": 2457112,
+  "total_output_tokens": 945101
 }

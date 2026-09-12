@@ -162,6 +162,14 @@ static inline uint32_t fmix32(uint32_t h) {
 #define GUARD_L 0x38916df4u
 #define GUARD_M 0x6c26fc92u
 
+// addr_hi guard constants (2026-09-06, 64-bit address widening promotion,
+// ../2026-9-5_orbit-address-widen-64bit/RESULTS.md "Kandidat D"): second
+// independent guard pair for the addr_hi-derived hash term, distinct from
+// GUARD_L/GUARD_M so the two 32-bit inputs (key, addr_hi) never collide on
+// the same guard constant.
+#define GUARD_L2 0x3eb13b90u
+#define GUARD_M2 0x392456deu
+
 // hash_access=sequential, HASH_SELFIDX off, HASH_DEPTH fixed at 32.
 static void ra_hash(const uint32_t *N, uint32_t *out8) {
     for (int i = 0; i < 8; ++i) {
@@ -194,11 +202,28 @@ static uint32_t ra_reseed(uint32_t *M, const uint32_t *L) {
 // shared shape shifted by an offset. Rotation (r = key^i, raw key not
 // hashed) unchanged from the previous formula. See header comment for
 // provenance/verification.
-static void ra_init_state_orbit(uint32_t *L, uint32_t *M, uint32_t key) {
-    uint32_t keyterm_l = fmix32(GUARD_L ^ (0x9e3779b7u * key));
-    uint32_t keyterm_m = fmix32(GUARD_M ^ (0x06a0dd9bu * key));
+// 64-bit address widening (2026-09-06, Kandidat D promotion -- see
+// ../2026-9-5_orbit-address-widen-64bit/RESULTS.md sec 9.1): addr_hi is a
+// second 32-bit input, independent of key, giving 64-bit effective address
+// space (mitigates the birthday-paradox key-repetition defect found for
+// K=1+hashed-key, see ../2026-9-5_orbit-k1-exhaustive-function-analysis/).
+// keyterm_l/keyterm_m are now the PRODUCT of two independently-hashed terms
+// (one from key, one from addr_hi). Rotation stays `r = key ^ i` -- addr_hi
+// deliberately does NOT enter the rotation; folding it in there (Kandidat
+// A/B) XORed two independent Weyl-stepped sequences into rot32's 5-bit
+// residue and failed PractRand Gap-16 at 4-8GB under K=1+Weyl reinit.
+static void ra_init_state_orbit(uint32_t *L, uint32_t *M, uint32_t key,
+                                 uint32_t addr_hi) {
+    uint32_t keyterm_l_key   = fmix32(GUARD_L  ^ (0x9e3779b7u * key));
+    uint32_t keyterm_l_param = fmix32(GUARD_L2 ^ (0x85ebca77u * addr_hi));
+    uint32_t keyterm_l = keyterm_l_key * keyterm_l_param;
+
+    uint32_t keyterm_m_key   = fmix32(GUARD_M  ^ (0x06a0dd9bu * key));
+    uint32_t keyterm_m_param = fmix32(GUARD_M2 ^ (0x9e3779b1u * addr_hi));
+    uint32_t keyterm_m = keyterm_m_key * keyterm_m_param;
+
     for (int i = 0; i < 256; ++i) {
-        uint32_t r = key ^ (uint32_t)i;
+        uint32_t r = key ^ (uint32_t)i; // addr_hi deliberately excluded, see above
         uint32_t l_val = (uint32_t)(i * 0x9e3779b7u) * keyterm_l;
         uint32_t m_val = (uint32_t)(i * 0x06a0dd9bu) * keyterm_m;
         L[i] = rot32(l_val, r);
@@ -251,7 +276,7 @@ static void ra_permutation_cycle_orbit(uint32_t cons, size_t it,
     }
 }
 
-uint32_t ra_core_orbit(uint32_t key, size_t rng, FILE *raw_stream) {
+uint32_t ra_core_orbit(uint32_t key, uint32_t addr_hi, size_t rng, FILE *raw_stream) {
     if (rng == 0) return key;
 
     alignas(64) uint32_t L[256], M[256];
@@ -259,7 +284,7 @@ uint32_t ra_core_orbit(uint32_t key, size_t rng, FILE *raw_stream) {
     uint64_t iteration = rng / 255 + 1;
 
     uint32_t cons = key;
-    ra_init_state_orbit(L, M, key);
+    ra_init_state_orbit(L, M, key, addr_hi);
 
     for (size_t it = 0; it < iteration; ++it) {
         ra_permutation_cycle_orbit(cons, it, M, L, &count, raw_stream);
@@ -295,8 +320,13 @@ uint32_t ra_core_orbit(uint32_t key, size_t rng, FILE *raw_stream) {
 // full-256 loop at rng>=~96 before this split -- see "Variable-length M[]
 // init" section in RESULTS.md), while each plain ascending-index sub-loop
 // here vectorizes the same way the original 256-iteration loop did.
-static void ra_init_state_singleblock(uint32_t *M, uint32_t key, size_t rng) {
-    uint32_t keyterm_m = fmix32(GUARD_M ^ (0x06a0dd9bu * key));
+// addr_hi widening (2026-09-06, Kandidat D): same product-of-two-hashes
+// keyterm_m as ra_init_state_orbit, see that function's header comment.
+static void ra_init_state_singleblock(uint32_t *M, uint32_t key,
+                                       uint32_t addr_hi, size_t rng) {
+    uint32_t keyterm_m_key   = fmix32(GUARD_M  ^ (0x06a0dd9bu * key));
+    uint32_t keyterm_m_param = fmix32(GUARD_M2 ^ (0x9e3779b1u * addr_hi));
+    uint32_t keyterm_m = keyterm_m_key * keyterm_m_param;
     int len = (rng + 7 > 256) ? 256 : (int)(rng + 7);
     int start = (256 - (int)rng) & 0xFF;
     int end = start + len; // may exceed 256 (wraps past index 255)
@@ -357,7 +387,7 @@ static void ra_permutation_cycle_singleblock(uint32_t cons, size_t it,
     }
 }
 
-uint32_t ra_core_singleblock(uint32_t key, size_t rng, FILE *raw_stream) {
+uint32_t ra_core_singleblock(uint32_t key, uint32_t addr_hi, size_t rng, FILE *raw_stream) {
     if (rng == 0) return key;
     if (rng > 255) {
         fprintf(stderr,
@@ -371,7 +401,7 @@ uint32_t ra_core_singleblock(uint32_t key, size_t rng, FILE *raw_stream) {
     uint64_t count = rng;
     uint32_t cons = key;
 
-    ra_init_state_singleblock(M, key, rng);
+    ra_init_state_singleblock(M, key, addr_hi, rng);
     ra_permutation_cycle_singleblock(cons, /*it=*/0, M, &count, raw_stream);
     return cons; // == key always for rng<=255 (cons is never reassigned
                  // without ra_reseed).
@@ -381,7 +411,7 @@ uint32_t ra_core_singleblock(uint32_t key, size_t rng, FILE *raw_stream) {
 // CLI dispatch -- pola CORES[]/find_core dari tahap6_bench.c.
 // ----------------------------------------------------------------------
 
-typedef uint32_t (*core_fn_t)(uint32_t key, size_t rng, FILE *raw_stream);
+typedef uint32_t (*core_fn_t)(uint32_t key, uint32_t addr_hi, size_t rng, FILE *raw_stream);
 
 typedef struct { const char *name; core_fn_t fn; long max_rng; } core_entry_t;
 
@@ -454,7 +484,7 @@ static uint32_t checksum_key_core(core_fn_t fn, uint32_t key) {
     uint32_t buf[256];
     for (size_t n = 1; n <= 255; ++n) {
         FILE *fs = fmemopen(buf, n * sizeof(uint32_t) + 1, "wb");
-        fn(key, n, fs);
+        fn(key, 0u, n, fs); // addr_hi=0: KAT baseline == "single global address"
         fclose(fs);
         for (size_t j = 0; j < n; ++j) {
             chk = rot32(chk ^ buf[j], 7) + 0x9E3779B9u;
@@ -473,15 +503,25 @@ static uint32_t checksum_key_core(core_fn_t fn, uint32_t key) {
  * regression KAT, not a proof of quality by itself -- it only catches
  * ra_permutation_cycle_singleblock silently changing after this point.
  * UNCHANGED by the 2026-09-04 rolling-o change -- that table match is the
- * bit-exactness proof, see header comment. */
+ * bit-exactness proof, see header comment.
+ *
+ * REGENERATED 2026-09-06 (Kandidat D / 64-bit address widening promotion,
+ * ../2026-9-5_orbit-address-widen-64bit/RESULTS.md): ra_init_state_orbit/
+ * _singleblock's keyterm is now a product of two independently-hashed
+ * terms (key, addr_hi) instead of a single key-hashed term -- Kandidat D
+ * is NOT byte-identical to the pre-promotion formula even at addr_hi=0
+ * (verified: RESULTS.md sec 1), so this table intentionally supersedes the
+ * old one. `checksum_key_core` always calls with addr_hi=0u ("single
+ * global address" baseline), captured via `./ra_core checksum-gen
+ * singleblock` post-promotion. */
 static const uint32_t SINGLEBLOCK_KAT_CHECKSUMS[39] = {
-    0xee5a0763u, 0x299f7345u, 0x165b620au, 0x41b9b933u, 0xf6613981u, 0x6a03bbf6u,
-    0xf8975230u, 0xee5a0763u, 0x1a78795cu, 0x89b5301cu, 0x787bd47cu, 0x31b981d8u,
-    0x0ca2c44au, 0xedc2a549u, 0x509112dau, 0xa1f89116u, 0x274c5a70u, 0x0ba07d7bu,
-    0x280d1cb1u, 0xfb4a5ec1u, 0xf7e58e11u, 0x291396c2u, 0x1d380914u, 0x8f21fc57u,
-    0xd10f68c3u, 0x0c51c5b0u, 0xb734e7eeu, 0x0f2dbf47u, 0xd8abf450u, 0xbb9422e4u,
-    0x795fb18fu, 0xc1bced6eu, 0x34b16a2du, 0x7906dcfbu, 0x5a0c615cu, 0x06dfab09u,
-    0xa0cfe6c2u, 0x90cf2a0cu, 0x3cb34dfau,
+    0x060c638au, 0x6461ba2cu, 0x83901f29u, 0x37de0899u, 0x9b173a43u, 0x4a7cb273u,
+    0x03935ef3u, 0x060c638au, 0xa4c84e66u, 0xdb3b9c7au, 0xda7b73b6u, 0x50267095u,
+    0x8ba36778u, 0xc1ffd246u, 0xc0735137u, 0x721baf2bu, 0xe67e8d67u, 0xa6f5216du,
+    0xed673689u, 0xbb50e7dbu, 0xcb6461c6u, 0x5482fab3u, 0x3175065fu, 0xad39e0f9u,
+    0x92449c76u, 0xa52622acu, 0xf52ff02au, 0xf1614af4u, 0x4fac6af6u, 0x0fe7aa28u,
+    0xc2ea7666u, 0xa7ce7279u, 0x53655745u, 0xf39c3777u, 0xab9a5443u, 0x68b6bdc2u,
+    0xa25ee6c0u, 0x99f4cbf0u, 0x61d79605u,
 };
 
 /* Golden checksums for orbit, K<=255 pre-reseed window, same 39 keys and
@@ -497,15 +537,19 @@ static const uint32_t SINGLEBLOCK_KAT_CHECKSUMS[39] = {
  * expected, not a copy-paste bug: orbit's K<=255 window uses the same
  * M[]-init path, the same `cons=key`/`it=0` start state, and (after the
  * K-small fix) the same per-round cycle transform as singleblock -- L[]
- * never influences output before the first reseed. */
+ * never influences output before the first reseed.
+ *
+ * REGENERATED 2026-09-06 alongside SINGLEBLOCK_KAT_CHECKSUMS above (see
+ * that table's comment) -- still identical to it for the same reason,
+ * addr_hi=0u baseline, `./ra_core checksum-gen orbit` post-promotion. */
 static const uint32_t ORBIT_KAT_CHECKSUMS[39] = {
-    0xee5a0763u, 0x299f7345u, 0x165b620au, 0x41b9b933u, 0xf6613981u, 0x6a03bbf6u,
-    0xf8975230u, 0xee5a0763u, 0x1a78795cu, 0x89b5301cu, 0x787bd47cu, 0x31b981d8u,
-    0x0ca2c44au, 0xedc2a549u, 0x509112dau, 0xa1f89116u, 0x274c5a70u, 0x0ba07d7bu,
-    0x280d1cb1u, 0xfb4a5ec1u, 0xf7e58e11u, 0x291396c2u, 0x1d380914u, 0x8f21fc57u,
-    0xd10f68c3u, 0x0c51c5b0u, 0xb734e7eeu, 0x0f2dbf47u, 0xd8abf450u, 0xbb9422e4u,
-    0x795fb18fu, 0xc1bced6eu, 0x34b16a2du, 0x7906dcfbu, 0x5a0c615cu, 0x06dfab09u,
-    0xa0cfe6c2u, 0x90cf2a0cu, 0x3cb34dfau,
+    0x060c638au, 0x6461ba2cu, 0x83901f29u, 0x37de0899u, 0x9b173a43u, 0x4a7cb273u,
+    0x03935ef3u, 0x060c638au, 0xa4c84e66u, 0xdb3b9c7au, 0xda7b73b6u, 0x50267095u,
+    0x8ba36778u, 0xc1ffd246u, 0xc0735137u, 0x721baf2bu, 0xe67e8d67u, 0xa6f5216du,
+    0xed673689u, 0xbb50e7dbu, 0xcb6461c6u, 0x5482fab3u, 0x3175065fu, 0xad39e0f9u,
+    0x92449c76u, 0xa52622acu, 0xf52ff02au, 0xf1614af4u, 0x4fac6af6u, 0x0fe7aa28u,
+    0xc2ea7666u, 0xa7ce7279u, 0x53655745u, 0xf39c3777u, 0xab9a5443u, 0x68b6bdc2u,
+    0xa25ee6c0u, 0x99f4cbf0u, 0x61d79605u,
 };
 
 static int run_validate(void) {
@@ -555,9 +599,10 @@ int main(int argc, char **argv) {
             "Usage:\n"
             "  %s validate\n"
             "  %s checksum-gen <core>\n"
-            "  %s --stream <core> <key> <n>\n"
+            "  %s --stream <core> <key> <n>              (addr_hi implied 0)\n"
+            "  %s --stream <core> <key> <addr_hi> <n>     (explicit addr_hi)\n"
             "Cores: orbit singleblock (singleblock valid only for rng in [1,255])\n",
-            argv[0], argv[0], argv[0]);
+            argv[0], argv[0], argv[0], argv[0]);
         return 1;
     }
 
@@ -583,7 +628,16 @@ int main(int argc, char **argv) {
     if (strcmp(argv[1], "--stream") == 0 && argc >= 5) {
         const core_entry_t *core = find_core(argv[2]);
         uint32_t key = (uint32_t)strtoul(argv[3], NULL, 0);
-        size_t rng = (size_t)strtoull(argv[4], NULL, 0);
+        // Backward-compatible: argc==5 is the old 4-arg form (key n),
+        // addr_hi implied 0. argc>=6 is the new 5-arg form (key addr_hi n).
+        uint32_t addr_hi = 0u;
+        size_t rng;
+        if (argc == 5) {
+            rng = (size_t)strtoull(argv[4], NULL, 0);
+        } else {
+            addr_hi = (uint32_t)strtoul(argv[4], NULL, 0);
+            rng = (size_t)strtoull(argv[5], NULL, 0);
+        }
 
         if (core->max_rng >= 0 && (long)rng > core->max_rng) {
             fprintf(stderr,
@@ -594,7 +648,7 @@ int main(int argc, char **argv) {
 
         struct timespec t0, t1;
         clock_gettime(CLOCK_MONOTONIC, &t0);
-        uint32_t last_cons = core->fn(key, rng, stdout);
+        uint32_t last_cons = core->fn(key, addr_hi, rng, stdout);
         clock_gettime(CLOCK_MONOTONIC, &t1);
         double elapsed = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
 

@@ -1,0 +1,31 @@
+=== [singleblock] TIER 0: skipped (--skip-tier0) ===
+
+=== [singleblock] TIER 1: PractRand dual-ordering gate ===
+=== Stage A: 2 lane(s), base_key=0x12345, up to 256M ===
+  [A] K1 weyl base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (9s)
+  [A] K1 hashed base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (9s)
+  [A] K63 weyl base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (7s)
+  [A] K63 hashed base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (7s)
+Stage A done: 2 lane(s) survived
+
+=== Stage B: 2 lane(s), base_key=0x12345, up to 2G ===
+  [B] K1 weyl base=0x12345: CLEAN @ 2 gigabytes (2^31 bytes) (35s)
+  [B] K1 hashed base=0x12345: CLEAN @ 2 gigabytes (2^31 bytes) (37s)
+  [B] K63 weyl base=0x12345: CLEAN @ 2 gigabytes (2^31 bytes) (24s)
+  [B] K63 hashed base=0x12345: CLEAN @ 2 gigabytes (2^31 bytes) (23s)
+Stage B done: 2 lane(s) survived
+
+=== Stage C: 2 lane(s), base_key=0xabcdef01, up to 2G ===
+  [C] K1 weyl base=0xabcdef01: CLEAN @ 2 gigabytes (2^31 bytes) (35s)
+  [C] K1 hashed base=0xabcdef01: CLEAN @ 2 gigabytes (2^31 bytes) (37s)
+  [C] K63 weyl base=0xabcdef01: CLEAN @ 2 gigabytes (2^31 bytes) (26s)
+  [C] K63 hashed base=0xabcdef01: CLEAN @ 2 gigabytes (2^31 bytes) (24s)
+Stage C done: 2 lane(s) survived
+
+
+=== BATTERY SUMMARY ===
+binary=bin/battery_singleblock_N64 binary_mode=single
+  [singleblock] Tier 1 K1          :          CLEAN
+  [singleblock] Tier 1 K63         :          CLEAN
+Verdict: CLEAN
+Full summary: tier1_out/singleblock_N64/battery_summary.json

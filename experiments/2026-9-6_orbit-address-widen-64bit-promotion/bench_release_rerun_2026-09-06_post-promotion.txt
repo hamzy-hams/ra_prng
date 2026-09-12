@@ -1,0 +1,11 @@
+RAW singleblock K=1              init_ns=0.250 gen_ns_per_word=11.125 real_ns_per_word=11.375 real_MBps=335.35
+RAW singleblock K=255            init_ns=30.965 gen_ns_per_word=0.326 real_ns_per_word=0.447 real_MBps=8525.96
+RAW orbit multistream K=1        init_ns=47.003 gen_ns_per_word=11.368 real_ns_per_word=58.372 real_MBps=65.35
+RAW orbit multistream K=255      init_ns=47.003 gen_ns_per_word=2.658 real_ns_per_word=2.842 real_MBps=1342.15
+RAW orbit --stream               init_ns=47.003 gen_ns_per_word=2.725 real_ns_per_word=2.725 real_MBps=1399.82
+RAW philox4x32-10 K=1            init_ns=1.810 gen_ns_per_word=10.494 real_ns_per_word=12.304 real_MBps=310.04
+RAW philox4x32-10 K=255          init_ns=1.810 gen_ns_per_word=2.686 real_ns_per_word=2.694 real_MBps=1416.23
+RAW philox4x32-10 stream         init_ns=1.810 gen_ns_per_word=2.643 real_ns_per_word=2.643 real_MBps=1443.18
+RAW xoshiro256** K=1             init_ns=1.813 gen_ns_per_word=4.770 real_ns_per_word=6.584 real_MBps=579.42
+RAW xoshiro256** K=255           init_ns=1.813 gen_ns_per_word=0.999 real_ns_per_word=1.007 real_MBps=3789.82
+RAW xoshiro256** stream          init_ns=1.813 gen_ns_per_word=0.944 real_ns_per_word=0.944 real_MBps=4043.07

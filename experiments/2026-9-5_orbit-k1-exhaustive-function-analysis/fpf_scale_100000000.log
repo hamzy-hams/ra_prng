@@ -1,0 +1,37 @@
+=== --fpf-order hashed, n=100000000 ===
+
+=== Analisis 2: FPF-14+6/16 histogram (total_samples=199999996) ===
+  -- per-exponen (inter/cross) vs ekspektasi geometrik P(e)=2^-(e+1), e=max clamp 2^-max_exp --
+  e= 0 observed=   100001368 expected=   99999998.00 z=  +0.137
+  e= 1 observed=    50003861 expected=   49999999.00 z=  +0.546
+  e= 2 observed=    24994306 expected=   24999999.50 z=  -1.139
+  e= 3 observed=    12501364 expected=   12499999.75 z=  +0.386
+  e= 4 observed=     6251269 expected=    6249999.88 z=  +0.508
+  e= 5 observed=     3124944 expected=    3124999.94 z=  -0.032
+  -- top 15 bin (e,sig) full-resolution paling menyimpang (min expected>=20) --
+  e= 4 sig=10852 observed=       473 expected=      381.47 z=  +4.686
+  e= 6 sig=12750 observed=       141 expected=       95.37 z=  +4.673
+  e= 3 sig=12908 observed=       891 expected=      762.94 z=  +4.636
+  e= 8 sig=11252 observed=        46 expected=       23.84 z=  +4.538
+  e= 7 sig=15195 observed=        77 expected=       47.68 z=  +4.245
+  e= 0 sig= 9641 observed=      5775 expected=     6103.52 z=  -4.205
+  e= 8 sig= 6613 observed=        44 expected=       23.84 z=  +4.128
+  e= 8 sig= 3188 observed=        44 expected=       23.84 z=  +4.128
+  e= 3 sig=10455 observed=       652 expected=      762.94 z=  -4.016
+  e= 5 sig= 6560 observed=       246 expected=      190.73 z=  +4.002
+  e= 0 sig=15508 observed=      5792 expected=     6103.52 z=  -3.987
+  e= 2 sig=13347 observed=      1681 expected=     1525.88 z=  +3.971
+  e= 6 sig=15178 observed=       134 expected=       95.37 z=  +3.956
+  e= 7 sig= 2770 observed=        75 expected=       47.68 z=  +3.956
+  e= 7 sig= 3323 observed=        75 expected=       47.68 z=  +3.956
+  intra e= 0 chi2=   16873.0 df=16383 z=  +2.707
+  intra e= 1 chi2=   17044.6 df=16383 z=  +3.655
+  intra e= 2 chi2=   16724.5 df=16383 z=  +1.887
+  intra e= 3 chi2=   16382.5 df=16383 z=  -0.003
+  intra e= 4 chi2=   16421.1 df=16383 z=  +0.211
+  intra e= 5 chi2=   16838.3 df=16383 z=  +2.515
+  intra e= 6 chi2=   16909.0 df=16383 z=  +2.906
+  intra e= 7 chi2=   16732.9 df=16383 z=  +1.933
+  intra e= 8 chi2=   16606.7 df=16383 z=  +1.236
+  -- agregat chi-square intra-eksponen (full-res, e dgn expected/bin>=20) --
+  agg_chi2=150532.7 agg_df=147447 agg_z=+5.682

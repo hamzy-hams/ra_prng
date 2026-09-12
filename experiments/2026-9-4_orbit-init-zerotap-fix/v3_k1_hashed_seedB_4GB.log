@@ -1,0 +1,66 @@
+RNG_test using PractRand version 0.95
+RNG = RNG_stdin32, seed = unknown
+test set = core, folding = standard (32 bit)
+
+rng=RNG_stdin32, seed=unknown
+length= 64 megabytes (2^26 bytes), time= 3.2 seconds
+  no anomalies in 142 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 128 megabytes (2^27 bytes), time= 7.7 seconds
+  no anomalies in 156 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 256 megabytes (2^28 bytes), time= 15.0 seconds
+  no anomalies in 168 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 512 megabytes (2^29 bytes), time= 27.6 seconds
+  Test Name                         Raw       Processed     Evaluation
+  FPF-14+6/16:(2,14-0)              R=  +6.7  p =  8.6e-6   unusual          
+  FPF-14+6/16:all                   R= +10.2  p =  5.0e-9    VERY SUSPICIOUS 
+  ...and 178 test result(s) without anomalies
+
+rng=RNG_stdin32, seed=unknown
+length= 1 gigabyte (2^30 bytes), time= 53.7 seconds
+  Test Name                         Raw       Processed     Evaluation
+  FPF-14+6/16:(0,14-0)              R=  +7.6  p =  1.2e-6   mildly suspicious
+  FPF-14+6/16:(1,14-0)              R=  +6.7  p =  7.4e-6   unusual          
+  FPF-14+6/16:(2,14-0)              R=  +8.3  p =  2.5e-7   mildly suspicious
+  FPF-14+6/16:(5,14-0)              R=  +6.8  p =  6.5e-6   unusual          
+  FPF-14+6/16:all                   R= +17.3  p =  1.0e-15    FAIL !         
+  ...and 189 test result(s) without anomalies
+
+rng=RNG_stdin32, seed=unknown
+length= 2 gigabytes (2^31 bytes), time= 102 seconds
+  Test Name                         Raw       Processed     Evaluation
+  FPF-14+6/16:(0,14-0)              R= +16.2  p =  1.4e-14    FAIL           
+  FPF-14+6/16:(1,14-0)              R= +13.9  p =  1.6e-12   VERY SUSPICIOUS 
+  FPF-14+6/16:(2,14-0)              R= +12.9  p =  1.4e-11   VERY SUSPICIOUS 
+  FPF-14+6/16:(3,14-0)              R= +13.5  p =  4.0e-12   VERY SUSPICIOUS 
+  FPF-14+6/16:(4,14-0)              R=  +8.3  p =  2.4e-7   mildly suspicious
+  FPF-14+6/16:(5,14-0)              R=  +9.9  p =  9.8e-9   very suspicious  
+  FPF-14+6/16:(7,14-1)              R=  +6.7  p =  1.1e-5   unusual          
+  FPF-14+6/16:(9,14-2)              R=  +8.0  p =  9.6e-7   mildly suspicious
+  FPF-14+6/16:all                   R= +33.4  p =  8.2e-31    FAIL !!!       
+  ...and 196 test result(s) without anomalies
+
+rng=RNG_stdin32, seed=unknown
+length= 4 gigabytes (2^32 bytes), time= 192 seconds
+  Test Name                         Raw       Processed     Evaluation
+  DC6-9x1Bytes-1                    R=  +7.9  p =  3.8e-4   mildly suspicious
+  FPF-14+6/16:(0,14-0)              R= +33.3  p =  2.0e-30    FAIL !!!       
+  FPF-14+6/16:(1,14-0)              R= +33.3  p =  2.1e-30    FAIL !!!       
+  FPF-14+6/16:(2,14-0)              R= +24.8  p =  1.4e-22    FAIL !!        
+  FPF-14+6/16:(3,14-0)              R= +21.5  p =  1.6e-19    FAIL !         
+  FPF-14+6/16:(4,14-0)              R= +18.8  p =  5.1e-17    FAIL !         
+  FPF-14+6/16:(5,14-0)              R= +20.2  p =  2.6e-18    FAIL !         
+  FPF-14+6/16:(6,14-0)              R= +13.7  p =  2.4e-12   VERY SUSPICIOUS 
+  FPF-14+6/16:(7,14-0)              R= +21.5  p =  1.5e-19    FAIL !         
+  FPF-14+6/16:(8,14-1)              R= +13.9  p =  4.9e-12   VERY SUSPICIOUS 
+  FPF-14+6/16:(9,14-2)              R= +13.0  p =  3.5e-11   VERY SUSPICIOUS 
+  FPF-14+6/16:(10,14-2)             R=  +8.5  p =  3.5e-7   mildly suspicious
+  FPF-14+6/16:(13,14-5)             R=  +7.4  p =  4.9e-6   unusual          
+  FPF-14+6/16:all                   R= +69.8  p =  5.1e-65    FAIL !!!!      
+  ...and 203 test result(s) without anomalies
+

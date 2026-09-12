@@ -1,0 +1,15 @@
+orbit_N256_LOWONLY: CLEAN
+orbit_N256_MUTUAL: CLEAN
+singleblock_N256: CLEAN
+orbit_N128_LOWONLY: CLEAN
+orbit_N128_MUTUAL: CLEAN
+singleblock_N128: CLEAN
+orbit_N64_LOWONLY: CLEAN
+orbit_N64_MUTUAL: CLEAN
+singleblock_N64: CLEAN
+orbit_N32_LOWONLY: CLEAN
+orbit_N32_MUTUAL: CLEAN
+singleblock_N32: CLEAN
+orbit_N16_LOWONLY: FAIL_OR_ERROR(rc=1)
+orbit_N16_MUTUAL: FAIL_OR_ERROR(rc=1)
+singleblock_N16: FAIL_OR_ERROR(rc=1)

@@ -1,0 +1,39 @@
+=== --fpf-order urandom, n=500000000 ===
+
+=== Analisis 2: FPF-14+6/16 histogram (total_samples=999999996) ===
+  -- per-exponen (inter/cross) vs ekspektasi geometrik P(e)=2^-(e+1), e=max clamp 2^-max_exp --
+  e= 0 observed=   500004002 expected=  499999998.00 z=  +0.179
+  e= 1 observed=   249991352 expected=  249999999.00 z=  -0.547
+  e= 2 observed=   125003389 expected=  124999999.50 z=  +0.303
+  e= 3 observed=    62500831 expected=   62499999.75 z=  +0.105
+  e= 4 observed=    31246720 expected=   31249999.88 z=  -0.587
+  e= 5 observed=    15625608 expected=   15624999.94 z=  +0.154
+  -- top 15 bin (e,sig) full-resolution paling menyimpang (min expected>=20) --
+  e=10 sig= 8165 observed=        56 expected=       29.80 z=  +4.799
+  e= 3 sig= 2639 observed=      4103 expected=     3814.70 z=  +4.668
+  e= 0 sig=12503 observed=     29706 expected=    30517.58 z=  -4.646
+  e= 5 sig=10827 observed=      1096 expected=      953.67 z=  +4.609
+  e= 6 sig= 9237 observed=       379 expected=      476.84 z=  -4.480
+  e= 9 sig=11047 observed=        94 expected=       59.60 z=  +4.455
+  e= 5 sig=14383 observed=      1090 expected=      953.67 z=  +4.414
+  e= 6 sig=11756 observed=       571 expected=      476.84 z=  +4.312
+  e= 5 sig=14807 observed=       821 expected=      953.67 z=  -4.296
+  e= 2 sig= 6207 observed=      8002 expected=     7629.39 z=  +4.266
+  e=10 sig=13057 observed=        53 expected=       29.80 z=  +4.249
+  e=10 sig= 3962 observed=        53 expected=       29.80 z=  +4.249
+  e= 8 sig= 7038 observed=        73 expected=      119.21 z=  -4.232
+  e= 1 sig=11470 observed=     15781 expected=    15258.79 z=  +4.228
+  e= 0 sig=10291 observed=     29783 expected=    30517.58 z=  -4.205
+  intra e= 0 chi2=   18265.6 df=16383 z= +10.401  <-- kontributor
+  intra e= 1 chi2=   18082.8 df=16383 z=  +9.390  <-- kontributor
+  intra e= 2 chi2=   17977.3 df=16383 z=  +8.808  <-- kontributor
+  intra e= 3 chi2=   17897.6 df=16383 z=  +8.368  <-- kontributor
+  intra e= 4 chi2=   17680.2 df=16383 z=  +7.166  <-- kontributor
+  intra e= 5 chi2=   17126.4 df=16383 z=  +4.107  <-- kontributor
+  intra e= 6 chi2=   17407.5 df=16383 z=  +5.660  <-- kontributor
+  intra e= 7 chi2=   17087.9 df=16383 z=  +3.894
+  intra e= 8 chi2=   17291.6 df=16383 z=  +5.019  <-- kontributor
+  intra e= 9 chi2=   17067.2 df=16383 z=  +3.780
+  intra e=10 chi2=   17410.5 df=16383 z=  +5.677  <-- kontributor
+  -- agregat chi-square intra-eksponen (full-res, e dgn expected/bin>=20) --
+  agg_chi2=193294.6 agg_df=180213 agg_z=+21.790

@@ -1,0 +1,33 @@
+=== --fpf-order hashed, n=10000000 ===
+
+=== Analisis 2: FPF-14+6/16 histogram (total_samples=19999996) ===
+  -- per-exponen (inter/cross) vs ekspektasi geometrik P(e)=2^-(e+1), e=max clamp 2^-max_exp --
+  e= 0 observed=    10001779 expected=    9999998.00 z=  +0.563
+  e= 1 observed=     4997639 expected=    4999999.00 z=  -1.055
+  e= 2 observed=     2499213 expected=    2499999.50 z=  -0.497
+  e= 3 observed=     1250281 expected=    1249999.75 z=  +0.252
+  e= 4 observed=      625938 expected=     624999.88 z=  +1.187
+  e= 5 observed=      313128 expected=     312499.94 z=  +1.124
+  -- top 15 bin (e,sig) full-resolution paling menyimpang (min expected>=20) --
+  e= 4 sig= 7609 observed=        66 expected=       38.15 z=  +4.510
+  e= 0 sig= 3159 observed=       716 expected=      610.35 z=  +4.276
+  e= 1 sig= 9583 observed=       378 expected=      305.18 z=  +4.169
+  e= 0 sig=12683 observed=       713 expected=      610.35 z=  +4.155
+  e= 0 sig=12943 observed=       712 expected=      610.35 z=  +4.114
+  e= 2 sig=12237 observed=       102 expected=      152.59 z=  -4.095
+  e= 2 sig= 9051 observed=       203 expected=      152.59 z=  +4.081
+  e= 0 sig=10219 observed=       510 expected=      610.35 z=  -4.062
+  e= 1 sig= 6457 observed=       376 expected=      305.18 z=  +4.054
+  e= 0 sig= 2835 observed=       512 expected=      610.35 z=  -3.981
+  e= 1 sig=12594 observed=       374 expected=      305.18 z=  +3.940
+  e= 0 sig=12065 observed=       707 expected=      610.35 z=  +3.912
+  e= 1 sig=  315 observed=       373 expected=      305.18 z=  +3.882
+  e= 4 sig= 1967 observed=        62 expected=       38.15 z=  +3.862
+  e= 4 sig= 7898 observed=        62 expected=       38.15 z=  +3.862
+  intra e= 0 chi2=   16059.9 df=16383 z=  -1.785
+  intra e= 1 chi2=   16295.1 df=16383 z=  -0.485
+  intra e= 2 chi2=   16118.2 df=16383 z=  -1.463
+  intra e= 3 chi2=   16537.0 df=16383 z=  +0.851
+  intra e= 4 chi2=   16618.3 df=16383 z=  +1.300
+  -- agregat chi-square intra-eksponen (full-res, e dgn expected/bin>=20) --
+  agg_chi2=81628.5 agg_df=81915 agg_z=-0.708

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "Cython>=3.0", "numpy>=1.22"]
+build-backend = "setuptools.build_meta"
+# setup.py supplies a build_py subclass (compiles src/ra_core/c/ra_core_engine.c,
+# which #includes the canonical, unmodified ../../src/ra_core/c/ra_core.c, into
+# ra_core/libra_core_engine.so via gcc at build time -- the ctypes-facing API)
+# and an ext_modules entry (Cython, compiles ra_core/_bitgen.pyx + the same
+# ra_core_engine.c into ra_core/_bitgen*.so -- the numpy.random.BitGenerator
+# integration, which needs compiled callbacks, not ctypes; see README.md).
+# A Distribution subclass marks the wheel platform-specific. All package
+# metadata lives here in pyproject.toml.
+
+[project]
+name = "ra-core"
+version = "0.1.0"
+description = "Addressable/orbit-addressing PRNG (ra_core: orbit + singleblock) - pip binding"
+readme = "README.md"
+license = { text = "CC-BY-NC-SA-4.0" }
+authors = [{ name = "Hamas A. Rahman", email = "nexthamas95@gmail.com" }]
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.22"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C",
+    "Operating System :: POSIX :: Linux",
+]
+
+[project.urls]
+Homepage = "https://github.com/hamzy-hams"
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "build"]

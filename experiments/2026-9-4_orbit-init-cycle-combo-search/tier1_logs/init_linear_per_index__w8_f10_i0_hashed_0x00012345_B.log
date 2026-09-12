@@ -1,0 +1,28 @@
+RNG_test using PractRand version 0.95
+RNG = RNG_stdin32, seed = unknown
+test set = core, folding = standard (32 bit)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 256 megabytes (2^28 bytes), time= 12.5 seconds
+  no anomalies in 168 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 512 megabytes (2^29 bytes), time= 25.9 seconds
+  Test Name                         Raw       Processed     Evaluation
+  FPF-14+6/16:all                   R=  +6.6  p =  1.0e-5   mildly suspicious
+  ...and 179 test result(s) without anomalies
+
+
+rng=RNG_stdin32, seed=unknown
+length= 1 gigabyte (2^30 bytes), time= 52.1 seconds
+  Test Name                         Raw       Processed     Evaluation
+  FPF-14+6/16:(0,14-0)              R=  +7.3  p =  2.3e-6   unusual          
+  FPF-14+6/16:(1,14-0)              R=  +8.2  p =  3.4e-7   mildly suspicious
+  FPF-14+6/16:all                   R= +15.2  p =  9.5e-14    FAIL           
+  ...and 191 test result(s) without anomalies
+
+
+
+[EARLY KILL after 1 gigabyte (2^30 bytes): hard FAIL detected]

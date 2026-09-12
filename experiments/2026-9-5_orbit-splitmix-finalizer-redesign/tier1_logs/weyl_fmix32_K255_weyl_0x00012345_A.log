@@ -1,0 +1,25 @@
+RNG_test using PractRand version 0.95
+RNG = RNG_stdin32, seed = unknown
+test set = core, folding = standard (32 bit)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 64 megabytes (2^26 bytes), time= 0.4 seconds
+  no anomalies in 142 test result(s)
+
+
+rng=RNG_stdin32, seed=unknown
+length= 128 megabytes (2^27 bytes), time= 1.8 seconds
+  Test Name                         Raw       Processed     Evaluation
+  DC6-9x1Bytes-1                    R=  +5.8  p =  3.6e-3   unusual          
+  ...and 155 test result(s) without anomalies
+
+
+rng=RNG_stdin32, seed=unknown
+length= 256 megabytes (2^28 bytes), time= 3.6 seconds
+  Test Name                         Raw       Processed     Evaluation
+  DC6-9x1Bytes-1                    R=  +7.7  p =  5.0e-4   mildly suspicious
+  [Low8/32]DC6-9x1Bytes-1           R=  +6.0  p =  3.1e-3   unusual          
+  ...and 166 test result(s) without anomalies
+
+

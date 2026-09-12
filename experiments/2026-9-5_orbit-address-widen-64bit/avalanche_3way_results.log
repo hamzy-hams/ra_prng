@@ -1,0 +1,187 @@
+=== candidate_a | orbit K=1 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.492188 (band [0.3,0.7])
+  min_bit_fraction: 0.375000 (floor 0.2)
+  PASSED: True
+=== candidate_a | orbit K=1 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.494141 (band [0.3,0.7])
+  min_bit_fraction: 0.281250 (floor 0.2)
+  PASSED: True
+=== candidate_a | orbit K=1 | arah=combined ===
+  overall_mean_hamming_fraction: 0.496094 (band [0.3,0.7])
+  min_bit_fraction: 0.281250 (floor 0.2)
+  PASSED: True
+=== candidate_a | orbit K=255 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.500046 (band [0.3,0.7])
+  min_bit_fraction: 0.491667 (floor 0.2)
+  PASSED: True
+=== candidate_a | orbit K=255 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.500927 (band [0.3,0.7])
+  min_bit_fraction: 0.488603 (floor 0.2)
+  PASSED: True
+=== candidate_a | orbit K=255 | arah=combined ===
+  overall_mean_hamming_fraction: 0.499341 (band [0.3,0.7])
+  min_bit_fraction: 0.489216 (floor 0.2)
+  PASSED: True
+=== candidate_a | singleblock K=1 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.492188 (band [0.3,0.7])
+  min_bit_fraction: 0.375000 (floor 0.2)
+  PASSED: True
+=== candidate_a | singleblock K=1 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.494141 (band [0.3,0.7])
+  min_bit_fraction: 0.281250 (floor 0.2)
+  PASSED: True
+=== candidate_a | singleblock K=1 | arah=combined ===
+  overall_mean_hamming_fraction: 0.496094 (band [0.3,0.7])
+  min_bit_fraction: 0.281250 (floor 0.2)
+  PASSED: True
+=== candidate_a | singleblock K=255 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.500046 (band [0.3,0.7])
+  min_bit_fraction: 0.491667 (floor 0.2)
+  PASSED: True
+=== candidate_a | singleblock K=255 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.500927 (band [0.3,0.7])
+  min_bit_fraction: 0.488603 (floor 0.2)
+  PASSED: True
+=== candidate_a | singleblock K=255 | arah=combined ===
+  overall_mean_hamming_fraction: 0.499341 (band [0.3,0.7])
+  min_bit_fraction: 0.489216 (floor 0.2)
+  PASSED: True
+=== candidate_b | orbit K=1 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.501953 (band [0.3,0.7])
+  min_bit_fraction: 0.312500 (floor 0.2)
+  PASSED: True
+=== candidate_b | orbit K=1 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.500977 (band [0.3,0.7])
+  min_bit_fraction: 0.312500 (floor 0.2)
+  PASSED: True
+=== candidate_b | orbit K=1 | arah=combined ===
+  overall_mean_hamming_fraction: 0.493164 (band [0.3,0.7])
+  min_bit_fraction: 0.343750 (floor 0.2)
+  PASSED: True
+=== candidate_b | orbit K=255 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.500092 (band [0.3,0.7])
+  min_bit_fraction: 0.489093 (floor 0.2)
+  PASSED: True
+=== candidate_b | orbit K=255 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.500601 (band [0.3,0.7])
+  min_bit_fraction: 0.487132 (floor 0.2)
+  PASSED: True
+=== candidate_b | orbit K=255 | arah=combined ===
+  overall_mean_hamming_fraction: 0.500904 (band [0.3,0.7])
+  min_bit_fraction: 0.489706 (floor 0.2)
+  PASSED: True
+=== candidate_b | singleblock K=1 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.501953 (band [0.3,0.7])
+  min_bit_fraction: 0.312500 (floor 0.2)
+  PASSED: True
+=== candidate_b | singleblock K=1 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.500977 (band [0.3,0.7])
+  min_bit_fraction: 0.312500 (floor 0.2)
+  PASSED: True
+=== candidate_b | singleblock K=1 | arah=combined ===
+  overall_mean_hamming_fraction: 0.493164 (band [0.3,0.7])
+  min_bit_fraction: 0.343750 (floor 0.2)
+  PASSED: True
+=== candidate_b | singleblock K=255 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.500092 (band [0.3,0.7])
+  min_bit_fraction: 0.489093 (floor 0.2)
+  PASSED: True
+=== candidate_b | singleblock K=255 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.500601 (band [0.3,0.7])
+  min_bit_fraction: 0.487132 (floor 0.2)
+  PASSED: True
+=== candidate_b | singleblock K=255 | arah=combined ===
+  overall_mean_hamming_fraction: 0.500904 (band [0.3,0.7])
+  min_bit_fraction: 0.489706 (floor 0.2)
+  PASSED: True
+=== candidate_c | orbit K=1 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.494141 (band [0.3,0.7])
+  min_bit_fraction: 0.250000 (floor 0.2)
+  PASSED: True
+=== candidate_c | orbit K=1 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.076172 (band [0.3,0.7])
+  min_bit_fraction: 0.000000 (floor 0.2)
+  PASSED: False
+  weakest bit: 5 (fraction 0.000000)
+=== candidate_c | orbit K=1 | arah=combined ===
+  overall_mean_hamming_fraction: 0.485352 (band [0.3,0.7])
+  min_bit_fraction: 0.250000 (floor 0.2)
+  PASSED: True
+=== candidate_c | orbit K=255 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.499257 (band [0.3,0.7])
+  min_bit_fraction: 0.484926 (floor 0.2)
+  PASSED: True
+=== candidate_c | orbit K=255 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.077313 (band [0.3,0.7])
+  min_bit_fraction: 0.000000 (floor 0.2)
+  PASSED: False
+  weakest bit: 5 (fraction 0.000000)
+=== candidate_c | orbit K=255 | arah=combined ===
+  overall_mean_hamming_fraction: 0.499131 (band [0.3,0.7])
+  min_bit_fraction: 0.484926 (floor 0.2)
+  PASSED: True
+=== candidate_c | singleblock K=1 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.494141 (band [0.3,0.7])
+  min_bit_fraction: 0.250000 (floor 0.2)
+  PASSED: True
+=== candidate_c | singleblock K=1 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.076172 (band [0.3,0.7])
+  min_bit_fraction: 0.000000 (floor 0.2)
+  PASSED: False
+  weakest bit: 5 (fraction 0.000000)
+=== candidate_c | singleblock K=1 | arah=combined ===
+  overall_mean_hamming_fraction: 0.485352 (band [0.3,0.7])
+  min_bit_fraction: 0.250000 (floor 0.2)
+  PASSED: True
+=== candidate_c | singleblock K=255 | arah=key_only ===
+  overall_mean_hamming_fraction: 0.499257 (band [0.3,0.7])
+  min_bit_fraction: 0.484926 (floor 0.2)
+  PASSED: True
+=== candidate_c | singleblock K=255 | arah=addr_hi_only ===
+  overall_mean_hamming_fraction: 0.077313 (band [0.3,0.7])
+  min_bit_fraction: 0.000000 (floor 0.2)
+  PASSED: False
+  weakest bit: 5 (fraction 0.000000)
+=== candidate_c | singleblock K=255 | arah=combined ===
+  overall_mean_hamming_fraction: 0.499131 (band [0.3,0.7])
+  min_bit_fraction: 0.484926 (floor 0.2)
+  PASSED: True
+
+=== RINGKASAN ===
+kandidat     mode         K     arah           mean     min_bit  PASS
+candidate_a  orbit        1     key_only       0.4922   0.3750   True
+candidate_a  orbit        1     addr_hi_only   0.4941   0.2812   True
+candidate_a  orbit        1     combined       0.4961   0.2812   True
+candidate_a  orbit        255   key_only       0.5000   0.4917   True
+candidate_a  orbit        255   addr_hi_only   0.5009   0.4886   True
+candidate_a  orbit        255   combined       0.4993   0.4892   True
+candidate_a  singleblock  1     key_only       0.4922   0.3750   True
+candidate_a  singleblock  1     addr_hi_only   0.4941   0.2812   True
+candidate_a  singleblock  1     combined       0.4961   0.2812   True
+candidate_a  singleblock  255   key_only       0.5000   0.4917   True
+candidate_a  singleblock  255   addr_hi_only   0.5009   0.4886   True
+candidate_a  singleblock  255   combined       0.4993   0.4892   True
+candidate_b  orbit        1     key_only       0.5020   0.3125   True
+candidate_b  orbit        1     addr_hi_only   0.5010   0.3125   True
+candidate_b  orbit        1     combined       0.4932   0.3438   True
+candidate_b  orbit        255   key_only       0.5001   0.4891   True
+candidate_b  orbit        255   addr_hi_only   0.5006   0.4871   True
+candidate_b  orbit        255   combined       0.5009   0.4897   True
+candidate_b  singleblock  1     key_only       0.5020   0.3125   True
+candidate_b  singleblock  1     addr_hi_only   0.5010   0.3125   True
+candidate_b  singleblock  1     combined       0.4932   0.3438   True
+candidate_b  singleblock  255   key_only       0.5001   0.4891   True
+candidate_b  singleblock  255   addr_hi_only   0.5006   0.4871   True
+candidate_b  singleblock  255   combined       0.5009   0.4897   True
+candidate_c  orbit        1     key_only       0.4941   0.2500   True
+candidate_c  orbit        1     addr_hi_only   0.0762   0.0000   False
+candidate_c  orbit        1     combined       0.4854   0.2500   True
+candidate_c  orbit        255   key_only       0.4993   0.4849   True
+candidate_c  orbit        255   addr_hi_only   0.0773   0.0000   False
+candidate_c  orbit        255   combined       0.4991   0.4849   True
+candidate_c  singleblock  1     key_only       0.4941   0.2500   True
+candidate_c  singleblock  1     addr_hi_only   0.0762   0.0000   False
+candidate_c  singleblock  1     combined       0.4854   0.2500   True
+candidate_c  singleblock  255   key_only       0.4993   0.4849   True
+candidate_c  singleblock  255   addr_hi_only   0.0773   0.0000   False
+candidate_c  singleblock  255   combined       0.4991   0.4849   True

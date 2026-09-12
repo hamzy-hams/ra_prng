@@ -1,0 +1,462 @@
+{
+  "binary": "o_noshift",
+  "binary_mode": "dual",
+  "cores": {
+    "orbit": {
+      "core": "orbit",
+      "binary_mode": "dual",
+      "tier0": {
+        "passed": true,
+        "overall_mean_hamming_bits": 16.00747549019608,
+        "overall_mean_hamming_fraction": 0.5002336090686275,
+        "per_bit_fractions": [
+          0.5088235294117647,
+          0.504656862745098,
+          0.5053921568627451,
+          0.4959558823529412,
+          0.49350490196078434,
+          0.49264705882352944,
+          0.5008578431372549,
+          0.49963235294117647,
+          0.5056372549019608,
+          0.5009803921568627,
+          0.4987745098039216,
+          0.4906862745098039,
+          0.5030637254901961,
+          0.4991421568627451,
+          0.4993872549019608,
+          0.5020833333333333,
+          0.49693627450980393,
+          0.5,
+          0.49779411764705883,
+          0.5006127450980392,
+          0.5078431372549019,
+          0.49325980392156865,
+          0.5019607843137255,
+          0.4936274509803922,
+          0.501593137254902,
+          0.4957107843137255,
+          0.4979166666666667,
+          0.5055147058823529,
+          0.5012254901960784,
+          0.5063725490196078,
+          0.5111519607843137,
+          0.49473039215686276
+        ],
+        "min_bit_fraction": 0.4906862745098039,
+        "binary": "o_noshift",
+        "cycle_words": 255,
+        "base_seed": 1,
+        "core": "orbit",
+        "thresholds": {
+          "low": 0.3,
+          "high": 0.7,
+          "min_bit_floor": 0.2
+        }
+      },
+      "tier1": {
+        "binary": "o_noshift",
+        "core": "orbit",
+        "binary_mode": "dual",
+        "k_values": [
+          1
+        ],
+        "orderings": [
+          "weyl",
+          "hashed"
+        ],
+        "continuous": false,
+        "sizes": [
+          "256M",
+          "2G",
+          "2G"
+        ],
+        "base_keys": [
+          74565,
+          2882400001
+        ],
+        "all_lanes": [
+          "K1"
+        ],
+        "clean_dual_survivors": [],
+        "stage_results": {
+          "A": [
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "weyl",
+              "base_key": 74565,
+              "stage": "A",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "64 megabytes (2^26 bytes)",
+                  "bytes": 67108864,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "128 megabytes (2^27 bytes)",
+                  "bytes": 134217728,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "256 megabytes (2^28 bytes)",
+                  "bytes": 268435456,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "256 megabytes (2^28 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 9.453665733337402
+            },
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "hashed",
+              "base_key": 74565,
+              "stage": "A",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "64 megabytes (2^26 bytes)",
+                  "bytes": 67108864,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "128 megabytes (2^27 bytes)",
+                  "bytes": 134217728,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "256 megabytes (2^28 bytes)",
+                  "bytes": 268435456,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "256 megabytes (2^28 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 10.00423264503479
+            }
+          ],
+          "B": [
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "weyl",
+              "base_key": 74565,
+              "stage": "B",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 61.36701440811157
+            },
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "hashed",
+              "base_key": 74565,
+              "stage": "B",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": true,
+                  "soft_anomaly_kinds": [
+                    "suspicious"
+                  ]
+                }
+              ],
+              "killed_early": true,
+              "final_length": "512 megabytes (2^29 bytes)",
+              "final_hard_fail": true,
+              "clean_to_target": false,
+              "elapsed_s": 15.976041555404663
+            }
+          ]
+        }
+      },
+      "verdict": "FAILED lanes: ['K1']"
+    },
+    "singleblock": {
+      "core": "singleblock",
+      "binary_mode": "dual",
+      "tier0": {
+        "passed": true,
+        "overall_mean_hamming_bits": 16.00747549019608,
+        "overall_mean_hamming_fraction": 0.5002336090686275,
+        "per_bit_fractions": [
+          0.5088235294117647,
+          0.504656862745098,
+          0.5053921568627451,
+          0.4959558823529412,
+          0.49350490196078434,
+          0.49264705882352944,
+          0.5008578431372549,
+          0.49963235294117647,
+          0.5056372549019608,
+          0.5009803921568627,
+          0.4987745098039216,
+          0.4906862745098039,
+          0.5030637254901961,
+          0.4991421568627451,
+          0.4993872549019608,
+          0.5020833333333333,
+          0.49693627450980393,
+          0.5,
+          0.49779411764705883,
+          0.5006127450980392,
+          0.5078431372549019,
+          0.49325980392156865,
+          0.5019607843137255,
+          0.4936274509803922,
+          0.501593137254902,
+          0.4957107843137255,
+          0.4979166666666667,
+          0.5055147058823529,
+          0.5012254901960784,
+          0.5063725490196078,
+          0.5111519607843137,
+          0.49473039215686276
+        ],
+        "min_bit_fraction": 0.4906862745098039,
+        "binary": "o_noshift",
+        "cycle_words": 255,
+        "base_seed": 1,
+        "core": "singleblock",
+        "thresholds": {
+          "low": 0.3,
+          "high": 0.7,
+          "min_bit_floor": 0.2
+        }
+      },
+      "tier1": {
+        "binary": "o_noshift",
+        "core": "singleblock",
+        "binary_mode": "dual",
+        "k_values": [
+          1
+        ],
+        "orderings": [
+          "weyl",
+          "hashed"
+        ],
+        "continuous": false,
+        "sizes": [
+          "256M",
+          "2G",
+          "2G"
+        ],
+        "base_keys": [
+          74565,
+          2882400001
+        ],
+        "all_lanes": [
+          "K1"
+        ],
+        "clean_dual_survivors": [],
+        "stage_results": {
+          "A": [
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "weyl",
+              "base_key": 74565,
+              "stage": "A",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "64 megabytes (2^26 bytes)",
+                  "bytes": 67108864,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "128 megabytes (2^27 bytes)",
+                  "bytes": 134217728,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "256 megabytes (2^28 bytes)",
+                  "bytes": 268435456,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "256 megabytes (2^28 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 9.717042922973633
+            },
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "hashed",
+              "base_key": 74565,
+              "stage": "A",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "64 megabytes (2^26 bytes)",
+                  "bytes": 67108864,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "128 megabytes (2^27 bytes)",
+                  "bytes": 134217728,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "256 megabytes (2^28 bytes)",
+                  "bytes": 268435456,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "256 megabytes (2^28 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 9.45702576637268
+            }
+          ],
+          "B": [
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "weyl",
+              "base_key": 74565,
+              "stage": "B",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 49.784897565841675
+            },
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "hashed",
+              "base_key": 74565,
+              "stage": "B",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": true,
+                  "soft_anomaly_kinds": [
+                    "suspicious"
+                  ]
+                }
+              ],
+              "killed_early": true,
+              "final_length": "512 megabytes (2^29 bytes)",
+              "final_hard_fail": true,
+              "clean_to_target": false,
+              "elapsed_s": 13.10005807876587
+            }
+          ]
+        }
+      },
+      "verdict": "FAILED lanes: ['K1']"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+RNG_test using PractRand version 0.95
+RNG = RNG_stdin32, seed = unknown
+test set = core, folding = standard (32 bit)
+
+rng=RNG_stdin32, seed=unknown
+length= 32 megabytes (2^25 bytes), time= 2.1 seconds
+  no anomalies in 131 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 64 megabytes (2^26 bytes), time= 5.2 seconds
+  no anomalies in 142 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 128 megabytes (2^27 bytes), time= 10.2 seconds
+  no anomalies in 156 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 256 megabytes (2^28 bytes), time= 18.8 seconds
+  no anomalies in 168 test result(s)
+
+rng=RNG_stdin32, seed=unknown
+length= 512 megabytes (2^29 bytes), time= 31.0 seconds
+  Test Name                         Raw       Processed     Evaluation
+  FPF-14+6/16:(1,14-0)              R=  +7.5  p =  1.5e-6   mildly suspicious
+  FPF-14+6/16:all                   R=  +6.9  p =  5.5e-6   suspicious       
+  ...and 178 test result(s) without anomalies
+
+rng=RNG_stdin32, seed=unknown
+length= 1 gigabyte (2^30 bytes), time= 57.0 seconds
+  Test Name                         Raw       Processed     Evaluation
+  FPF-14+6/16:(1,14-0)              R= +11.3  p =  4.2e-10  very suspicious  
+  FPF-14+6/16:(2,14-0)              R=  +6.6  p =  1.0e-5   unusual          
+  FPF-14+6/16:all                   R= +13.7  p =  2.6e-12    FAIL           
+  ...and 191 test result(s) without anomalies
+
+rng=RNG_stdin32, seed=unknown
+length= 2 gigabytes (2^31 bytes), time= 104 seconds
+  Test Name                         Raw       Processed     Evaluation
+  FPF-14+6/16:(0,14-0)              R= +11.3  p =  4.3e-10  very suspicious  
+  FPF-14+6/16:(1,14-0)              R= +16.2  p =  1.3e-14    FAIL           
+  FPF-14+6/16:(2,14-0)              R= +12.4  p =  4.1e-11   VERY SUSPICIOUS 
+  FPF-14+6/16:(3,14-0)              R=  +6.6  p =  1.1e-5   unusual          
+  FPF-14+6/16:(4,14-0)              R=  +7.4  p =  1.6e-6   mildly suspicious
+  FPF-14+6/16:(5,14-0)              R=  +7.8  p =  7.9e-7   mildly suspicious
+  FPF-14+6/16:(6,14-0)              R=  +7.9  p =  5.9e-7   mildly suspicious
+  FPF-14+6/16:all                   R= +27.3  p =  3.9e-25    FAIL !!        
+  ...and 197 test result(s) without anomalies
+
+rng=RNG_stdin32, seed=unknown
+length= 4 gigabytes (2^32 bytes), time= 197 seconds
+  Test Name                         Raw       Processed     Evaluation
+  FPF-14+6/16:(0,14-0)              R= +27.6  p =  3.8e-25    FAIL !!        
+  FPF-14+6/16:(1,14-0)              R= +31.2  p =  1.8e-28    FAIL !!        
+  FPF-14+6/16:(2,14-0)              R= +22.6  p =  1.6e-20    FAIL !         
+  FPF-14+6/16:(3,14-0)              R= +17.6  p =  6.9e-16    FAIL           
+  FPF-14+6/16:(4,14-0)              R= +17.2  p =  1.6e-15    FAIL           
+  FPF-14+6/16:(5,14-0)              R= +15.5  p =  6.1e-14    FAIL           
+  FPF-14+6/16:(6,14-0)              R= +17.0  p =  2.4e-15    FAIL           
+  FPF-14+6/16:(7,14-0)              R= +19.0  p =  3.2e-17    FAIL !         
+  FPF-14+6/16:(8,14-1)              R= +15.1  p =  4.1e-13    FAIL           
+  FPF-14+6/16:(9,14-2)              R=  +9.0  p =  1.2e-7   suspicious       
+  FPF-14+6/16:(10,14-2)             R=  +9.3  p =  6.9e-8   suspicious       
+  FPF-14+6/16:(11,14-3)             R=  +8.1  p =  7.6e-7   mildly suspicious
+  FPF-14+6/16:all                   R= +63.7  p =  2.8e-59    FAIL !!!!      
+  ...and 204 test result(s) without anomalies
+
+rng=RNG_stdin32, seed=unknown
+length= 8 gigabytes (2^33 bytes), time= 374 seconds
+  Test Name                         Raw       Processed     Evaluation
+  DC6-9x1Bytes-1                    R=  +6.8  p =  7.4e-4   unusual          
+  FPF-14+6/16:(0,14-0)              R= +58.2  p =  1.7e-53    FAIL !!!!      
+  FPF-14+6/16:(1,14-0)              R= +63.4  p =  2.7e-58    FAIL !!!!      
+  FPF-14+6/16:(2,14-0)              R= +47.8  p =  8.1e-44    FAIL !!!       
+  FPF-14+6/16:(3,14-0)              R= +37.7  p =  1.5e-34    FAIL !!!       
+  FPF-14+6/16:(4,14-0)              R= +37.2  p =  5.3e-34    FAIL !!!       
+  FPF-14+6/16:(5,14-0)              R= +31.5  p =  9.6e-29    FAIL !!        
+  FPF-14+6/16:(6,14-0)              R= +32.0  p =  3.0e-29    FAIL !!        
+  FPF-14+6/16:(7,14-0)              R= +37.6  p =  2.1e-34    FAIL !!!       
+  FPF-14+6/16:(8,14-0)              R= +36.5  p =  1.9e-33    FAIL !!!       
+  FPF-14+6/16:(9,14-1)              R= +24.5  p =  1.7e-21    FAIL !         
+  FPF-14+6/16:(10,14-2)             R= +20.2  p =  1.9e-17    FAIL !         
+  FPF-14+6/16:(11,14-2)             R= +21.8  p =  8.0e-19    FAIL !         
+  FPF-14+6/16:(12,14-3)             R= +17.0  p =  1.2e-14    FAIL           
+  FPF-14+6/16:(13,14-4)             R=  +9.1  p =  2.1e-7   mildly suspicious
+  FPF-14+6/16:(14,14-5)             R=  +9.7  p =  6.2e-8   suspicious       
+  FPF-14+6/16:(15,14-5)             R=  +8.7  p =  4.6e-7   mildly suspicious
+  FPF-14+6/16:all                   R=+135.2  p =  2.4e-126   FAIL !!!!!     
+  ...and 212 test result(s) without anomalies
+

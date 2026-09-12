@@ -1,0 +1,20 @@
+=== Stage A (screen): 2 (candidate,K) pairs x 2 orderings, base_key=0x12345, up to 256MB ===
+  [A] weyl_triple32_K1 K=1 weyl base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (5s)
+  [A] weyl_triple32_K1 K=1 hashed base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (5s)
+  [A] weyl_triple32_K255 K=255 weyl base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (5s)
+  [A] weyl_triple32_K255 K=255 hashed base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (4s)
+Stage A done: 2/2 survived dual-ordering to 256MB
+
+=== Stage B (confirm): 2 Stage-A survivors, base_key=0x12345, up to 8GB ===
+  [B] weyl_triple32_K1 K=1 weyl base=0x12345: FAIL @ 1 gigabyte (2^30 bytes) (9s)
+  [B] weyl_triple32_K1 K=1 hashed base=0x12345: CLEAN @ 8 gigabytes (2^33 bytes) (61s)
+  [B] weyl_triple32_K255 K=255 weyl base=0x12345: FAIL @ 512 megabytes (2^29 bytes) (5s)
+  [B] weyl_triple32_K255 K=255 hashed base=0x12345: FAIL @ 1 gigabyte (2^30 bytes) (10s)
+Stage B done: 0/2 survived dual-ordering to 8GB
+
+=== Stage C (reproducibility): 0 Stage-B survivors, base_key=0xabcdef01, up to 8GB ===
+Stage C done: 0/0 survived dual-ordering (base_key #2) to 8GB
+
+=== TIER 1 DONE ===
+CLEAN-DUAL survivors (clean at both base_keys, both orderings, up to 8GB): 0
+Summary written to /home/zep/Documents/research/ra_prng/experiments/2026-9-5_orbit-splitmix-finalizer-redesign/tier1_summary_weylfinal.json

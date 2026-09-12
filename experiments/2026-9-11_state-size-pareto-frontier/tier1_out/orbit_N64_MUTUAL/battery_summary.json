@@ -1,0 +1,629 @@
+{
+  "binary": "bin/battery_orbit_N64_MUTUAL",
+  "binary_mode": "single",
+  "cores": {
+    "orbit": {
+      "core": "orbit",
+      "binary_mode": "single",
+      "tier0": null,
+      "tier1": {
+        "binary": "bin/battery_orbit_N64_MUTUAL",
+        "core": "orbit",
+        "binary_mode": "single",
+        "k_values": [
+          1,
+          63
+        ],
+        "orderings": [
+          "weyl",
+          "hashed"
+        ],
+        "continuous": true,
+        "sizes": [
+          "256M",
+          "2G",
+          "2G"
+        ],
+        "base_keys": [
+          74565,
+          2882400001
+        ],
+        "all_lanes": [
+          "K1",
+          "K63",
+          "continuous"
+        ],
+        "clean_dual_survivors": [
+          "K1",
+          "K63",
+          "continuous"
+        ],
+        "stage_results": {
+          "A": [
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "weyl",
+              "base_key": 74565,
+              "stage": "A",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "64 megabytes (2^26 bytes)",
+                  "bytes": 67108864,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "128 megabytes (2^27 bytes)",
+                  "bytes": 134217728,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "256 megabytes (2^28 bytes)",
+                  "bytes": 268435456,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "256 megabytes (2^28 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 9.206442594528198
+            },
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "hashed",
+              "base_key": 74565,
+              "stage": "A",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "64 megabytes (2^26 bytes)",
+                  "bytes": 67108864,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "128 megabytes (2^27 bytes)",
+                  "bytes": 134217728,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "256 megabytes (2^28 bytes)",
+                  "bytes": 268435456,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "256 megabytes (2^28 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 9.384345054626465
+            },
+            {
+              "id": "K63",
+              "K": 63,
+              "ordering": "weyl",
+              "base_key": 74565,
+              "stage": "A",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "64 megabytes (2^26 bytes)",
+                  "bytes": 67108864,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": [
+                    "unusual"
+                  ]
+                },
+                {
+                  "length": "128 megabytes (2^27 bytes)",
+                  "bytes": 134217728,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "256 megabytes (2^28 bytes)",
+                  "bytes": 268435456,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "256 megabytes (2^28 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 6.684627294540405
+            },
+            {
+              "id": "K63",
+              "K": 63,
+              "ordering": "hashed",
+              "base_key": 74565,
+              "stage": "A",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "64 megabytes (2^26 bytes)",
+                  "bytes": 67108864,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "128 megabytes (2^27 bytes)",
+                  "bytes": 134217728,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "256 megabytes (2^28 bytes)",
+                  "bytes": 268435456,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "256 megabytes (2^28 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 6.655364274978638
+            },
+            {
+              "id": "continuous",
+              "K": null,
+              "ordering": null,
+              "base_key": 74565,
+              "stage": "A",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "64 megabytes (2^26 bytes)",
+                  "bytes": 67108864,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "128 megabytes (2^27 bytes)",
+                  "bytes": 134217728,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "256 megabytes (2^28 bytes)",
+                  "bytes": 268435456,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": [
+                    "unusual"
+                  ]
+                }
+              ],
+              "killed_early": false,
+              "final_length": "256 megabytes (2^28 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 6.667819499969482
+            }
+          ],
+          "B": [
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "weyl",
+              "base_key": 74565,
+              "stage": "B",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 40.93802738189697
+            },
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "hashed",
+              "base_key": 74565,
+              "stage": "B",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 43.80653953552246
+            },
+            {
+              "id": "K63",
+              "K": 63,
+              "ordering": "weyl",
+              "base_key": 74565,
+              "stage": "B",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 23.837870597839355
+            },
+            {
+              "id": "K63",
+              "K": 63,
+              "ordering": "hashed",
+              "base_key": 74565,
+              "stage": "B",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 24.151200532913208
+            },
+            {
+              "id": "continuous",
+              "K": null,
+              "ordering": null,
+              "base_key": 74565,
+              "stage": "B",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 24.091212034225464
+            }
+          ],
+          "C": [
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "weyl",
+              "base_key": 2882400001,
+              "stage": "C",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": [
+                    "unusual"
+                  ]
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 41.77479553222656
+            },
+            {
+              "id": "K1",
+              "K": 1,
+              "ordering": "hashed",
+              "base_key": 2882400001,
+              "stage": "C",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 43.7295126914978
+            },
+            {
+              "id": "K63",
+              "K": 63,
+              "ordering": "weyl",
+              "base_key": 2882400001,
+              "stage": "C",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 23.54683804512024
+            },
+            {
+              "id": "K63",
+              "K": 63,
+              "ordering": "hashed",
+              "base_key": 2882400001,
+              "stage": "C",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 23.853135108947754
+            },
+            {
+              "id": "continuous",
+              "K": null,
+              "ordering": null,
+              "base_key": 2882400001,
+              "stage": "C",
+              "checkpoints": [
+                {
+                  "length": "?",
+                  "bytes": 0,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "512 megabytes (2^29 bytes)",
+                  "bytes": 536870912,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "1 gigabyte (2^30 bytes)",
+                  "bytes": 1073741824,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                },
+                {
+                  "length": "2 gigabytes (2^31 bytes)",
+                  "bytes": 2147483648,
+                  "hard_fail": false,
+                  "soft_anomaly_kinds": []
+                }
+              ],
+              "killed_early": false,
+              "final_length": "2 gigabytes (2^31 bytes)",
+              "final_hard_fail": false,
+              "clean_to_target": true,
+              "elapsed_s": 23.733418464660645
+            }
+          ]
+        }
+      },
+      "verdict": "CLEAN"
+    }
+  }
+}

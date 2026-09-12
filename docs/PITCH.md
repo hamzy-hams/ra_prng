@@ -21,9 +21,12 @@ mutate each other continuously, so entropy generation and index-shuffling
 happen in the same step, in the same ~2KB of state.
 
 **At a glance:**
-- **8,351 MB/s** peak throughput, batch mode — 6.1× faster than
-  Philox4x32-10, 2.27× faster than xoshiro256\*\* on the same machine, same
-  session `[experiments/2026-9-1_family-productionization/RESULTS.md:192-204]`
+- **20,018 MB/s** peak throughput, batch mode — 19.9× faster than
+  Philox4x32-10, 6.8× faster than xoshiro256\*\* on the same machine, same
+  session `[experiments/2026-9-1_family-productionization/bench_release_results.txt,
+  measured 2026-09-12]`. An earlier measurement of this same config read
+  8,351 MB/s / 6.1× / 2.27× — a benchmark fairness bug (not a `ra_core.c`
+  change), fixed 2026-09-11 — see the note in §4.
 - **0 failures** across 114 Dieharder tests `[benchmarks/results/ra_prng2_original/dieharder_test.txt]`
 - **Statistically clean to 1 TB** of output under PractRand, zero anomalies
   at every checkpoint `[experiments/2026-9-6_orbit-address-widen-64bit-promotion/RESULTS.md]`
@@ -77,11 +80,39 @@ matters.
 
 | Mode | Configuration | Throughput | vs. Philox4x32-10 | vs. xoshiro256\*\* |
 |---|---|---|---|---|
-| `ra_core_singleblock` | K=255 (its designed regime: batches ≤255 words/key, no reseed) | **8,351 MB/s** | **6.1× faster** | **2.27× faster** |
+| `ra_core_singleblock` | K=255 (its designed regime: batches ≤255 words/key, no reseed) | **20,018 MB/s** | **19.9× faster** | **6.8× faster** |
 | `ra_core_orbit` | Continuous stream | ~1,360 MB/s | roughly on par | ~2.8× slower |
 
-*Source: `experiments/2026-9-1_family-productionization/RESULTS.md:192-204`
-and `experiments/2026-9-3_orbit-continuous-bench/RESULTS.md`.*
+*Source: `experiments/2026-9-1_family-productionization/bench_release_results.txt`
+(measured 2026-09-12) and `experiments/2026-9-3_orbit-continuous-bench/RESULTS.md`.*
+
+> **2026-09-12 fairness fix**: the `singleblock` K=255 figure above was
+> revised after discovering `bench_release.c` had a benchmark fairness bug —
+> `ra_core_singleblock`'s hot-loop helpers sat just over GCC's auto-inline
+> threshold and stayed real (uninlined) calls, while the Philox/Xoshiro
+> baselines were fully inlined. Fixed with
+> `static inline __attribute__((always_inline))` in `ra_core.c` (behavior
+> unchanged, verified byte-identical against the KAT self-test — codegen
+> only). Before the fix, this row read 8,351 MB/s / 6.1× / 2.27×. See
+> `docs/ERRATA.md` and the "Update 2026-09-12" note in `README.md` for the
+> full trail.
+
+> **Scope of the `singleblock` number — pure generate cost, not real-workload
+> reinit cost.** The 20,018 MB/s / 19.9× / 6.8× figures above come from a
+> tight microbenchmark loop with almost no other code around the call
+> (`sink ^= fn(key, 0, 255, NULL)`), which lets the CPU's out-of-order
+> engine overlap many independent calls' state re-init in parallel. When we
+> validated `singleblock` in a real end-to-end Monte Carlo workload
+> (reinit a fresh key every trial, K=255, output actually consumed) it was
+> **~1.9× *slower*** than xoshiro256\*\*/PCG32 in that same workload, not
+> faster — see `experiments/2026-9-12_ra-core-montecarlo-validation/RESULTS.md`.
+> Embedding the call inside real surrounding code shrinks that cross-call
+> overlap, which appears to unmask `singleblock`'s real per-call cost: a
+> full 256-entry state re-init from scratch, which is proportionally far
+> more expensive than xoshiro's/PCG32's near-free init. **Read the
+> headline number as "cost of generating already-initialized state, heavily
+> amortized"** — for workloads that reinit a fresh key every small batch,
+> measure your own case; don't assume the headline ratio transfers.
 
 > **Why we only quote same-session numbers:** an earlier, widely-different
 > throughput figure for this project (30,303 MB/s) turned out to be an
@@ -89,7 +120,14 @@ and `experiments/2026-9-3_orbit-continuous-bench/RESULTS.md`.*
 > benchmark (~154–388 MB/s in that specific test) — see
 > `experiments/2026-9-3_orbit-continuous-bench/RESULTS.md`. We only publish
 > numbers that were measured directly, on one machine, in one session, and
-> we say exactly which mode and which K they belong to.
+> we say exactly which mode and which K they belong to. We've also caught
+> and corrected our own methodology mistakes on this page's exact numbers
+> more than once (an inlining-fairness bug and a benchmark self-correction,
+> both 2026-09-12) — see `docs/ERRATA.md` for the full, honest trail. A
+> follow-up real-workload validation the same day (Monte Carlo simulations,
+> not synthetic loops) found a case where the headline ratio reverses
+> entirely — see the scope note above and
+> `experiments/2026-9-12_ra-core-montecarlo-validation/RESULTS.md`.
 
 ### Statistical quality
 
@@ -110,8 +148,11 @@ different regimes:
 
 - **`ra_core_singleblock`** — optimized for short, fixed-size batches
   (≤255 words) drawn from a single key with no reseed. This is where the
-  8,351 MB/s number lives, and it's validated clean at **K ≥ 96**
-  (best at K=255). Below that threshold, use `ra_core_orbit` instead.
+  20,018 MB/s number lives, and it's validated clean at **K ≥ 96**
+  (best at K=255). Below that threshold, use `ra_core_orbit` instead. That
+  headline number is a pure-generate figure, not a reinit-per-batch one —
+  see the scope note in §4 before picking it over xoshiro/PCG32 for a
+  workload that reseeds every batch.
 - **`ra_core_orbit`** — the general-purpose, continuous-stream mode.
   Validated clean at *any* batch size, including K=1, all the way to 1 TB
   of PractRand output. Slower in absolute throughput than
@@ -183,15 +224,24 @@ We'd rather you find out here than in production:
   K=255) — batches of that size or larger, from a single key, no reseed.
   At small K it is both slower and not statistically validated; use
   `ra_core_orbit` for small or frequent batches instead.
+- **`ra_core_singleblock`'s headline speed does not transfer to a
+  reinit-every-batch workload.** A real Monte Carlo validation (reinit a
+  fresh key each trial, generate K=255, actually consume the output) found
+  it **~1.9× *slower*** than xoshiro256\*\*/PCG32 in that exact usage
+  pattern, the opposite of the pure-generate microbenchmark's implication
+  — see `experiments/2026-9-12_ra-core-montecarlo-validation/RESULTS.md`.
+  If your workload reseeds frequently with small batches, benchmark your
+  own case rather than assuming the §4 ratio applies.
 - **`ra_prng3` ("ZepFold", 64-bit) is experimental and explicitly not
   recommended for use** — it exists in the repository as a research
   variant, not a production one.
-- **Cross-stream independence at massive parallel scale is not yet
-  validated to the depth Philox has been.** Validation so far covers
-  single-stream output quality and specific addressing patterns (single
-  `addr_hi` lookups, key-increment chaining); sequential `addr_hi`
-  chaining for one key was tested and found unsafe (fails PractRand
-  immediately) — don't use that specific pattern.
+- **Cross-stream independence at parallel scale is now spot-checked, not
+  yet validated to the depth Philox has been.** A 1000-address Monte
+  Carlo run (Orbit Addressing, key-increment chaining) found no
+  significant cross-stream correlation (`experiments/2026-9-12_ra-core-montecarlo-validation/RESULTS.md`)
+  — a first real data point, not exhaustive coverage. Sequential `addr_hi`
+  chaining for one key was tested separately and found unsafe (fails
+  PractRand immediately) — don't use that specific pattern.
 
 ---
 

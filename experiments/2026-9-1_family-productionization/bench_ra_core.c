@@ -21,10 +21,10 @@
 #include <string.h>
 #include <time.h>
 
-extern uint32_t ra_core_orbit(uint32_t key, size_t rng, FILE *raw_stream);
-extern uint32_t ra_core_singleblock(uint32_t key, size_t rng, FILE *raw_stream);
+extern uint32_t ra_core_orbit(uint32_t key, uint32_t addr_hi, size_t rng, FILE *raw_stream);
+extern uint32_t ra_core_singleblock(uint32_t key, uint32_t addr_hi, size_t rng, FILE *raw_stream);
 
-typedef uint32_t (*core_fn_t)(uint32_t key, size_t rng, FILE *raw_stream);
+typedef uint32_t (*core_fn_t)(uint32_t key, uint32_t addr_hi, size_t rng, FILE *raw_stream);
 typedef struct { const char *name; core_fn_t fn; long max_rng; } core_entry_t;
 
 static const core_entry_t CORES[] = {
@@ -111,7 +111,7 @@ static void mode_throughput(const core_entry_t *core, int argc, char **argv, int
         double addr_best = -1.0;
         for (long t = 0; t < trials; ++t) {
             double t0 = now_seconds();
-            uint32_t last_cons = core->fn(12345u, (size_t)n, NULL);
+            uint32_t last_cons = core->fn(12345u, 0u, (size_t)n, NULL);
             double t1 = now_seconds();
             sink ^= last_cons;
             double dt = t1 - t0;
@@ -163,7 +163,7 @@ static void mode_reinit_sweep(const core_entry_t *core, int argc, char **argv, i
             double t0 = now_seconds();
             for (long long c = 0; c < cycles; ++c) {
                 uint32_t key = (uint32_t)(c * 2654435761u + 1u);
-                uint32_t last = core->fn(key, (size_t)k, NULL);
+                uint32_t last = core->fn(key, 0u, (size_t)k, NULL);
                 sink ^= last;
             }
             double t1 = now_seconds();

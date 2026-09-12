@@ -1,0 +1,9 @@
+{"event": "start", "k_values": [1, 2, 4, 8, 16, 32, 64], "base_key": 74565, "tlmin": "64MB", "tlmax": "1GB", "ts": 1788525027.3227706}
+{"event": "result", "k": 1, "base_key": 74565, "killed_early": false, "final_length": "1 gigabyte (2^30 bytes)", "final_hard_fail": true, "clean_to_target": false, "elapsed_s": 26.68064546585083, "n_checkpoints": 6, "ts": 1788525054.0036092}
+{"event": "result", "k": 2, "base_key": 74565, "killed_early": false, "final_length": "1 gigabyte (2^30 bytes)", "final_hard_fail": false, "clean_to_target": true, "elapsed_s": 22.637845754623413, "n_checkpoints": 6, "ts": 1788525076.6422122}
+{"event": "result", "k": 4, "base_key": 74565, "killed_early": false, "final_length": "1 gigabyte (2^30 bytes)", "final_hard_fail": false, "clean_to_target": true, "elapsed_s": 20.33358335494995, "n_checkpoints": 6, "ts": 1788525096.9759586}
+{"event": "result", "k": 8, "base_key": 74565, "killed_early": false, "final_length": "1 gigabyte (2^30 bytes)", "final_hard_fail": false, "clean_to_target": true, "elapsed_s": 20.8984477519989, "n_checkpoints": 6, "ts": 1788525117.874582}
+{"event": "result", "k": 16, "base_key": 74565, "killed_early": false, "final_length": "1 gigabyte (2^30 bytes)", "final_hard_fail": false, "clean_to_target": true, "elapsed_s": 18.168371200561523, "n_checkpoints": 6, "ts": 1788525136.0431504}
+{"event": "result", "k": 32, "base_key": 74565, "killed_early": false, "final_length": "1 gigabyte (2^30 bytes)", "final_hard_fail": false, "clean_to_target": true, "elapsed_s": 17.83716320991516, "n_checkpoints": 6, "ts": 1788525153.8805923}
+{"event": "result", "k": 64, "base_key": 74565, "killed_early": false, "final_length": "1 gigabyte (2^30 bytes)", "final_hard_fail": false, "clean_to_target": true, "elapsed_s": 17.688412189483643, "n_checkpoints": 6, "ts": 1788525171.5692468}
+{"event": "done", "ts": 1788525171.5696876}

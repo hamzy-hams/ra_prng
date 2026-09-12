@@ -1,8 +1,10 @@
 # Repository Structure
 
 `ra_prng` is research code for an array-based deterministic PRNG
-(`ra_prng2`/`ra_prng3`, published at CSAI2025). This document describes what
-each top-level directory is for.
+(`ra_prng2`/`ra_prng3`, described in a CSAI2025 conference manuscript —
+accepted by reviewers for oral presentation & publication, but never
+actually presented or published due to lack of funding). This document
+describes what each top-level directory is for.
 
 ```
 .
@@ -10,11 +12,25 @@ each top-level directory is for.
 │   ├── ra_prng2/            32-bit version - stable, central to the paper
 │   │   ├── c/                three C variants (see below) + CHANGELOG.md
 │   │   └── python/            pure-Python reference implementation (ra_prng2.py)
-│   └── ra_prng3/            64-bit experimental version ("do not use")
-│       ├── c/                single-file C implementation + CHANGELOG.md
-│       └── python/            empty - no Python port exists yet
-├── bindings/cpython/        Python <-> C binding, a real installable package
-│                              (see bindings/cpython/README.md)
+│   ├── ra_prng3/            64-bit experimental version ("do not use")
+│   │   ├── c/                single-file C implementation + CHANGELOG.md
+│   │   └── python/            empty - no Python port exists yet
+│   └── ra_core/             addressable/orbit-addressing successor -
+│       └── c/                 ra_core_orbit / ra_core_singleblock (formula,
+│                              unmodified) + ra_core_engine.c (library layer
+│                              the pip-ra-core binding is built on, see
+│                              below), see README.md's `ra_core` section.
+│                              Promoted from
+│                              experiments/2026-9-1_family-productionization/,
+│                              which remains the active research working copy
+│                              (synced here manually on each promotion, not
+│                              automatically)
+├── bindings/cpython/        Python <-> C binding for ra_prng2, a real
+│                              installable package (see bindings/cpython/README.md)
+├── pip-ra-core/             Python <-> C binding for ra_core (separate pip
+│                              package "ra-core", ctypes + a Cython
+│                              numpy.random.BitGenerator extension - see
+│                              pip-ra-core/README.md)
 ├── tests/                   c/ and python/ test suites (currently empty scaffolding)
 ├── benchmarks/
 │   ├── results/              precomputed statistical-test output (Dieharder,
@@ -30,7 +46,9 @@ each top-level directory is for.
 ├── sub-projects/             downstream applications built on ra_prng
 │   ├── image_encrypting/      placeholder - not yet implemented
 │   └── fingerprinting_tools/  placeholder - reserved for a future sub-project
-├── research/csai2025_ra_prng/  the published paper + acceptance letter (PDFs)
+├── research/csai2025_ra_prng/  the CSAI2025 manuscript + reviewer acceptance
+│                              letter - accepted, but never presented or
+│                              published (see README.md's Citation section)
 ├── docs/                     this file, docs/api/ (module reference)
 ├── graphify-out/              generated knowledge-graph scan (see README.md)
 ├── pyproject.toml, Makefile   build - see CONTRIBUTING.md

@@ -1,0 +1,34 @@
+=== [orbit] TIER 0: skipped (--skip-tier0) ===
+
+=== [orbit] TIER 1: PractRand dual-ordering gate ===
+=== Stage A: 3 lane(s), base_key=0x12345, up to 2G ===
+  [A] K1 weyl base=0x12345: CLEAN @ 2 gigabytes (2^31 bytes) (49s)
+  [A] K1 hashed base=0x12345: CLEAN @ 2 gigabytes (2^31 bytes) (53s)
+  [A] K31 weyl base=0x12345: CLEAN @ 2 gigabytes (2^31 bytes) (35s)
+  [A] K31 hashed base=0x12345: CLEAN @ 2 gigabytes (2^31 bytes) (34s)
+  [A] continuous single base=0x12345: CLEAN @ 2 gigabytes (2^31 bytes) (34s)
+Stage A done: 3 lane(s) survived
+
+=== Stage B: 3 lane(s), base_key=0x12345, up to 8G ===
+  [B] K1 weyl base=0x12345: CLEAN @ 8 gigabytes (2^33 bytes) (184s)
+  [B] K1 hashed base=0x12345: CLEAN @ 8 gigabytes (2^33 bytes) (197s)
+  [B] K31 weyl base=0x12345: CLEAN @ 8 gigabytes (2^33 bytes) (121s)
+  [B] K31 hashed base=0x12345: CLEAN @ 8 gigabytes (2^33 bytes) (119s)
+  [B] continuous single base=0x12345: FAIL @ 4 gigabytes (2^32 bytes) (58s)
+Stage B done: 2 lane(s) survived
+
+=== Stage C: 2 lane(s), base_key=0xabcdef01, up to 16G ===
+  [C] K1 weyl base=0xabcdef01: CLEAN @ 16 gigabytes (2^34 bytes) (362s)
+  [C] K1 hashed base=0xabcdef01: CLEAN @ 16 gigabytes (2^34 bytes) (387s)
+  [C] K31 weyl base=0xabcdef01: CLEAN @ 16 gigabytes (2^34 bytes) (241s)
+  [C] K31 hashed base=0xabcdef01: CLEAN @ 16 gigabytes (2^34 bytes) (230s)
+Stage C done: 2 lane(s) survived
+
+
+=== BATTERY SUMMARY ===
+binary=bin/battery_orbit_N32_MUTUAL binary_mode=single
+  [orbit] Tier 1 K1          :          CLEAN
+  [orbit] Tier 1 K31         :          CLEAN
+  [orbit] Tier 1 continuous  :          FAIL
+Verdict: SEE ABOVE FOR FAILING (core, lane) COMBINATIONS
+Full summary: tier2_out/orbit_N32_MUTUAL/battery_summary.json

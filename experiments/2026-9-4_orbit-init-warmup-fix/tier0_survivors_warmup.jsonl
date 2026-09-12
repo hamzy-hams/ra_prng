@@ -1,0 +1,2 @@
+{"id": "control", "variant": "control", "mean_fraction": 0.513671875, "min_bit_fraction": 0.25, "passed": true}
+{"id": "d0_hash", "variant": "d0_hash", "mean_fraction": 0.513671875, "min_bit_fraction": 0.375, "passed": true}

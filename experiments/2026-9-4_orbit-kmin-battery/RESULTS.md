@@ -1,6 +1,15 @@
 # RESULTS — Statistical re-validation: orbit K-small-defect fix
 
-## Status: **GATE PASS — 0 FAILED across all tests, no anomalies in PractRand**
+> **UPDATE 2026-09-04 (later session): see `ADDENDUM_HASHED_KEY_GAP.md`.**
+> Everything below is accurate for what it tested (Weyl-stepped key
+> ordering), and that PASS stands. But K=1 with **hashed** key ordering
+> was found to FAIL PractRand severely (escalating BCFN-style,
+> `FPF-14+6/16` R=+132.3 @8GB) — a gap this original battery never tested
+> (see methodology below: "Weyl-stepped key every block"). Treat the gate
+> as reopened for the K=1+hashed-key case specifically until root-caused
+> and fixed. K=255 (both orderings) and K=1+Weyl remain genuinely clean.
+
+## Status: **GATE PASS (Weyl key ordering only) — 0 FAILED across all tests, no anomalies in PractRand**
 
 This folder runs the statistical battery that
 `../2026-9-4_orbit-fix-and-wideo-rolling-optimization/HANDOVER.md` §6

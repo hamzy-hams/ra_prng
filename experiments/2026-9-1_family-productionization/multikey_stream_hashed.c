@@ -11,7 +11,7 @@
 #include <stdint.h>
 #include <string.h>
 
-extern uint32_t ra_core_singleblock(uint32_t key, size_t rng, FILE *raw_stream);
+extern uint32_t ra_core_singleblock(uint32_t key, uint32_t addr_hi, size_t rng, FILE *raw_stream);
 
 static uint32_t splitmix32(uint64_t *state) {
     uint64_t z = (*state += 0x9E3779B97F4A7C15ULL);
@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
     while (remaining > 0) {
         size_t block_len = remaining < 255 ? remaining : 255;
         uint32_t key = splitmix32(&state);
-        ra_core_singleblock(key, block_len, stdout);
+        ra_core_singleblock(key, 0u, block_len, stdout);
         remaining -= block_len;
     }
     return 0;

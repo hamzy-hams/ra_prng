@@ -1,11 +1,19 @@
-RAW singleblock K=1              init_ns=0.249 gen_ns_per_word=10.017 real_ns_per_word=10.266 real_MBps=371.59
-RAW singleblock K=255            init_ns=31.689 gen_ns_per_word=0.333 real_ns_per_word=0.457 real_MBps=8351.05
-RAW orbit multistream K=1        init_ns=48.542 gen_ns_per_word=8.640 real_ns_per_word=57.182 real_MBps=66.71
-RAW orbit multistream K=255      init_ns=48.542 gen_ns_per_word=2.744 real_ns_per_word=2.934 real_MBps=1299.98
-RAW orbit --stream               init_ns=48.542 gen_ns_per_word=2.800 real_ns_per_word=2.800 real_MBps=1362.38
-RAW philox4x32-10 K=1            init_ns=1.869 gen_ns_per_word=10.398 real_ns_per_word=12.268 real_MBps=310.96
-RAW philox4x32-10 K=255          init_ns=1.869 gen_ns_per_word=2.768 real_ns_per_word=2.776 real_MBps=1374.36
-RAW philox4x32-10 stream         init_ns=1.869 gen_ns_per_word=2.768 real_ns_per_word=2.768 real_MBps=1378.27
-RAW xoshiro256** K=1             init_ns=1.791 gen_ns_per_word=4.784 real_ns_per_word=6.575 real_MBps=580.22
-RAW xoshiro256** K=255           init_ns=1.791 gen_ns_per_word=1.031 real_ns_per_word=1.038 real_MBps=3673.50
-RAW xoshiro256** stream          init_ns=1.791 gen_ns_per_word=0.969 real_ns_per_word=0.969 real_MBps=3934.89
+# Regenerated 2026-09-11 after the fairness fix (see bench_release.c header
+# comment + ../2026-9-11_state-size-pareto-frontier/RESULTS.md addendum
+# "Benchmark fairness bug"). Old numbers below this file's history had
+# ra_core_orbit/ra_core_singleblock extern-linked (no cross-TU inlining)
+# while Philox/Xoshiro were static-in-file (fully inlined) -- an unfair
+# handicap against ra_core, now removed. singleblock K=255 real_MBps went
+# from ~8351 to ~21000-22300 (machine-load-dependent, see below) purely
+# from the fix -- no change to ra_core.c's actual generated values.
+RAW singleblock K=1              init_ns=0.258 gen_ns_per_word=11.136 real_ns_per_word=11.394 real_MBps=334.79
+RAW singleblock K=255            init_ns=36.886 gen_ns_per_word=0.035 real_ns_per_word=0.180 real_MBps=21189.03
+RAW orbit multistream K=1        init_ns=57.178 gen_ns_per_word=8.931 real_ns_per_word=66.108 real_MBps=57.70
+RAW orbit multistream K=255      init_ns=57.178 gen_ns_per_word=3.003 real_ns_per_word=3.227 real_MBps=1182.16
+RAW orbit --stream               init_ns=57.178 gen_ns_per_word=3.128 real_ns_per_word=3.128 real_MBps=1219.70
+RAW philox4x32-10 K=1            init_ns=1.834 gen_ns_per_word=11.676 real_ns_per_word=13.510 real_MBps=282.36
+RAW philox4x32-10 K=255          init_ns=1.834 gen_ns_per_word=2.975 real_ns_per_word=2.982 real_MBps=1279.20
+RAW philox4x32-10 stream         init_ns=1.834 gen_ns_per_word=2.857 real_ns_per_word=2.857 real_MBps=1335.11
+RAW xoshiro256** K=1             init_ns=1.829 gen_ns_per_word=7.679 real_ns_per_word=9.507 real_MBps=401.23
+RAW xoshiro256** K=255           init_ns=1.829 gen_ns_per_word=1.086 real_ns_per_word=1.093 real_MBps=3490.74
+RAW xoshiro256** stream          init_ns=1.829 gen_ns_per_word=1.018 real_ns_per_word=1.018 real_MBps=3745.49

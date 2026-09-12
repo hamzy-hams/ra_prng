@@ -1,0 +1,2 @@
+{"id": "fmix32", "candidate": "fmix32", "mean_fraction": 0.5029296875, "min_bit_fraction": 0.21875, "passed": true}
+{"id": "triple32", "candidate": "triple32", "mean_fraction": 0.484375, "min_bit_fraction": 0.3125, "passed": true}

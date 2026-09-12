@@ -1,0 +1,37 @@
+=== [orbit] TIER 0: avalanche gate ===
+[orbit] Tier 0: PASS (mean_fraction=0.5002 min_bit_fraction=0.4907)
+
+=== [orbit] TIER 1: PractRand dual-ordering gate ===
+=== Stage A: 1 lane(s), base_key=0x12345, up to 256M ===
+  [A] K1 weyl base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (9s)
+  [A] K1 hashed base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (10s)
+Stage A done: 1 lane(s) survived
+
+=== Stage B: 1 lane(s), base_key=0x12345, up to 2G ===
+  [B] K1 weyl base=0x12345: CLEAN @ 2 gigabytes (2^31 bytes) (61s)
+  [B] K1 hashed base=0x12345: FAIL @ 512 megabytes (2^29 bytes) (16s)
+Stage B done: 0 lane(s) survived
+
+=== [singleblock] TIER 0: avalanche gate ===
+[singleblock] Tier 0: PASS (mean_fraction=0.5002 min_bit_fraction=0.4907)
+
+=== [singleblock] TIER 1: PractRand dual-ordering gate ===
+=== Stage A: 1 lane(s), base_key=0x12345, up to 256M ===
+  [A] K1 weyl base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (10s)
+  [A] K1 hashed base=0x12345: CLEAN @ 256 megabytes (2^28 bytes) (9s)
+Stage A done: 1 lane(s) survived
+
+=== Stage B: 1 lane(s), base_key=0x12345, up to 2G ===
+  [B] K1 weyl base=0x12345: CLEAN @ 2 gigabytes (2^31 bytes) (50s)
+  [B] K1 hashed base=0x12345: FAIL @ 512 megabytes (2^29 bytes) (13s)
+Stage B done: 0 lane(s) survived
+
+
+=== BATTERY SUMMARY ===
+binary=o_noshift binary_mode=dual
+  [orbit] Tier 0 avalanche:            PASS
+  [orbit] Tier 1 K1          :          FAIL
+  [singleblock] Tier 0 avalanche:            PASS
+  [singleblock] Tier 1 K1          :          FAIL
+Verdict: SEE ABOVE FOR FAILING (core, lane) COMBINATIONS
+Full summary: tier1_out/battery_summary.json

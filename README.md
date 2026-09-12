@@ -19,12 +19,13 @@ simulations, statistical experiments, or general-purpose use.
 |---|---|---|
 | `src/ra_prng2/c/`, `src/ra_prng2/python/` | The 32-bit generator described in the CSAI2025 paper — canonical (`ra_prng2.c`), OpenMP-parallel (`ra_prng2_thread.c`), struct-refactored (`ra_prng2_struct.c`, backs the Python binding), and a pure-Python reference port (`ra_prng2.py`) | Stable |
 | `src/ra_prng3/c/` | 64-bit experimental successor (`ZepFold` core), larger internal state, theoretical period up to 2^32832 | Experimental — **do not use** |
+| `src/ra_core/c/` | The addressable/orbit-addressing successor (`ra_core_orbit`, `ra_core_singleblock`) — see the `ra_core` section below | Stable; pip binding in `pip-ra-core/` (see below) |
 | `bindings/cpython/` | Real, installable `pip install .` package — a `ctypes` wrapper calling straight into `ra_prng2_struct.c`, no logic reimplemented in Python | Stable |
 | `benchmarks/comparisons/source/` | A *derived* file-shuffling CLI tool (`--input`/`--output`/`--seed`/...) built on the same mixing ideas but with its own permutation/index math — not the paper algorithm itself | Separate tool |
 | `benchmarks/results/`, `benchmarks/comparisons/` | Precomputed statistical-test output and throughput/entropy comparisons vs xoshiro256\*\*, PCG32, Philox4x32, ChaCha20, `/dev/urandom` | Reference data |
 | `experiments/` | Exploratory research (new addressing/initialization schemes, cycle-operation search, cross-family benchmarking, etc.), one dated subfolder per investigation | Active research, not part of the stable API |
 | `sub-projects/` | Downstream applications (`image_encrypting`, `fingerprinting_tools`) | Placeholders, not yet implemented |
-| `research/` | The published paper + acceptance letter (CSAI2025), plus a companion paper draft (ICCS2026) | See Citation |
+| `research/` | Conference paper manuscripts — CSAI2025 (accepted by reviewers for oral presentation & publication, but never actually presented or published due to lack of funding), with its acceptance letter; plus a companion ICCS2026 manuscript (prepared/submitted, also not published) | See Citation |
 
 See `docs/STRUCTURE.md` for the full directory map and exactly how `ra_prng2`,
 `ra_prng3`, and the CLI shuffle variants under `benchmarks/comparisons/source/`
@@ -109,39 +110,100 @@ below targets.
 > regression. Treat any number from before 2026-09 with that in mind; the
 > table below is the current, re-verified baseline.
 
-### `ra_core` (experimental, not yet in `src/`)
+### `ra_core` (now in `src/ra_core/c/`, C only)
 
-`experiments/2026-9-1_family-productionization/ra_core.c` is the unified,
-addressable-init successor under active research (`ra_core_orbit` for
-unbounded continuous streams, `ra_core_singleblock` for single-key batches
-of up to 255 words with no reseed). It has passed its full statistical
-battery (dieharder 0 FAILED, PractRand 16GB+ clean, avalanche/collision-scan
-PASS, both cores, full valid K range) but **has not been promoted to `src/`
-yet** — no package/API decision has been made for it, so treat it as
-research code, not a stable dependency.
+`src/ra_core/c/ra_core.c` is the unified, addressable-init successor
+(`ra_core_orbit` for unbounded continuous streams, `ra_core_singleblock` for
+single-key batches of up to 255 words with no reseed), promoted from
+`experiments/2026-9-1_family-productionization/ra_core.c` (2026-09-06). It
+has passed its full statistical battery (dieharder 0 FAILED, PractRand
+clean, avalanche/collision-scan PASS, both cores, full valid K range) and
+`make build-c` / `./build/bin/ra_core validate` are part of the standard
+build now. The `experiments/2026-9-1_family-productionization/` copy
+remains the active research working copy — future formula changes land
+there first and get synced to `src/ra_core/c/` on each promotion, not
+automatically.
 
-Measured 2026-09-04 with `experiments/2026-9-1_family-productionization/bench_release.c`
-(same machine as above, pinned to one core with `taskset -c 0`, GCC 16.1.1
-`-O3 -march=native`, min-of-5..7-trials) after that session's two bit-exact
-speed optimizations (rolling-register wide-`o` computation, and — for
-`singleblock` only — variable-length `M[]` initialization). Three numbers
-per mode, following this repo's standing benchmark convention (always
-report `singleblock` K=1/K=255 *and* `orbit`, never K=1 alone — a K=1-only
-table has been misleading before):
+**Pip binding**: `pip-ra-core/` (`pip install ./pip-ra-core` from a checkout
+of this repo, requires `gcc`) wraps `ra_core_orbit`/`ra_core_singleblock`
+with a Python API — random-access `generate(key, addr_hi, n)`, a stateful
+`RaCoreEngine` (continue/fork/save/resume, position introspection),
+`spawn_streams()`, a deterministic `shuffle()`, and a compiled (Cython)
+`numpy.random.BitGenerator` integration. `ra_core.c` itself is not modified
+by this binding — see `pip-ra-core/README.md` for the full API and
+`src/ra_core/c/ra_core_engine.c` for how it's built on top without touching
+the validated formula.
+
+`ra_reseed`/`ra_hash` (the state-mixing step `ra_core_orbit` runs every 255
+words for streams longer than one block) had an open question about
+whether they leak detectable structure into the first post-reseed cycle —
+closed 2026-09-06 (`experiments/2026-9-4_orbit-reseed-postboundary-bcfn/RESULTS.md`):
+PractRand clean to 8GB for both K=1 and K=255, both Weyl-stepped and
+SplitMix32-hashed key orderings (the ordering that originally exposed the
+now-fixed `addr_hi` birthday-paradox gap), with only isolated single-checkpoint
+"unusual" blips that resolved on the next checkpoint rather than escalating.
+
+**Addressing capacity (2026-09-06)**: both entry points now take a second
+32-bit input, `addr_hi`, alongside `key` — `ra_core_orbit(key, addr_hi, rng,
+stream)` / `ra_core_singleblock(key, addr_hi, rng, stream)` — giving a
+combined 64-bit effective address space instead of 32-bit. This closes a
+statistically real defect found in `experiments/2026-9-5_orbit-k1-exhaustive-function-analysis/`:
+with only a 32-bit `key`, aggressive-reinit workloads that can *repeat* a
+key (hashed-chain keys, `/dev/urandom`-drawn keys — as opposed to a
+repeat-free Weyl sequence) hit birthday-paradox collisions early enough to
+fail PractRand at K=1. `addr_hi` is hashed independently from `key`
+(`experiments/2026-9-5_orbit-address-widen-64bit/candidates/candidate_d.c`,
+Candidate D, chosen over 4 other candidates after a full battery — see that
+folder's `RESULTS.md`) and deliberately excluded from the rotation amount,
+which is what let it pass PractRand where two earlier candidates (which did
+fold it into rotation) failed Gap-16. Existing callers are unaffected:
+`--stream <mode> <seed> <n>` (4 args) still works with `addr_hi` implied 0;
+the new 5-arg form `--stream <mode> <seed> <addr_hi> <n>` sets it
+explicitly. `SINGLEBLOCK_KAT_CHECKSUMS`/`ORBIT_KAT_CHECKSUMS` were
+regenerated against this formula (`addr_hi=0` baseline); full promotion
+details, byte-identical merge verification, and refreshed benchmarks are in
+`experiments/2026-9-6_orbit-address-widen-64bit-promotion/`.
+
+> **Update 2026-09-12**: the table below was revised after discovering
+> `bench_release.c` had a benchmark **fairness bug**, not a `ra_core.c`
+> formula change. Philox4x32-10/Xoshiro256\*\* were plain `static` functions
+> in the same translation unit as the benchmark (fully inlined by the
+> compiler); `ra_core_orbit`/`ra_core_singleblock` were `extern`-linked
+> against a separately compiled object, and — after switching that to
+> `#include` too — turned out to *still* sit just over GCC's default
+> per-function auto-inline size threshold, so the compiler kept emitting
+> real (uninlined) `CALL`s for `ra_core_singleblock`'s two hot-loop helpers
+> while fully inlining the reference baselines. Fixed by adding
+> `static inline __attribute__((always_inline))` to those two helpers in
+> `ra_core.c` (their behavior is unchanged — verified byte-identical
+> against the KAT self-test — only their codegen is). This mainly affects
+> `singleblock` K=255 (its steady-state loop is cheap enough that the lost
+> inlining was a large relative overhead); `orbit`/Philox/Xoshiro were
+> effectively untouched by the fix, and moved by their normal run-to-run
+> amount between measurement sessions. Full root-cause writeup:
+> `experiments/2026-9-11_state-size-pareto-frontier/RESULTS.md` §9.
+
+Measured 2026-09-12 with `experiments/2026-9-1_family-productionization/bench_release.c`
+(same machine as above, pinned to one core with `taskset -c 0`,
+`-O3 -march=native`, min-of-5..7-trials internally, plus best-of-8 outer
+runs to average out session-level noise). Three numbers per mode, following
+this repo's standing benchmark convention (always report `singleblock`
+K=1/K=255 *and* `orbit`, never K=1 alone — a K=1-only table has been
+misleading before):
 
 | Mode | Init time (ns) | Generate/word, steady-state (ns/word) | Real throughput (ns/word) | Real throughput (MB/s) |
 |---|---:|---:|---:|---:|
-| `ra_core_singleblock` K=1 | 0.25 | 10.02 | 10.27 | 371.6 |
-| `ra_core_singleblock` K=255 | 31.69 | 0.33 | 0.457 | 8351.1 |
-| `ra_core_orbit` --multistream K=1 | 48.54 | 8.64 | 57.18 | 66.7 |
-| `ra_core_orbit` --multistream K=255 | 48.54 | 2.74 | 2.93 | 1300.0 |
-| `ra_core_orbit` --stream (N=20M) | 48.54 | 2.80 | 2.80 | 1362.4 |
-| Philox4x32-10 K=1 | 1.87 | 10.40 | 12.27 | 311.0 |
-| Philox4x32-10 K=255 | 1.87 | 2.77 | 2.78 | 1374.4 |
-| Philox4x32-10 stream | 1.87 | 2.77 | 2.77 | 1378.3 |
-| Xoshiro256\*\* K=1 | 1.79 | 4.78 | 6.58 | 580.2 |
-| Xoshiro256\*\* K=255 | 1.79 | 1.03 | 1.04 | 3673.5 |
-| Xoshiro256\*\* stream | 1.79 | 0.97 | 0.97 | 3934.9 |
+| `ra_core_singleblock` K=1 | 0.29 | 12.12 | 12.41 | 307.3 |
+| `ra_core_singleblock` K=255 | 49.96 | ~0.00 | 0.191 | 20018.1 |
+| `ra_core_orbit` --multistream K=1 | 75.51 | 9.75 | 85.26 | 44.7 |
+| `ra_core_orbit` --multistream K=255 | 75.51 | 3.64 | 3.93 | 969.8 |
+| `ra_core_orbit` --stream (N=20M) | 75.51 | 3.87 | 3.87 | 986.6 |
+| Philox4x32-10 K=1 | 1.87 | 12.20 | 14.08 | 271.0 |
+| Philox4x32-10 K=255 | 1.87 | 3.78 | 3.79 | 1007.9 |
+| Philox4x32-10 stream | 1.87 | 3.89 | 3.89 | 981.3 |
+| Xoshiro256\*\* K=1 | 1.92 | 5.09 | 7.00 | 544.8 |
+| Xoshiro256\*\* K=255 | 1.92 | 1.29 | 1.30 | 2937.2 |
+| Xoshiro256\*\* stream | 1.92 | 1.20 | 1.20 | 3171.8 |
 
 **Real throughput** is the directly measured wall-clock number for that
 usage pattern (reinit-every-call for `K=1`/`K=255`, one long call for
@@ -157,16 +219,38 @@ which is why it dominates at K=1 — `orbit` is designed for long continuous
 streams, not frequent small reinits; use `singleblock` for that pattern
 instead, within its 255-word-per-key limit.
 
-Reading the comparison: `singleblock` K=255 is **6.1x faster than Philox
-and 2.27x faster than Xoshiro256\*\*** — its actual regime (batches up to
-255 words per key/address, no reseed). Yesterday's variable-length-init
-optimization also flipped the K=1 picture against Philox specifically:
-`singleblock` K=1 is now **1.19x faster than Philox** (previously slower),
-though still 1.56x slower than Xoshiro256\*\* there. `orbit`, whose init
-isn't variable-length, stays well behind both references at K=1 and is now
-roughly at parity with Philox (not clearly ahead, unlike an earlier,
-less-controlled measurement suggested) at K=255/stream, while still losing
-to Xoshiro256\*\* by ~2.8x in that regime.
+**Cost of the `addr_hi` widening (honest delta, not noise)**: compared to
+the pre-promotion 2026-09-04 numbers, `ra_core` rows regressed 5.6-9.9% at
+K=1 (`singleblock` 371.6→335.4 MB/s, `orbit` multistream 66.7→65.4 MB/s —
+the orbit figure looks small only because K=1 orbit was already
+init-dominated) and ≤1.6% at K=255/stream, while the untouched Philox/
+Xoshiro reference rows moved ≤1.3% (within normal run-to-run noise) over
+the same remeasurement. That gap is real, not measurement noise: the extra
+`fmix32` call and multiply per `L[]`/`M[]` term for `addr_hi` is fixed
+per-init overhead, so it costs the most exactly where init dominates (K=1)
+and amortizes away where it doesn't (K=255, long streams). See
+`experiments/2026-9-6_orbit-address-widen-64bit-promotion/RESULTS.md` for
+the full before/after table.
+
+Reading the comparison: `singleblock` K=255 is **~19.9x faster than Philox
+and ~6.8x faster than Xoshiro256\*\*** — its actual regime (batches up to
+255 words per key/address, no reseed). This is the row the 2026-09-12
+fairness fix above changed the most: before the fix, the same comparison
+read 6.0x/2.25x — `ra_core` was never actually that close to the
+baselines, the old numbers were measuring `ra_core` with its hot loop
+artificially un-inlined while Philox/Xoshiro ran fully inlined. At K=1,
+`singleblock` is **1.13x faster than Philox** and 1.77x slower than
+Xoshiro256\*\* there (K=1 is init-dominated, so it barely touches the loop
+the fix targeted — these ratios are within normal run-to-run noise of the
+pre-fix numbers, not a real change). `orbit`, whose init isn't
+variable-length, stays well behind both references at K=1 and is slightly
+behind Philox (~0.96x) at K=255/stream, while still losing to
+Xoshiro256\*\* by ~3.2x in that regime — `orbit`'s own functions weren't
+touched by the fix (confirmed: adding the same `always_inline` treatment to
+them empirically changes nothing, `orbit`'s per-word cost is dominated by
+a data-dependent `L[]` swap the loop already does, not by call overhead),
+so this row's small movement from the previous ~2.8x is ordinary
+session-to-session measurement noise.
 
 **Scope of this claim**: the speed numbers above are single-core CPU
 throughput only. This repo does not yet have a GPU/SIMD implementation of
@@ -180,8 +264,10 @@ Philox's broader track record.
 
 ## Current research (`experiments/`)
 
-Beyond the stable, paper-published `ra_prng2`/`ra_prng3`, this repo tracks an
-active line of research on **addressable / orbit-style initialization**:
+Beyond the stable `ra_prng2`/`ra_prng3` line described in the CSAI2025
+manuscript (accepted by reviewers, but never presented or published — see
+Citation), this repo tracks an active line of research on **addressable /
+orbit-style initialization**:
 deriving a generator's starting state directly from a `key`, so a caller can
 jump to an independent stream without a full reseed — in contrast to
 Philox-style per-call point addressing. This work is exploratory, lives
@@ -208,12 +294,16 @@ https://creativecommons.org/licenses/by-nc-sa/4.0
 I'm preparing the official citation format. In the meantime, please link to
 this GitHub repository and include the project name and primary author.
 
-* **CSAI2025** (accepted, oral presentation) — "ra_prng2 and Beyond: An
-  Array-Based PRNG Architecture for Efficient Random Generation" —
+Note: neither paper below has actually been presented or published — both
+are manuscripts written for conference submission.
+
+* **CSAI2025** (accepted by reviewers for oral presentation & publication,
+  but never presented or published due to lack of funding) — "ra_prng2 and
+  Beyond: An Array-Based PRNG Architecture for Efficient Random Generation" —
   `research/csai2025_ra_prng/`
-* **ICCS2026** (prepared/submitted) — "Array-Native Randomness: An Efficient
-  Unified Permutation-Generation Architecture with Deterministic and High
-  Sensitivity Properties" — `research/iccs2026_ra_prng/`
+* **ICCS2026** (prepared/submitted, not published) — "Array-Native
+  Randomness: An Efficient Unified Permutation-Generation Architecture with
+  Deterministic and High Sensitivity Properties" — `research/iccs2026_ra_prng/`
 
 ## Contribution
 

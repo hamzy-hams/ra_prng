@@ -42,9 +42,9 @@
 #include <string.h>
 #include <time.h>
 
-extern uint32_t ra_core_orbit(uint32_t key, size_t rng, FILE *raw_stream);
+extern uint32_t ra_core_orbit(uint32_t key, uint32_t addr_hi, size_t rng, FILE *raw_stream);
 
-typedef uint32_t (*core_fn_t)(uint32_t key, size_t rng, FILE *raw_stream);
+typedef uint32_t (*core_fn_t)(uint32_t key, uint32_t addr_hi, size_t rng, FILE *raw_stream);
 typedef struct { const char *name; core_fn_t fn; long max_rng; } core_entry_t;
 
 static const core_entry_t CORES[] = {
@@ -77,7 +77,7 @@ static void mode_multistream(const core_entry_t *core, uint32_t base_key, size_t
     while (remaining > 0) {
         size_t block_len = remaining < K ? remaining : K;
         uint32_t key = base_key + (uint32_t)(block_idx * 0x9E3779B9u);
-        core->fn(key, block_len, out);
+        core->fn(key, 0u, block_len, out);
         remaining -= block_len;
         ++block_idx;
     }
@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
         const core_entry_t *core = find_core(argv[2]);
         uint32_t key = (uint32_t)strtoul(argv[3], NULL, 0);
         size_t rng = (size_t)strtoull(argv[4], NULL, 0);
-        core->fn(key, rng, stdout);
+        core->fn(key, 0u, rng, stdout);
         return 0;
     }
     if (strcmp(argv[1], "--multistream") == 0 && argc >= 6) {

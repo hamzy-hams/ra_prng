@@ -22,7 +22,7 @@
 #include <stdint.h>
 #include <string.h>
 
-extern uint32_t ra_core_singleblock(uint32_t key, size_t rng, FILE *raw_stream);
+extern uint32_t ra_core_singleblock(uint32_t key, uint32_t addr_hi, size_t rng, FILE *raw_stream);
 
 int main(int argc, char **argv) {
     if (argc < 4 || strcmp(argv[1], "--stream") != 0) {
@@ -31,6 +31,6 @@ int main(int argc, char **argv) {
     }
     uint32_t key = (uint32_t)strtoul(argv[2], NULL, 0);
     size_t n = (size_t)strtoull(argv[3], NULL, 0);
-    ra_core_singleblock(key, n, stdout);
+    ra_core_singleblock(key, 0u, n, stdout);
     return 0;
 }

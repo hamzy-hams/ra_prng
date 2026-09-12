@@ -1,0 +1,662 @@
+[
+  {
+    "label": "orbit_N256_LOWONLY",
+    "n": 256,
+    "core": "orbit",
+    "reseed_mode": "LOWONLY",
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.5029296875,
+        "min_bit": 0.34375
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.4970703125,
+        "min_bit": 0.28125
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.5009765625,
+        "min_bit": 0.28125
+      },
+      "K255_key_only": {
+        "passed": true,
+        "mean": 0.4994485294117647,
+        "min_bit": 0.4840686274509804
+      },
+      "K255_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5007161458333333,
+        "min_bit": 0.4904411764705882
+      },
+      "K255_combined": {
+        "passed": true,
+        "mean": 0.5023246017156863,
+        "min_bit": 0.4892156862745098
+      }
+    },
+    "heatmap": {
+      "mean": 0.4994485294117647,
+      "min_bit": 0.4840686274509804,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "orbit_N256_MUTUAL",
+    "n": 256,
+    "core": "orbit",
+    "reseed_mode": "MUTUAL",
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.5029296875,
+        "min_bit": 0.34375
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.4970703125,
+        "min_bit": 0.28125
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.5009765625,
+        "min_bit": 0.28125
+      },
+      "K255_key_only": {
+        "passed": true,
+        "mean": 0.4994485294117647,
+        "min_bit": 0.4840686274509804
+      },
+      "K255_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5007161458333333,
+        "min_bit": 0.4904411764705882
+      },
+      "K255_combined": {
+        "passed": true,
+        "mean": 0.5023246017156863,
+        "min_bit": 0.4892156862745098
+      }
+    },
+    "heatmap": {
+      "mean": 0.4994485294117647,
+      "min_bit": 0.4840686274509804,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "singleblock_N256",
+    "n": 256,
+    "core": "singleblock",
+    "reseed_mode": null,
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.5029296875,
+        "min_bit": 0.34375
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.4970703125,
+        "min_bit": 0.28125
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.5009765625,
+        "min_bit": 0.28125
+      },
+      "K255_key_only": {
+        "passed": true,
+        "mean": 0.4994485294117647,
+        "min_bit": 0.4840686274509804
+      },
+      "K255_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5007161458333333,
+        "min_bit": 0.4904411764705882
+      },
+      "K255_combined": {
+        "passed": true,
+        "mean": 0.5023246017156863,
+        "min_bit": 0.4892156862745098
+      }
+    },
+    "heatmap": {
+      "mean": 0.4994485294117647,
+      "min_bit": 0.4840686274509804,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "orbit_N128_LOWONLY",
+    "n": 128,
+    "core": "orbit",
+    "reseed_mode": "LOWONLY",
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.505859375,
+        "min_bit": 0.34375
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.4912109375,
+        "min_bit": 0.34375
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.53515625,
+        "min_bit": 0.3125
+      },
+      "K127_key_only": {
+        "passed": true,
+        "mean": 0.5009381151574803,
+        "min_bit": 0.484990157480315
+      },
+      "K127_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5009150467519685,
+        "min_bit": 0.484498031496063
+      },
+      "K127_combined": {
+        "passed": true,
+        "mean": 0.4994540477362205,
+        "min_bit": 0.48720472440944884
+      }
+    },
+    "heatmap": {
+      "mean": 0.5009381151574803,
+      "min_bit": 0.484990157480315,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "orbit_N128_MUTUAL",
+    "n": 128,
+    "core": "orbit",
+    "reseed_mode": "MUTUAL",
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.505859375,
+        "min_bit": 0.34375
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.4912109375,
+        "min_bit": 0.34375
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.53515625,
+        "min_bit": 0.3125
+      },
+      "K127_key_only": {
+        "passed": true,
+        "mean": 0.5009381151574803,
+        "min_bit": 0.484990157480315
+      },
+      "K127_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5009150467519685,
+        "min_bit": 0.484498031496063
+      },
+      "K127_combined": {
+        "passed": true,
+        "mean": 0.4994540477362205,
+        "min_bit": 0.48720472440944884
+      }
+    },
+    "heatmap": {
+      "mean": 0.5009381151574803,
+      "min_bit": 0.484990157480315,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "singleblock_N128",
+    "n": 128,
+    "core": "singleblock",
+    "reseed_mode": null,
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.505859375,
+        "min_bit": 0.34375
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.4912109375,
+        "min_bit": 0.34375
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.53515625,
+        "min_bit": 0.3125
+      },
+      "K127_key_only": {
+        "passed": true,
+        "mean": 0.5009381151574803,
+        "min_bit": 0.484990157480315
+      },
+      "K127_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5009150467519685,
+        "min_bit": 0.484498031496063
+      },
+      "K127_combined": {
+        "passed": true,
+        "mean": 0.4994540477362205,
+        "min_bit": 0.48720472440944884
+      }
+    },
+    "heatmap": {
+      "mean": 0.5009381151574803,
+      "min_bit": 0.484990157480315,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "orbit_N64_LOWONLY",
+    "n": 64,
+    "core": "orbit",
+    "reseed_mode": "LOWONLY",
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.4755859375,
+        "min_bit": 0.25
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.486328125,
+        "min_bit": 0.3125
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.51171875,
+        "min_bit": 0.34375
+      },
+      "K63_key_only": {
+        "passed": true,
+        "mean": 0.49796937003968256,
+        "min_bit": 0.47668650793650796
+      },
+      "K63_addr_hi_only": {
+        "passed": true,
+        "mean": 0.497039310515873,
+        "min_bit": 0.47668650793650796
+      },
+      "K63_combined": {
+        "passed": true,
+        "mean": 0.49992249503968256,
+        "min_bit": 0.47271825396825395
+      }
+    },
+    "heatmap": {
+      "mean": 0.49796937003968256,
+      "min_bit": 0.47668650793650796,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "orbit_N64_MUTUAL",
+    "n": 64,
+    "core": "orbit",
+    "reseed_mode": "MUTUAL",
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.4755859375,
+        "min_bit": 0.25
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.486328125,
+        "min_bit": 0.3125
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.51171875,
+        "min_bit": 0.34375
+      },
+      "K63_key_only": {
+        "passed": true,
+        "mean": 0.49796937003968256,
+        "min_bit": 0.47668650793650796
+      },
+      "K63_addr_hi_only": {
+        "passed": true,
+        "mean": 0.497039310515873,
+        "min_bit": 0.47668650793650796
+      },
+      "K63_combined": {
+        "passed": true,
+        "mean": 0.49992249503968256,
+        "min_bit": 0.47271825396825395
+      }
+    },
+    "heatmap": {
+      "mean": 0.49796937003968256,
+      "min_bit": 0.47668650793650796,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "singleblock_N64",
+    "n": 64,
+    "core": "singleblock",
+    "reseed_mode": null,
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.4755859375,
+        "min_bit": 0.25
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.486328125,
+        "min_bit": 0.3125
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.51171875,
+        "min_bit": 0.34375
+      },
+      "K63_key_only": {
+        "passed": true,
+        "mean": 0.49796937003968256,
+        "min_bit": 0.47668650793650796
+      },
+      "K63_addr_hi_only": {
+        "passed": true,
+        "mean": 0.497039310515873,
+        "min_bit": 0.47668650793650796
+      },
+      "K63_combined": {
+        "passed": true,
+        "mean": 0.49992249503968256,
+        "min_bit": 0.47271825396825395
+      }
+    },
+    "heatmap": {
+      "mean": 0.49796937003968256,
+      "min_bit": 0.47668650793650796,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "orbit_N32_LOWONLY",
+    "n": 32,
+    "core": "orbit",
+    "reseed_mode": "LOWONLY",
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.5009765625,
+        "min_bit": 0.3125
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5048828125,
+        "min_bit": 0.28125
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.515625,
+        "min_bit": 0.3125
+      },
+      "K31_key_only": {
+        "passed": true,
+        "mean": 0.5055758568548387,
+        "min_bit": 0.47681451612903225
+      },
+      "K31_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5017956149193549,
+        "min_bit": 0.4747983870967742
+      },
+      "K31_combined": {
+        "passed": true,
+        "mean": 0.49458165322580644,
+        "min_bit": 0.4657258064516129
+      }
+    },
+    "heatmap": {
+      "mean": 0.5055758568548387,
+      "min_bit": 0.47681451612903225,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "orbit_N32_MUTUAL",
+    "n": 32,
+    "core": "orbit",
+    "reseed_mode": "MUTUAL",
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.5009765625,
+        "min_bit": 0.3125
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5048828125,
+        "min_bit": 0.28125
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.515625,
+        "min_bit": 0.3125
+      },
+      "K31_key_only": {
+        "passed": true,
+        "mean": 0.5055758568548387,
+        "min_bit": 0.47681451612903225
+      },
+      "K31_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5017956149193549,
+        "min_bit": 0.4747983870967742
+      },
+      "K31_combined": {
+        "passed": true,
+        "mean": 0.49458165322580644,
+        "min_bit": 0.4657258064516129
+      }
+    },
+    "heatmap": {
+      "mean": 0.5055758568548387,
+      "min_bit": 0.47681451612903225,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "singleblock_N32",
+    "n": 32,
+    "core": "singleblock",
+    "reseed_mode": null,
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.5009765625,
+        "min_bit": 0.3125
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5048828125,
+        "min_bit": 0.28125
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.515625,
+        "min_bit": 0.3125
+      },
+      "K31_key_only": {
+        "passed": true,
+        "mean": 0.5055758568548387,
+        "min_bit": 0.47681451612903225
+      },
+      "K31_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5017956149193549,
+        "min_bit": 0.4747983870967742
+      },
+      "K31_combined": {
+        "passed": true,
+        "mean": 0.49458165322580644,
+        "min_bit": 0.4657258064516129
+      }
+    },
+    "heatmap": {
+      "mean": 0.5055758568548387,
+      "min_bit": 0.47681451612903225,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "orbit_N16_LOWONLY",
+    "n": 16,
+    "core": "orbit",
+    "reseed_mode": "LOWONLY",
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.5146484375,
+        "min_bit": 0.34375
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.494140625,
+        "min_bit": 0.25
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.51171875,
+        "min_bit": 0.34375
+      },
+      "K15_key_only": {
+        "passed": true,
+        "mean": 0.4974609375,
+        "min_bit": 0.45208333333333334
+      },
+      "K15_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5016927083333333,
+        "min_bit": 0.45625
+      },
+      "K15_combined": {
+        "passed": true,
+        "mean": 0.4986328125,
+        "min_bit": 0.4625
+      }
+    },
+    "heatmap": {
+      "mean": 0.4974609375,
+      "min_bit": 0.45208333333333334,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "orbit_N16_MUTUAL",
+    "n": 16,
+    "core": "orbit",
+    "reseed_mode": "MUTUAL",
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.5146484375,
+        "min_bit": 0.34375
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.494140625,
+        "min_bit": 0.25
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.51171875,
+        "min_bit": 0.34375
+      },
+      "K15_key_only": {
+        "passed": true,
+        "mean": 0.4974609375,
+        "min_bit": 0.45208333333333334
+      },
+      "K15_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5016927083333333,
+        "min_bit": 0.45625
+      },
+      "K15_combined": {
+        "passed": true,
+        "mean": 0.4986328125,
+        "min_bit": 0.4625
+      }
+    },
+    "heatmap": {
+      "mean": 0.4974609375,
+      "min_bit": 0.45208333333333334,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  },
+  {
+    "label": "singleblock_N16",
+    "n": 16,
+    "core": "singleblock",
+    "reseed_mode": null,
+    "directions": {
+      "K1_key_only": {
+        "passed": true,
+        "mean": 0.5146484375,
+        "min_bit": 0.34375
+      },
+      "K1_addr_hi_only": {
+        "passed": true,
+        "mean": 0.494140625,
+        "min_bit": 0.25
+      },
+      "K1_combined": {
+        "passed": true,
+        "mean": 0.51171875,
+        "min_bit": 0.34375
+      },
+      "K15_key_only": {
+        "passed": true,
+        "mean": 0.4974609375,
+        "min_bit": 0.45208333333333334
+      },
+      "K15_addr_hi_only": {
+        "passed": true,
+        "mean": 0.5016927083333333,
+        "min_bit": 0.45625
+      },
+      "K15_combined": {
+        "passed": true,
+        "mean": 0.4986328125,
+        "min_bit": 0.4625
+      }
+    },
+    "heatmap": {
+      "mean": 0.4974609375,
+      "min_bit": 0.45208333333333334,
+      "dead_bits": []
+    },
+    "tier0_pass": true
+  }
+]

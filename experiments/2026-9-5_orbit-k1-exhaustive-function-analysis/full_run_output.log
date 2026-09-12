@@ -1,0 +1,42 @@
+delta_random (kontrol) = 0x3ef20a84 (dipilih acak sekali di awal run ini)
+run selesai: n=4294967296 sequential=1 waktu=633.4s
+
+=== Analisis 1: distribusi multiplicity (2-bit counter, domain_n=4294967296) ===
+  count=0 (never hit)      observed=     1581547084 expected=      1580030168.7 z=+38.162
+  count=1                  observed=     1578543366 expected=      1580030168.7 z=-37.404
+  count=2                  observed=      789227908 expected=       790015084.4 z=-28.006
+  count>=3 (saturated)     observed=      345648938 expected=       344891874.2 z=+40.765
+  distinct values hit >=1x: observed=2713420212 expected~=2714937127.3 z~=-47.999
+  (z dihitung per-bucket independen, aproksimasi Poisson/binomial -- lihat RESULTS.md untuk interpretasi)
+
+=== Analisis 2: FPF-14+6/16 histogram (total_samples=8589934588) ===
+  -- per-exponen (inter/cross) vs ekspektasi geometrik P(e)=2^-(e+1), e=max clamp 2^-max_exp --
+  e= 0 observed=  4294969981 expected= 4294967294.00 z=  +0.041
+  e= 1 observed=  2147453909 expected= 2147483647.00 z=  -0.642
+  e= 2 observed=  1073750168 expected= 1073741823.50 z=  +0.255
+  e= 3 observed=   536883002 expected=  536870911.75 z=  +0.522
+  e= 4 observed=   268425518 expected=  268435455.88 z=  -0.607
+  e= 5 observed=   134232361 expected=  134217727.94 z=  +1.263
+  e=51 observed=           0 expected=          0.00 z=  -0.002
+  -- top 15 bin (e,sig) full-resolution paling menyimpang (min expected>=20) --
+  e= 1 sig=  183 observed=    132681 expected=   131072.00 z=  +4.444
+  e=13 sig=16357 observed=        57 expected=       32.00 z=  +4.419
+  e= 3 sig= 6030 observed=     31968 expected=    32768.00 z=  -4.419
+  e= 4 sig= 9689 observed=     15833 expected=    16384.00 z=  -4.305
+  e= 5 sig= 5610 observed=      7808 expected=     8192.00 z=  -4.243
+  e=10 sig= 4455 observed=       323 expected=      256.00 z=  +4.188
+  e= 8 sig= 5711 observed=       892 expected=     1024.00 z=  -4.125
+  e= 0 sig= 6960 observed=    264238 expected=   262144.00 z=  +4.090
+  e= 4 sig= 4373 observed=     16903 expected=    16384.00 z=  +4.055
+  e= 1 sig=10730 observed=    129616 expected=   131072.00 z=  -4.022
+  e=10 sig=14555 observed=       320 expected=      256.00 z=  +4.000
+  e=10 sig=14526 observed=       320 expected=      256.00 z=  +4.000
+  e=12 sig=  805 observed=        96 expected=       64.00 z=  +4.000
+  e= 9 sig= 5308 observed=       602 expected=      512.00 z=  +3.977
+  e= 8 sig= 9720 observed=      1151 expected=     1024.00 z=  +3.969
+
+=== Analisis 3: korelasi (top-8-bit f(key), top-8-bit f(key+delta)) ===
+  n_pairs=4294967296, df=65025
+  Weyl delta=0x9e3779b9     : chi2=64750.60  z=-0.761
+  kontrol random delta   : chi2=64719.14  z=-0.848
+  (z besar & positif = bukti korelasi/dependensi menyimpang dari independen uniform)

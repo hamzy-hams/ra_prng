@@ -7,11 +7,11 @@ BUILD    := build
 BIN      := $(BUILD)/bin
 LIB      := $(BUILD)/lib
 
-.PHONY: all build-c build-ext install dev-install test bench clean
+.PHONY: all build-c build-ext build-ext-core install dev-install test bench clean
 
 all: build-c build-ext
 
-build-c: $(BIN)/ra_prng2 $(BIN)/ra_prng2_thread $(BIN)/ra_prng3
+build-c: $(BIN)/ra_prng2 $(BIN)/ra_prng2_thread $(BIN)/ra_prng3 $(BIN)/ra_core
 
 $(BIN)/ra_prng2: src/ra_prng2/c/ra_prng2.c
 	mkdir -p $(BIN)
@@ -25,11 +25,25 @@ $(BIN)/ra_prng3: src/ra_prng3/c/ra_prng3.c
 	mkdir -p $(BIN)
 	$(CC) $(CFLAGS) $< -o $@
 
+$(BIN)/ra_core: src/ra_core/c/ra_core.c
+	mkdir -p $(BIN)
+	$(CC) $(CFLAGS) $< -o $@
+
 # Shared library exposing ra_prng_init/next/advance (see src/ra_prng2/c/ra_prng2_struct.c)
 # consumed by the ctypes binding in bindings/cpython/_ra_prng2.py.
 build-ext: $(LIB)/libra_prng2.so
 
 $(LIB)/libra_prng2.so: src/ra_prng2/c/ra_prng2_struct.c
+	mkdir -p $(LIB)
+	$(CC) $(CFLAGS) -fPIC -shared $< -o $@
+
+# Shared library exposing the ra_core_engine_*/ra_core_*_into API (see
+# src/ra_core/c/ra_core_engine.c) consumed by pip-ra-core's ctypes binding.
+# Dev-loop only -- pip-ra-core/setup.py compiles the same source independently
+# for the actual installable package.
+build-ext-core: $(LIB)/libra_core_engine.so
+
+$(LIB)/libra_core_engine.so: src/ra_core/c/ra_core_engine.c src/ra_core/c/ra_core.c
 	mkdir -p $(LIB)
 	$(CC) $(CFLAGS) -fPIC -shared $< -o $@
 
